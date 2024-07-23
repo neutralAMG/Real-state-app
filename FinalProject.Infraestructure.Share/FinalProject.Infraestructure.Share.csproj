@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.7.1.1" />
+    <PackageReference Include="MimeKit" Version="4.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinalProject.Core.Application\FinalProject.Core.Application.csproj" />
+    <ProjectReference Include="..\FinalProject.Core.Domain\FinalProject.Core.Domain.csproj" />
+    <ProjectReference Include="..\FinalProject.Infraestructure.Identity\FinalProject.Infraestructure.Identity.csproj" />
+    <ProjectReference Include="..\FinalProject.Infraestructure.Persistance\FinalProject.Infraestructure.Persistance.csproj" />
+  </ItemGroup>
+
+</Project>
