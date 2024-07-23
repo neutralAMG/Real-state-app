@@ -2,6 +2,7 @@
 
 using FinalProject.Core.Application.Dtos.Identity;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
+using FinalProject.Core.Domain.Settings;
 using FinalProject.Infraestructure.Identity.Context;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Repositories;
@@ -41,6 +42,8 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
         public static void AddInfraestructureIdentityLayerForWebApi(this IServiceCollection services, IConfiguration config)
         {
+            services.Configure<JwtSettings>(config.GetSection("JwtSettings"));
+
             services.AddDbContext<AppIdentityContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultIdentityConnection"), m =>
@@ -71,8 +74,6 @@ namespace FinalProject.Infraestructure.Identity.Extensions
                     ValidIssuer = "",
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("")),
                     RoleClaimType = "Roles"
-
-
                 };
 
                 options.Events = new JwtBearerEvents()
