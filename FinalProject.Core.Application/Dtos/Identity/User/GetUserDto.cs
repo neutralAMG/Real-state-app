@@ -11,6 +11,8 @@ namespace FinalProject.Core.Application.Dtos.Identity.User
         public string Email { get; set; }
         public string Password { get; set; }
         public string UserName { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Cedula {  get; set; }
         public List<string> Roles { get; set; } 
     }
 }

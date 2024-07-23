@@ -99,6 +99,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 ImgProfileUrl = request.ImgProfileUrl,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
+                Cedula = request.Cedula,
             };
 
             IdentityResult result = await _userManager.CreateAsync(user, request.Password);
@@ -126,6 +127,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 ImgProfileUrl = request.ImgProfileUrl,
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
+                Cedula = request.Cedula,
             };
 
             IdentityResult result = await _userManager.CreateAsync(user, request.Password);
