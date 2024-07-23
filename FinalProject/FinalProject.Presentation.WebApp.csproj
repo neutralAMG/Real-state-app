@@ -11,6 +11,7 @@
     <ProjectReference Include="..\FinalProject.Core.Domain\FinalProject.Core.Domain.csproj" />
     <ProjectReference Include="..\FinalProject.Infraestructure.Identity\FinalProject.Infraestructure.Identity.csproj" />
     <ProjectReference Include="..\FinalProject.Infraestructure.Persistance\FinalProject.Infraestructure.Persistance.csproj" />
+    <ProjectReference Include="..\FinalProject.Infraestructure.Share\FinalProject.Infraestructure.Share.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,13 @@
+using FinalProject.Infraestructure.Identity.Extensions;
+using FinalProject.Infraestructure.Share.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddInfraestructureIdentityLayerForWebApp(builder.Configuration);
+builder.Services.AddInfraestructureShareLayer(builder.Configuration);
+builder.Services.AddSession();
 
 var app = builder.Build();
 

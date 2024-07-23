@@ -20,7 +20,7 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 {
     public static class ServiceRegistration
     {
-        public static void AddInfraestrctureIdentityLayerForWebApp(IServiceCollection services, IConfiguration config)
+        public static void AddInfraestructureIdentityLayerForWebApp(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<AppIdentityContext>(options =>
             {
@@ -39,7 +39,7 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
         }
 
-        public static void AddInfraestructureIdentityLayerFoeWebApi(IServiceCollection services, IConfiguration config)
+        public static void AddInfraestructureIdentityLayerForWebApi(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<AppIdentityContext>(options =>
             {

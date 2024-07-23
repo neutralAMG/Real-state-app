@@ -60,15 +60,18 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             if (user != null)
             {
-
-
+                responce.HasError= true;
+                responce.ErrorMessage = $"Theres already a user with the email: {request.Email}";
+                return responce;
             }
 
             user = await _userManager.FindByNameAsync(request.UserName);
 
             if (user != null)
             {
-
+                responce.HasError = true;
+                responce.ErrorMessage = $"there's already a user with the username: {request.UserName}";
+                return responce;
             }
 
             responce = await _handleRegistration.HandleRegisterAsync(request.UserType, request);

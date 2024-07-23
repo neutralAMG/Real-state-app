@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Features\" />
-    <Folder Include="Interfaces\Contracts\" />
     <Folder Include="Interfaces\Repositories\Persistance\" />
     <Folder Include="Models\" />
     <Folder Include="Extensions\" />

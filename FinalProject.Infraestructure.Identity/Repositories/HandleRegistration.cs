@@ -1,4 +1,5 @@
-﻿using FinalProject.Core.Application.Dtos.Identity.Account;
+﻿using Azure;
+using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Enums;
 using Microsoft.AspNetCore.Identity;
@@ -138,7 +139,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 responce.ErrorMessage = result.Errors.First().Description;
                 return responce;
             }
-            await _userManager.AddToRoleAsync(user, Roles.Developer.ToString());
+           result = await _userManager.AddToRoleAsync(user, Roles.Developer.ToString());
 
             return responce;
         }

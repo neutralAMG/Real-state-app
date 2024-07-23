@@ -57,39 +57,83 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             };
         }
 
-        public async Task HandleUserActivationState(string id, bool Deativate = false)
+        public async Task<UserOperationResponce> HandleUserActivationState(string id, bool Deactivate = false)
         {
+            UserOperationResponce responce = new()
+            {
+                Operation = !Deactivate ? "Activation" : "Deactivation"
+            };
+
             ApplicationUser userToHandelState = await _userManager.FindByIdAsync(id);
 
             if (userToHandelState == null)
             {
-                return;
+                responce.HasError = true;
+                responce.ErrorMessage = "No user was found";
+                return responce;
             }
             IdentityResult result = new();
-            if (!Deativate)
+
+            if (!Deactivate)
             {
                 userToHandelState.EmailConfirmed = false;
                 result = await _userManager.UpdateAsync(userToHandelState);
-                return;
+
+                if (!result.Succeeded)
+                {
+                    responce.HasError = true;
+                    responce.ErrorMessage = result.Errors.First().Description;
+                    return responce;
+                }
+
+                return responce;
             }
+
             string userTokent = await _userManager.GenerateEmailConfirmationTokenAsync(userToHandelState);
             result = await _userManager.ConfirmEmailAsync(userToHandelState, userTokent);
-            return;
+
+            if (!result.Succeeded)
+            {
+                responce.HasError = true;
+                responce.ErrorMessage = result.Errors.First().Description;
+                return responce;
+            }
+            return responce;
 
         }
 
-        public async Task UpdateUserAsync(UpdateUserRequest request)
+        public async Task<UserOperationResponce> UpdateUserAsync(UpdateUserRequest request)
         {
+            UserOperationResponce responce = new()
+            {
+                Operation = "Update"
+            };
+
             ApplicationUser userToBeUpdate = await _userManager.FindByIdAsync(request.Id);
-
-            if (request.Email != userToBeUpdate.Email && await _userManager.Users.AnyAsync(u => u.Email == request.Email)) return;
-
-            if (request.UserName != userToBeUpdate.UserName && await _userManager.Users.AnyAsync(u => u.UserName == request.UserName)) return;
 
             if (userToBeUpdate == null)
             {
-                return;
+                responce.HasError = true;
+                responce.ErrorMessage = "The user to be update was not found";
+                return responce;
             }
+
+            if (request.Email != userToBeUpdate.Email && await _userManager.Users.AnyAsync(u => u.Email == request.Email))
+            {
+                responce.HasError = true;
+                responce.ErrorMessage = $"There is already a user with the Email: {request.Email}";
+                return responce;
+
+            };
+
+            if (request.UserName != userToBeUpdate.UserName && await _userManager.Users.AnyAsync(u => u.UserName == request.UserName))
+            {
+                responce.HasError = true;
+                responce.ErrorMessage = $"There is already a user with the username: {request.UserName}";
+                return responce;
+             };
+
+
             IdentityResult result = new();
 
             userToBeUpdate.FirstName = request.FirstName;
@@ -103,7 +147,9 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             if (!result.Succeeded)
             {
-
+                responce.HasError = true;
+                responce.ErrorMessage = result.Errors.First().Description;
+                return responce;
             }
 
             if (request.Password != userToBeUpdate.PasswordHash)
@@ -114,14 +160,30 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             if (!result.Succeeded)
             {
-
+                responce.HasError = true;
+                responce.ErrorMessage = result.Errors.First().Description;
+                return responce;
             }
 
-            return;
+            return responce;
         }
-        public async Task DeleteUserAsync(string id)
+        public async Task<UserOperationResponce> DeleteUserAsync(string id)
         {
-            throw new NotImplementedException();
+            UserOperationResponce responce = new()
+            {
+                Operation = "Delete"
+            };
+            ApplicationUser userToBeDelete = await _userManager.FindByIdAsync(id);
+
+            IdentityResult result = await _userManager.DeleteAsync(userToBeDelete);
+
+            if (!result.Succeeded)
+            {
+                responce.HasError = true;
+                responce.ErrorMessage= result.Errors.First().Description;
+                return responce;
+            }
+            return responce;
         }
 
     }

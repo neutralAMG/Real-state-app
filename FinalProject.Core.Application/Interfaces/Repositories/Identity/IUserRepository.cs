@@ -8,8 +8,8 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Identity
     {
         Task<List<GetUserDto>> GetAllBySpecificRoleAsync(string Role);
         Task<GetUserDto> GetByIdAsync(string id);
-        Task UpdateUserAsync(UpdateUserRequest request);
-        Task DeleteUserAsync(string id);
-        Task HandleUserActivationState(string id, bool Deativate = false);
+        Task<UserOperationResponce> UpdateUserAsync(UpdateUserRequest request);
+        Task<UserOperationResponce> DeleteUserAsync(string id);
+        Task<UserOperationResponce> HandleUserActivationState(string id, bool Deativate = false);
     }
 }
