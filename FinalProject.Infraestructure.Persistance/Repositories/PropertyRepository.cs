@@ -2,6 +2,8 @@
 using FinalProject.Core.Domain.Entities;
 using FinalProject.Infraestructure.Persistance.Context;
 using FinalProject.Infraestructure.Persistance.Core;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
 {
@@ -13,15 +15,66 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         {
             _context = context;
         }
-
-        public Task<List<Property>> GetAllCurrentAgentUserPropertiesAsync(string id)
+        public override async Task<IList<Property>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Properties.Include(p => p.PropertyImages)
+                .Include(p => p.PropertyPerks)
+                .Include(p => p.PropertyType)
+                .Include(p => p.SellType).ToListAsync();
         }
 
-        public Task<List<Property>> GetAllCurrentClientUserFavPropertiesAsync(string id)
+        public override async Task<Property> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Properties.Include(p => p.PropertyImages)
+                .Include(p => p.PropertyPerks)
+                .Include(p => p.PropertyType)
+                .Include(p => p.SellType).Where(p => p.Id == id).FirstOrDefaultAsync();
+        }
+
+        public override async Task<Property> SaveAsync(Property entity)
+        {
+            return await base.SaveAsync(entity);
+        }
+
+        public override async Task<Property> UpdateAsync(Property entity)
+        {
+            if (!await ExistsAsync(p => p.Id == entity.Id)) return null;
+            Property PropertyToBeSaved = await _context.Properties.FindAsync(entity.Id);
+
+            PropertyToBeSaved.Size = entity.Size;
+            PropertyToBeSaved.AmountOfBathrooms = entity.AmountOfBathrooms;
+            PropertyToBeSaved.AmountOfBedrooms = entity.AmountOfBedrooms;
+            PropertyToBeSaved.PropertyPrice = entity.PropertyPrice;
+            return await base.UpdateAsync(PropertyToBeSaved);
+        }
+
+        public virtual async Task<bool> DeleteAsync(Property entity)
+        {
+
+            if (!await ExistsAsync(P => P.Id == entity.Id)) return false;
+
+            Property PropertyToBeDeleted = await _context.Properties.FindAsync(entity.Id);
+
+            return await base.DeleteAsync(PropertyToBeDeleted);
+        }
+        public async Task<List<Property>> GetAllCurrentAgentUserPropertiesAsync(string id)
+        {
+            if (!await ExistsAsync(P => P.AgentId == id)) return null;
+
+            return await _context.Properties.Include(p => p.PropertyImages)
+            .Include(p => p.PropertyPerks)
+            .Include(p => p.PropertyType)
+            .Include(p => p.SellType).Where(p => p.AgentId == id).ToListAsync();
+        }
+
+        public async Task<List<Property>> GetAllCurrentClientUserFavPropertiesAsync(string id)
+        {
+            if (!await ExistsAsync(P => P.FavoriteUsersProperties.Any( p => p.UserId == id))) return null;
+
+            return await _context.Properties.Include(p => p.PropertyImages)
+            .Include(p => p.PropertyPerks)
+            .Include(p => p.PropertyType)
+            .Include(p => p.SellType).Where(p => p.FavoriteUsersProperties.Any(p => p.UserId == id)).ToListAsync();
         }
     }
 }

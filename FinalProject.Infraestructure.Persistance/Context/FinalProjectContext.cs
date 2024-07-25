@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FinalProject.Core.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,15 @@ namespace FinalProject.Infraestructure.Persistance.Context
 {
     public class FinalProjectContext : DbContext
     {
+        public DbSet<Property> Properties { get; set; }
+        public DbSet<SellType> SellTypes { get; set; }
+        public DbSet<PropertyType> PropertyTypes { get; set; }
+        public DbSet<Perk> Perks { get; set; }
+        public DbSet<PropertyImage> PropertyImages { get; set; }
+        public DbSet<PropertyPerk> PropertyPerks { get; set; }
+        public DbSet<FavoriteUserProperty> FavoriteUserProperties { get; set; }
+
+
         public FinalProjectContext() { }
         public FinalProjectContext(DbContextOptions<FinalProjectContext> options) : base(options) 
         {

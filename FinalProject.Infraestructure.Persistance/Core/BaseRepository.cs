@@ -18,12 +18,12 @@ namespace FinalProject.Infraestructure.Persistance.Core
             _context = context;
             _entity = _context.Set<TEntity>();
         }
-        public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return await _entity.AnyAsync(predicate);
         }
 
-        public async Task<TEntity> SaveAsync(TEntity entity)
+        public virtual async Task<TEntity> SaveAsync(TEntity entity)
         {
             try
             {
@@ -37,22 +37,9 @@ namespace FinalProject.Infraestructure.Persistance.Core
             }
         }
 
-        public async Task<TEntity> UpdateAsync(TEntity entity)
-        {
-            try
-            {
-                _entity.Attach(entity);
-                _entity.Entry(entity).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-                return entity;
-            }
-            catch
-            {
-                throw;
-            }
-        }
+      
 
-        public async Task<bool> DeleteAsync(TEntity entity)
+        public virtual async Task<bool> DeleteAsync(TEntity entity)
         {
             try
             {
@@ -77,15 +64,29 @@ namespace FinalProject.Infraestructure.Persistance.Core
             _context = context;
             _entity = _context.Set<TEntity>();
         }
-
-        public async Task<IList<TEntity>> GetAllAsync()
+  
+        public virtual async Task<IList<TEntity>> GetAllAsync()
         {
             return await _entity.ToListAsync();
         }
 
-        public async Task<TEntity> GetByIdAsync(TId id)
+        public virtual async Task<TEntity> GetByIdAsync(TId id)
         {
             return await _entity.FindAsync(id);
+        }
+        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
+        {
+            try
+            {
+                _entity.Attach(entity);
+                _entity.Entry(entity).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return entity;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ namespace FinalProject.Core.Application.Core
         Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> predicate);
    
         Task<TEntity> SaveAsync(TEntity entity);
-        Task<TEntity> UpdateAsync(TEntity entity);
+      
         Task<bool> DeleteAsync(TEntity entity);
 
     }
@@ -18,6 +18,7 @@ namespace FinalProject.Core.Application.Core
       where TEntity : class
     {
         Task<IList<TEntity>> GetAllAsync();
-        Task<TEntity> GetByIdAsync(TId id);
+        Task<TEntity> GetByIdAsync(TId id); 
+        Task<TEntity> UpdateAsync(TEntity entity);
     }
 }

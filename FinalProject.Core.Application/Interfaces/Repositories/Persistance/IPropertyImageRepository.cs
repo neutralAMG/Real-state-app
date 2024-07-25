@@ -6,5 +6,6 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Persistance
 {
     public interface IPropertyImageRepository : IBaseRepository<PropertyImage,int>
     {
+        Task<bool> UpdateAsync(PropertyImage entity);
     }
 }
