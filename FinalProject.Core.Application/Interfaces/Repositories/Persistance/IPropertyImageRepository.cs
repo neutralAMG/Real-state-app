@@ -4,7 +4,7 @@ using FinalProject.Core.Domain.Entities;
 
 namespace FinalProject.Core.Application.Interfaces.Repositories.Persistance
 {
-    internal interface IPropertyImageRepository : IBaseRepository<PropertyImage,int>
+    public interface IPropertyImageRepository : IBaseRepository<PropertyImage,int>
     {
     }
 }

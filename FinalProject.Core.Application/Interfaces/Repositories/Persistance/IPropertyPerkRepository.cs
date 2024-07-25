@@ -4,7 +4,7 @@ using FinalProject.Core.Domain.Entities;
 
 namespace FinalProject.Core.Application.Interfaces.Repositories.Persistance
 {
-    public interface ISellTypeRepository : IBaseCompleteRepository<SellType, int>
+    public interface IPropertyPerkRepository : IBaseRepository<PropertyPerk, int>
     {
     }
 }

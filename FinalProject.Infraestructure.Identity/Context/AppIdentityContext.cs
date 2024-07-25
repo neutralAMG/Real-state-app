@@ -2,16 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace FinalProject.Infraestructure.Identity.Context
 {
-    internal class AppIdentityContext :IdentityDbContext<ApplicationUser>
+    public class AppIdentityContext :IdentityDbContext<ApplicationUser>
     {
+        public AppIdentityContext() { }
         public AppIdentityContext(DbContextOptions<AppIdentityContext> options) : base(options)
         {
             

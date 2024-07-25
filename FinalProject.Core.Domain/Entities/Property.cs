@@ -15,10 +15,11 @@ namespace FinalProject.Core.Domain.Entities
 
         public int AmountOfBathrooms { get; set; }
         public int AmountOfBedrooms { get; set; }
-        public int Size {  get; set; }
+        public int Size { get; set; }
 
         public int SellTypeId { get; set; }
         public int PropertyTypeId { get; set; }
+        public string AgentId { get; set; }
 
         public SellType SellType { get; set; }
         public PropertyType PropertyType { get; set; }

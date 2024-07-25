@@ -5,7 +5,9 @@ using FinalProject.Core.Domain.Entities;
 
 namespace FinalProject.Core.Application.Interfaces.Repositories.Persistance
 {
-    public interface IPropertyRepository : IBaseRepository<Property, Guid>
+    public interface IPropertyRepository : IBaseCompleteRepository<Property, Guid>
     {
+        Task<List<Property>> GetAllCurrentAgentUserPropertiesAsync(string id);
+        Task<List<Property>> GetAllCurrentClientUserFavPropertiesAsync(string id);
     }
 }

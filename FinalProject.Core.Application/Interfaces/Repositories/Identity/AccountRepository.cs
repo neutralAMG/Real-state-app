@@ -8,6 +8,5 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Identity
         Task<AuthenticationResponce> AuthenticatAsync(AuthenticationRequest request);
         Task<RegisterResponce> RegisterAsync(RegisterRequest request);
         Task ForgotPassword();
-        Task ChangePassword();
     }
 }

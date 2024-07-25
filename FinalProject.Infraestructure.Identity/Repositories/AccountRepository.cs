@@ -79,12 +79,6 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             return responce;
         }
 
-
-        public async Task ChangePassword()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task ForgotPassword()
         {
             throw new NotImplementedException();

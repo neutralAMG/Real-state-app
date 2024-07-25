@@ -18,12 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Repositories\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FinalProject.Core.Application\FinalProject.Core.Application.csproj" />
     <ProjectReference Include="..\FinalProject.Core.Domain\FinalProject.Core.Domain.csproj" />
   </ItemGroup>

@@ -24,7 +24,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
+        //TODO: Add email sending fiuntionality
 
         public async Task<RegisterResponce> HandleRegisterAsync(string role, RegisterRequest request)
         {

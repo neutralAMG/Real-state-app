@@ -3,7 +3,7 @@ using FinalProject.Core.Domain.Entities;
 
 namespace FinalProject.Core.Application.Interfaces.Repositories.Persistance
 {
-    internal interface IPerkRepository : IBaseRepository<Perk, int>
+    public interface IPerkRepository : IBaseCompleteRepository<Perk, int>
     {
     }
 }

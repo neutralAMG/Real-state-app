@@ -1,6 +1,4 @@
-﻿
-
-namespace FinalProject.Core.Domain.Entities
+﻿namespace FinalProject.Core.Domain.Model
 {
     public class AdminHomeViewStatistics
     {
