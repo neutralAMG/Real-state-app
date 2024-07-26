@@ -1,4 +1,6 @@
 ﻿
+using FinalProject.Core.Application.Models.Perk;
+
 namespace FinalProject.Core.Application.Models.Property
 {
     public class PropertyModel
@@ -23,10 +25,9 @@ namespace FinalProject.Core.Application.Models.Property
         public string PropertyTypeName { get; set; }
 
         //public IList<PropertyImage>? PropertyImages { get; set; }
-        IList<string> PropertyImagesUrls { get; set; }
+        List<string> PropertyImagesUrls { get; set; }
         //public IList<FavoriteUserProperty>? FavoriteUsersProperties { get; set; }
         public bool IsMarkAsFavoriteByCurrentUser  { get; set; }
-        //public IList<PropertyPerk> PropertyPerks { get; set; }
-        IList<string> PropertyPerksNames { get; set; }
+       public List<PerkModel> PropertyPerks { get; set; }
     }
 }

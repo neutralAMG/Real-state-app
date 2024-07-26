@@ -2,6 +2,7 @@
 
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Domain.Entities;
+using FinalProject.Core.Application.Enums;
 using System.Reflection;
 
 namespace FinalProject.Core.Application.Utils.PropertyFilters
@@ -10,15 +11,15 @@ namespace FinalProject.Core.Application.Utils.PropertyFilters
     {
         public static readonly Dictionary<string, Func<IEnumerable<Property>, int, IEnumerable<Property>>> Filters = new()
         {
-            {"MinBathrooms", FilterByMinBathrooms },
-            {"MaxBathrooms", FilterByMaxBathrooms },
-            {"MinBedrooms", FilterByMinBedrooms },
-            {"MaxBedrooms", FilterByMaxBedrooms },
-            {"MinPrice", FilterByMinPrice },
-            {"MaxPrice", FilterByMaxPrice },
-            {"PropertyType", FilterByPropertyType },
-            {"MinSize", FilterByMinSize },
-            {"MaxSize", FilterByMaxSize },
+            {FilterNames.MinBathrooms.ToString(), FilterByMinBathrooms },
+            {FilterNames.MaxBathrooms.ToString(), FilterByMaxBathrooms },
+            {FilterNames.MinBedrooms.ToString(), FilterByMinBedrooms },
+            {FilterNames.MaxBedrooms.ToString(), FilterByMaxBedrooms },
+            {FilterNames.MinPrice.ToString(), FilterByMinPrice },
+            {FilterNames.MaxPrice.ToString(), FilterByMaxPrice },
+            {FilterNames.PropertyType.ToString(), FilterByPropertyType },
+            {FilterNames.MinSize.ToString(), FilterByMinSize },
+            {FilterNames.MaxSize.ToString(), FilterByMaxSize },
         };
 
         public static IEnumerable<Property> FilterProperties(IEnumerable<Property> propertiesToBeFilter, PropertyFilterModel filterModel)
@@ -28,14 +29,14 @@ namespace FinalProject.Core.Application.Utils.PropertyFilters
                 Type type = filterModel.GetType();
 
                 PropertyInfo[] filterProperties = type.GetProperties();
-  
+
                 foreach (PropertyInfo property in filterProperties)
                 {
                     object propertyValue = property.GetValue(filterModel);
 
                     Func<IEnumerable<Property>, int, IEnumerable<Property>> filterFunc;
 
-                    if (propertyValue is not null && propertyValue is int value && Filters.TryGetValue(property.Name, out filterFunc))
+                    if (propertyValue is int value && value > 0 && Filters.TryGetValue(property.Name, out filterFunc))
                     {
                         propertiesToBeFilter = filterFunc(propertiesToBeFilter, value);
                     }
