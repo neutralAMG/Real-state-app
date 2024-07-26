@@ -16,7 +16,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         {
             _registerActions = new()
             {
-                {Roles.Client.ToString(),  RegisterClientAsync },
+                { Roles.Client.ToString(),  RegisterClientAsync },
                 { Roles.Agent.ToString(),  RegisterAgentAsync },
                 { Roles.Admin.ToString(),  RegisterAdminAsync },
                 { Roles.Developer.ToString(),  RegisterDeveloperAsync }
@@ -43,7 +43,6 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 PhoneNumber = request.PhoneNumber,
                 ImgProfileUrl = request.ImgProfileUrl,
                 EmailConfirmed = false,
-                AccessFailedCount = 3,
                 PhoneNumberConfirmed = false,
             };
 
@@ -74,7 +73,6 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 PhoneNumber = request.PhoneNumber,
                 ImgProfileUrl = request.ImgProfileUrl,
                 EmailConfirmed = false,
-                AccessFailedCount = 3,
                 PhoneNumberConfirmed = false,
             };
 

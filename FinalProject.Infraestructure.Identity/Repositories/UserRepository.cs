@@ -57,7 +57,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             };
         }
 
-        public async Task<UserOperationResponce> HandleUserActivationState(string id, bool Deactivate = false)
+        public async Task<UserOperationResponce> HandleUserActivationStateAsync(string id, bool Deactivate = false)
         {
             UserOperationResponce responce = new()
             {

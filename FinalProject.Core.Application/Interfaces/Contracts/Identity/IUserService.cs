@@ -11,6 +11,6 @@ namespace FinalProject.Core.Application.Interfaces.Contracts.Identity
         Task<Result<UserModel>> GetByIdAsync(string id);
         Task<Result> UpdateUserAsync(UpdateUserModel request);
         Task<Result> DeleteUserAsync(string id);
-        Task<Result> HandleUserActivationState(string id, bool Deativate = false);
+        Task<Result> HandleUserActivationStateAsync(string id, bool Deativate = false);
     }
 }

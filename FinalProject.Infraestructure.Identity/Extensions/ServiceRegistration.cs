@@ -29,7 +29,18 @@ namespace FinalProject.Infraestructure.Identity.Extensions
                 m.MigrationsAssembly(typeof(AppIdentityContext).Assembly.FullName));
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityContext>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true; 
+                options.Lockout.AllowedForNewUsers = true; 
+                options.Lockout.MaxFailedAccessAttempts = 5; 
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.MaxValue;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+            
+            }).AddEntityFrameworkStores<AppIdentityContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication();

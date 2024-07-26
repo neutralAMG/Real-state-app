@@ -3,7 +3,6 @@
 using AutoMapper;
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.Identity.Account;
-using FinalProject.Core.Application.Dtos.Identity.User;
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using FinalProject.Core.Application.Models.User;
@@ -36,6 +35,13 @@ namespace FinalProject.Core.Application.Services.Identity
             Result result = new();
             try
             {
+                if(string.IsNullOrEmpty(password) || string.IsNullOrEmpty(password))
+                {
+                    result.ISuccess = false;
+                    result.Message = "Neather the password nor the username/Email can be empty";
+                    return result;
+                }
+
                 AuthenticationResponce responce = await _accountRepository.AuthenticateAsync(new AuthenticationRequest
                 {
                     Password = password,

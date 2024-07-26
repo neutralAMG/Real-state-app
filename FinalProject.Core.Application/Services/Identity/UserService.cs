@@ -1,40 +1,198 @@
 ﻿
 
+using AutoMapper;
 using FinalProject.Core.Application.Core;
+using FinalProject.Core.Application.Dtos.Identity.Account;
+using FinalProject.Core.Application.Dtos.Identity.User;
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
+using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using FinalProject.Core.Application.Models.User;
+using FinalProject.Core.Application.Utils.SessionHandler;
+using FinalProject.Core.Domain.Settings;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace FinalProject.Core.Application.Services.Identity
 {
     public class UserService : IUserService
     {
-        public UserService()
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContext;
+        private readonly AuthenticationResponce _currentUserInfo;
+        private readonly SessionKeys _sessionKeys;
+
+        public UserService(IUserRepository userRepository, IMapper mapper, IHttpContextAccessor httpContext, IOptions<SessionKeys> sessionKeys)
         {
-            
-        }
-        public Task<Result> DeleteUserAsync(string id)
-        {
-            throw new NotImplementedException();
+            _userRepository = userRepository;
+            _mapper = mapper;
+            _httpContext = httpContext;
+            _sessionKeys = sessionKeys.Value;
+            _currentUserInfo = _httpContext.HttpContext.Session.Get<AuthenticationResponce>(_sessionKeys.UserKey);
         }
 
-        public Task<Result<List<UserModel>>> GetAllBySpecificRoleAsync(string Role)
+
+        public async Task<Result<List<UserModel>>> GetAllBySpecificRoleAsync(string Role)
         {
-            throw new NotImplementedException();
+            Result<List<UserModel>> result = new();
+            try
+            {
+                if (Role == null)
+                {
+                    result.ISuccess = false;
+                    result.Message = "Role can't be empty";
+                    return result;
+                }
+
+                List<GetUserDto> usersGetted = await _userRepository.GetAllBySpecificRoleAsync(Role);
+
+                result.Data = _mapper.Map<List<UserModel>>(usersGetted);
+
+                result.Message = "The user where getted successfully ";
+
+                return result;
+
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = $"Critical error while getting the user's for the role {Role}";
+                return result;
+            }
         }
 
-        public Task<Result<UserModel>> GetByIdAsync(string id)
+        public async Task<Result<UserModel>> GetByIdAsync(string id)
         {
-            throw new NotImplementedException();
+            Result<UserModel> result = new();
+            try
+            {
+                if (id == null)
+                {
+                    result.ISuccess = false;
+                    result.Message = "The id cant be empty";
+                    return result;
+                }
+
+                GetUserDto userGetted = await _userRepository.GetByIdAsync(id);
+
+                if (userGetted == null)
+                {
+                    result.ISuccess = false;
+                    result.Message = "Error getting the user";
+                    return result;
+                }
+
+                result.Data = _mapper.Map<UserModel>(userGetted);
+                result.Message = "The user was getted susccessfully";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = "Critical error while getting the user";
+                return result;
+            }
         }
 
-        public Task<Result> HandleUserActivationState(string id, bool Deativate = false)
+        public async Task<Result> HandleUserActivationStateAsync(string id, bool Deativate = false)
         {
-            throw new NotImplementedException();
+            Result result = new();
+
+            string operation = Deativate == true ? "activativated" : "deactivated";
+
+            try
+            {
+                if (id == _currentUserInfo.Id)
+                {
+                    result.ISuccess = false;
+                    result.Message = "The current user can't modify itself";
+                    return result;
+                }
+
+                UserOperationResponce responce = await _userRepository.HandleUserActivationStateAsync(id, Deativate);
+
+                if (responce.HasError)
+                {
+                    result.ISuccess = false;
+                    result.Message = responce.ErrorMessage;
+                    return result;
+                }
+
+                result.Message = $"The user was {operation} successfully";
+
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = $"Critical error while attempting to {operation} the user ";
+                return result;
+            }
         }
 
-        public Task<Result> UpdateUserAsync(UpdateUserModel request)
+        public async Task<Result> UpdateUserAsync(UpdateUserModel request)
         {
-            throw new NotImplementedException();
+            Result result = new();
+            try
+            {
+
+                if (request.Id == _currentUserInfo.Id)
+                {
+                    result.ISuccess = false;
+                    result.Message = "The current user can't modify itself";
+                }
+                UpdateUserRequest userRequest = _mapper.Map<UpdateUserRequest>(request);
+
+                UserOperationResponce responce = await _userRepository.UpdateUserAsync(userRequest);
+
+                if (responce.HasError)
+                {
+                    result.ISuccess = false;
+                    result.Message = responce.ErrorMessage;
+                    return result;
+                }
+
+                result.Message = $"The user was updated successfully";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = "Critical error while updating the user";
+                return result;
+            }
+        }
+        public async Task<Result> DeleteUserAsync(string id)
+        {
+            Result result = new();
+            try
+            {
+
+                if (id == _currentUserInfo.Id)
+                {
+                    result.ISuccess = false;
+                    result.Message = "The current user can't modify itself";
+                }
+
+                UserOperationResponce responce = await _userRepository.DeleteUserAsync(id);
+
+                if (responce.HasError)
+                {
+                    result.ISuccess = false;
+                    result.Message = responce.ErrorMessage;
+                    return result;
+                }
+
+                result.Message = "The user deletion was a success";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = "Critical error while deleting the user";
+                return result;
+            }
         }
     }
+
 }

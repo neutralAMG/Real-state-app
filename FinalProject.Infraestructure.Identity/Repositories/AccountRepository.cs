@@ -37,6 +37,13 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
 
             SignInResult result = await _signInManager.CheckPasswordSignInAsync(userAuthenticated, request.Password, true);
+           
+            if (result.IsLockedOut) {
+                responce.HasError = true;
+                responce.ErrorMessage = "This user account i bolcked becaouse of multiple false attemp's";
+                responce.IsLockOut = true;
+                return responce;
+            }
 
             if (!result.Succeeded)
             {
