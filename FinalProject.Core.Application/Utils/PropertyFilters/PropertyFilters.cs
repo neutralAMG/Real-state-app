@@ -14,15 +14,22 @@ namespace FinalProject.Core.Application.Utils.PropertyFilters
         {
 
             if (filterModel.MinBathrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBathrooms >= filterModel.MinBathrooms);
-            if (filterModel.MaxBathrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBathrooms <= filterModel.MaxBathrooms);
-            if (filterModel.MinBedrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBedrooms >= filterModel.MinBedrooms);
-            if (filterModel.MaxBedrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBedrooms <= filterModel.MaxBedrooms);
-            if (filterModel.MinPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MinPrice);
-            if (filterModel.MaxPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice <= filterModel.MaxPrice);
-            if (filterModel.PropertyType > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyTypeId == filterModel.PropertyType);
-            if (filterModel.MinPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MinSize);
-            if (filterModel.MaxPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MaxSize);
 
+            if (filterModel.MaxBathrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBathrooms <= filterModel.MaxBathrooms);
+
+            if (filterModel.MinBedrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBedrooms >= filterModel.MinBedrooms);
+
+            if (filterModel.MaxBedrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBedrooms <= filterModel.MaxBedrooms);
+
+            if (filterModel.MinPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MinPrice);
+
+            if (filterModel.MaxPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice <= filterModel.MaxPrice);
+
+            if (filterModel.PropertyType > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyTypeId == filterModel.PropertyType);
+
+            if (filterModel.MinPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MinSize);
+
+            if (filterModel.MaxPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MaxSize);
 
             return propertiesToBeFilter;
         }
