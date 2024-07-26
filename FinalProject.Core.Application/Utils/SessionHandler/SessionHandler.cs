@@ -5,10 +5,10 @@ namespace FinalProject.Core.Application.Utils.SessionHandler
 {
     public static class SessionHandler
     {
-
         public static void Set<TValue>(this ISession session, TValue value, string key)
         {
             string serializedValue = JsonConvert.SerializeObject(value);
+
             session.SetString(key, serializedValue);
         }
 

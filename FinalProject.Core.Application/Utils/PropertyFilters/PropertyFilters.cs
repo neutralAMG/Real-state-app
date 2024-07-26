@@ -23,17 +23,21 @@ namespace FinalProject.Core.Application.Utils.PropertyFilters
 
         public static IEnumerable<Property> FilterProperties(IEnumerable<Property> propertiesToBeFilter, PropertyFilterModel filterModel)
         {
-            Type type = filterModel.GetType();
             try
             {
-                PropertyInfo[] filterProperties = type.GetProperties();
+                Type type = filterModel.GetType();
 
+                PropertyInfo[] filterProperties = type.GetProperties();
+  
                 foreach (PropertyInfo property in filterProperties)
                 {
-                    object value = property.GetValue(filterModel);
-                    if (value is not null && value is int && Filters.TryGetValue(property.Name, out var filterFunc))
+                    object propertyValue = property.GetValue(filterModel);
+
+                    Func<IEnumerable<Property>, int, IEnumerable<Property>> filterFunc;
+
+                    if (propertyValue is not null && propertyValue is int value && Filters.TryGetValue(property.Name, out filterFunc))
                     {
-                    propertiesToBeFilter = filterFunc(propertiesToBeFilter, (int)property.GetValue(filterModel));
+                        propertiesToBeFilter = filterFunc(propertiesToBeFilter, value);
                     }
                 }
             }
@@ -49,34 +53,42 @@ namespace FinalProject.Core.Application.Utils.PropertyFilters
         {
             return propertyList.Where(p => p.AmountOfBathrooms >= filterValue);
         }
+
         private static IEnumerable<Property> FilterByMaxBathrooms(IEnumerable<Property> propertyList, int filterValue)
         {
             return propertyList.Where(p => p.AmountOfBathrooms <= filterValue);
         }
+
         private static IEnumerable<Property> FilterByMinBedrooms(IEnumerable<Property> propertyList, int filterValue)
         {
             return propertyList.Where(p => p.AmountOfBedrooms >= filterValue);
         }
+
         private static IEnumerable<Property> FilterByMaxBedrooms(IEnumerable<Property> propertyList, int filterValue)
         {
             return propertyList.Where(p => p.AmountOfBedrooms <= filterValue);
         }
+
         private static IEnumerable<Property> FilterByMinPrice(IEnumerable<Property> propertyList, int filterValue)
         {
             return propertyList.Where(p => p.PropertyPrice >= filterValue);
         }
+
         private static IEnumerable<Property> FilterByMaxPrice(IEnumerable<Property> propertyList, int filterValue)
         {
             return propertyList.Where(p => p.PropertyPrice <= filterValue);
         }
+
         private static IEnumerable<Property> FilterByPropertyType(IEnumerable<Property> propertyList, int filterValue)
         {
             return propertyList.Where(p => p.PropertyTypeId == filterValue);
         }
+
         private static IEnumerable<Property> FilterByMinSize(IEnumerable<Property> propertyList, int filterValue)
         {
             return propertyList.Where(p => p.SizeInMeters >= filterValue);
         }
+
         private static IEnumerable<Property> FilterByMaxSize(IEnumerable<Property> propertyList, int filterValue)
         {
             return propertyList.Where(p => p.SizeInMeters <= filterValue);

@@ -21,6 +21,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
             FileInfo fileInfo = new FileInfo(file.Name);
             string fileName = guid + fileInfo.Extension;
             string fileNameWithPath = Path.Combine(path, fileName);
+
             using (FileStream stream = new(fileNameWithPath, FileMode.Create))
             {
                 stream.CopyTo(stream);
