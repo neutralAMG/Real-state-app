@@ -21,8 +21,8 @@
     <Folder Include="Interfaces\Contracts\Identity\" />
     <Folder Include="Interfaces\Contracts\Persistance\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Services\" />
-    <Folder Include="Utils\PropertyFilters\" />
+    <Folder Include="Services\Identity\" />
+    <Folder Include="Services\Persistance\" />
   </ItemGroup>
 
   <ItemGroup>
