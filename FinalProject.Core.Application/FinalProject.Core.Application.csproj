@@ -18,10 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Features\" />
-    <Folder Include="Interfaces\Contracts\Identity\" />
     <Folder Include="Interfaces\Contracts\Persistance\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Services\Identity\" />
     <Folder Include="Services\Persistance\" />
   </ItemGroup>
 

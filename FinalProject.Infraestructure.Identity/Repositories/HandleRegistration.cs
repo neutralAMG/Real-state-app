@@ -57,7 +57,10 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
             await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
 
+            responce.Id = user.Id;
+
             return responce;
+
         }
         private async Task<RegisterResponce> RegisterAgentAsync(RegisterRequest request)
         {
@@ -84,6 +87,8 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
             await _userManager.AddToRoleAsync(user, Roles.Agent.ToString());
+
+            responce.Id = user.Id;
 
             return responce;
         }
@@ -113,6 +118,8 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
             await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
 
+            responce.Id = user.Id;
+
             return responce;
         }
         private async Task<RegisterResponce> RegisterDeveloperAsync(RegisterRequest request)
@@ -139,7 +146,9 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 responce.ErrorMessage = result.Errors.First().Description;
                 return responce;
             }
-           result = await _userManager.AddToRoleAsync(user, Roles.Developer.ToString());
+            result = await _userManager.AddToRoleAsync(user, Roles.Developer.ToString());
+
+            responce.Id = user.Id;
 
             return responce;
         }

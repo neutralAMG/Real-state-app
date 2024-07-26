@@ -21,7 +21,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             _roleManager = roleManager;
             _handleRegistration = handleRegistration;
         }
-        public async Task<AuthenticationResponce> AuthenticatAsync(AuthenticationRequest request)
+        public async Task<AuthenticationResponce> AuthenticateAsync(AuthenticationRequest request, bool ApiAuthentication = false)
         {
             AuthenticationResponce responce = new();
 
