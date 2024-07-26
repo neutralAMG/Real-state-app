@@ -42,6 +42,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             {
                 responce.HasError = true;
                 responce.ErrorMessage = "Incorrect Password please check if you typed it correctly";
+                return responce;
             }
 
             responce.Id = userAuthenticated.Id;

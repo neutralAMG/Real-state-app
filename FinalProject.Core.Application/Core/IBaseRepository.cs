@@ -16,9 +16,9 @@ namespace FinalProject.Core.Application.Core
 
     public interface IBaseCompleteRepository<TEntity, TId> : IBaseRepository<TEntity, TId>
       where TEntity : class
-    {
-        Task<IList<TEntity>> GetAllAsync();
-        Task<TEntity> GetByIdAsync(TId id); 
+    {  
         Task<TEntity> UpdateAsync(TEntity entity);
+        Task<IList<TEntity>> GetAllAsync();
+        Task<TEntity> GetByIdAsync(TId id);
     }
 }

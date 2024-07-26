@@ -30,7 +30,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.SaveAsync(entity);
         }
 
-        public override async Task<Perk?> UpdateAsync(Perk entity)
+        public override async Task<Perk> UpdateAsync(Perk entity)
         {
             if (!await ExistsAsync(p => p.Id == entity.Id)) return null;
 

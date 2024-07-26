@@ -1,4 +1,5 @@
-﻿using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
+﻿
+using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using FinalProject.Infraestructure.Persistance.Context;
 using FinalProject.Infraestructure.Persistance.Core;
@@ -6,7 +7,7 @@ using FinalProject.Infraestructure.Persistance.Core;
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
 {
-    internal class FavoriteUserPropertyRepository : BaseRepository<FavoriteUserProperty, int>, IFavoriteUserPropertyRepository
+    internal class FavoriteUserPropertyRepository : BaseRepository<FavoriteUserProperty, Guid>, IFavoriteUserPropertyRepository
     {
         private readonly FinalProjectContext _context;
 

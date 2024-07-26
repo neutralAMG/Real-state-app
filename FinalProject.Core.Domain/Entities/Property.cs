@@ -9,13 +9,16 @@ namespace FinalProject.Core.Domain.Entities
     {
         public Guid Id { get; set; }
         public string PropertyCode { get; set; }
+        public string Description { get; set; }
 
         [Column(TypeName = "Decimal(18,2)")]
         public decimal PropertyPrice { get; set; }
 
         public int AmountOfBathrooms { get; set; }
         public int AmountOfBedrooms { get; set; }
-        public int Size { get; set; }
+
+        [Column(TypeName = "Decimal(18,2)")]
+        public decimal SizeInMeters { get; set; }
 
         public int SellTypeId { get; set; }
         public int PropertyTypeId { get; set; }

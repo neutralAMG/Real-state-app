@@ -16,8 +16,6 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             _context = context;
         }
 
-
-
         public override async Task<PropertyImage> SaveAsync(PropertyImage entity)
         {
             return await base.SaveAsync(entity);
@@ -29,11 +27,16 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             {
                 PropertyImage PropertyImageToBeUpdate = await _context.PropertyImages.FindAsync(entity.Id);
 
+                if (PropertyImageToBeUpdate == null) return false;
+
                 PropertyImageToBeUpdate.ImgUrl = entity.ImgUrl;
 
                 _context.PropertyImages.Attach(PropertyImageToBeUpdate);
+
                 _context.Entry(PropertyImageToBeUpdate).State = EntityState.Modified;
+
                 await _context.SaveChangesAsync();
+
                 return true;
             }
             catch

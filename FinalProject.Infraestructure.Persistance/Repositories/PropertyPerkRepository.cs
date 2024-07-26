@@ -16,8 +16,6 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             _context = context;
         }
 
-   
-
         public override async Task<PropertyPerk> SaveAsync(PropertyPerk entity)
         {
             return await base.SaveAsync(entity);

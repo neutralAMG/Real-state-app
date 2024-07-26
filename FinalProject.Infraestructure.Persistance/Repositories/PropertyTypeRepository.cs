@@ -1,13 +1,14 @@
 ﻿
 
+using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using FinalProject.Infraestructure.Persistance.Context;
 using FinalProject.Infraestructure.Persistance.Core;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
 {
-    public class PropertyTypeRepository : BaseCompleteRepository<PropertyType, int>
+    public class PropertyTypeRepository : BaseCompleteRepository<PropertyType, int>, IPropertyTypeRepository
     {
         private readonly FinalProjectContext _context;
 
@@ -52,7 +53,6 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
 
             if (DeleteOperation)
             {
-
                 IQueryable<Property> PropertiesToBeDeleted = _context.Properties.Where(p => p.PropertyTypeId == entity.Id);
                 _context.Properties.RemoveRange(PropertiesToBeDeleted);
                 await _context.SaveChangesAsync();

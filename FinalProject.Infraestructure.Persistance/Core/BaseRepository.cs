@@ -73,8 +73,7 @@ namespace FinalProject.Infraestructure.Persistance.Core
         public virtual async Task<TEntity> GetByIdAsync(TId id)
         {
             return await _entity.FindAsync(id);
-        }
-        public virtual async Task<TEntity> UpdateAsync(TEntity entity)
+        }public virtual async Task<TEntity> UpdateAsync(TEntity entity)
         {
             try
             {
