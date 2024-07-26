@@ -17,7 +17,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             _context = context;
         }
 
-        public override async Task<IList<PropertyType>> GetAllAsync()
+        public override async Task<List<PropertyType>> GetAllAsync()
         {
             return await base.GetAllAsync();
         }
@@ -42,18 +42,16 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.UpdateAsync(PropertyTypeToBeSaved);
         }
 
-        public virtual async Task<bool> DeleteAsync(PropertyType entity)
+        public virtual async Task<bool> DeleteAsync(int id)
         {
 
-            if (!await ExistsAsync(P => P.Id == entity.Id)) return false;
+            if (!await ExistsAsync(P => P.Id == id)) return false;
 
-            PropertyType PropertyTypeToBeDeleted = await _context.PropertyTypes.FindAsync(entity.Id);
-
-            bool DeleteOperation = await base.DeleteAsync(PropertyTypeToBeDeleted);
+            bool DeleteOperation = await base.DeleteAsync(id);
 
             if (DeleteOperation)
             {
-                IQueryable<Property> PropertiesToBeDeleted = _context.Properties.Where(p => p.PropertyTypeId == entity.Id);
+                IQueryable<Property> PropertiesToBeDeleted = _context.Properties.Where(p => p.PropertyTypeId == id);
                 _context.Properties.RemoveRange(PropertiesToBeDeleted);
                 await _context.SaveChangesAsync();
             }

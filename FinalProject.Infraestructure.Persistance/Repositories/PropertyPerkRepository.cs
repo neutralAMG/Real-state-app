@@ -21,14 +21,13 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.SaveAsync(entity);
         }
 
-        public virtual async Task<bool> DeleteAsync(PropertyPerk entity)
+        public virtual async Task<bool> DeleteAsync(int id)
         {
 
-            if (!await ExistsAsync(P => P.Id == entity.Id)) return false;
+            if (!await ExistsAsync(P => P.Id == id)) return false;
 
-            PropertyPerk PropertyPerkToBeDeleted = await _context.PropertyPerks.FindAsync(entity.Id);
 
-            return await base.DeleteAsync(PropertyPerkToBeDeleted);
+            return await base.DeleteAsync(id);
         }
 
     }

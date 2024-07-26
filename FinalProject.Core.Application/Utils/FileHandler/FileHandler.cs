@@ -10,6 +10,10 @@ namespace FinalProject.Core.Application.Utils.FileHandler
 
         public string UpdateFile(IFormFile file, string basePath, string imageUrl, TId id)
         {
+            if(file is null)
+            {
+                return imageUrl;
+            }
             basePath = $"{basePath}/{id}";
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
@@ -18,7 +22,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
                 Directory.CreateDirectory(path);
             }
             Guid guid = Guid.NewGuid();
-            FileInfo fileInfo = new FileInfo(file.Name);
+            FileInfo fileInfo = new(file.Name);
             string fileName = guid + fileInfo.Extension;
             string fileNameWithPath = Path.Combine(path, fileName);
 
@@ -48,7 +52,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
                 Directory.CreateDirectory(path);
             }
             Guid guid = Guid.NewGuid();
-            FileInfo fileInfo = new FileInfo(file.Name);
+            FileInfo fileInfo = new(file.Name);
             string fileName = guid + fileInfo.Extension;
             string fileNameWithPath = Path.Combine(path, fileName);
             using (FileStream stream = new(fileNameWithPath, FileMode.Create))

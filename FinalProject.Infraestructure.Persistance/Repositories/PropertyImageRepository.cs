@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
 {
-    public class PropertyImageRepository : BaseRepository<PropertyImage, int>, IPropertyImageRepository
+    public class PropertyImageRepository : BaseRepository<PropertyImage, Guid>, IPropertyImageRepository
     {
         private readonly FinalProjectContext _context;
 
@@ -45,14 +45,13 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             }
         }
 
-        public virtual async Task<bool> DeleteAsync(PropertyImage entity)
+        public virtual async Task<bool> DeleteAsync(Guid id)
         {
 
-            if (!await ExistsAsync(P => P.Id == entity.Id)) return false;
+            if (!await ExistsAsync(P => P.Id == id)) return false;
 
-            PropertyImage PropertyToBeDeleted = await _context.PropertyImages.FindAsync(entity.Id);
 
-            return await base.DeleteAsync(PropertyToBeDeleted);
+            return await base.DeleteAsync(id);
         }
 
     }

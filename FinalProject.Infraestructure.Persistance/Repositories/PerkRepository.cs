@@ -15,7 +15,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         {
             _context = context;
         }
-        public override async Task<IList<Perk>> GetAllAsync()
+        public override async Task<List<Perk>> GetAllAsync()
         {
             return await base.GetAllAsync();
         }
@@ -41,14 +41,12 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.UpdateAsync(PerkToBeSaved);
         }
 
-        public virtual async Task<bool> DeleteAsync(Perk entity)
+        public virtual async Task<bool> DeleteAsync(int id)
         {
 
-            if (!await ExistsAsync(P => P.Id == entity.Id)) return false;
+            if (!await ExistsAsync(P => P.Id == id)) return false;
 
-            Perk PerkToBeDeleted = await _context.Perks.FindAsync(entity.Id);
-
-            return await base.DeleteAsync(PerkToBeDeleted);
+            return await base.DeleteAsync(id);
         }
    
     }

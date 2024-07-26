@@ -10,7 +10,7 @@ namespace FinalProject.Core.Application.Core
    
         Task<TEntity> SaveAsync(TEntity entity);
       
-        Task<bool> DeleteAsync(TEntity entity);
+        Task<bool> DeleteAsync(TId id);
 
     }
 
@@ -18,7 +18,7 @@ namespace FinalProject.Core.Application.Core
       where TEntity : class
     {  
         Task<TEntity> UpdateAsync(TEntity entity);
-        Task<IList<TEntity>> GetAllAsync();
+        Task<List<TEntity>> GetAllAsync();
         Task<TEntity> GetByIdAsync(TId id);
     }
 }

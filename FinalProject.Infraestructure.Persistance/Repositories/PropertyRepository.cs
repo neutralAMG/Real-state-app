@@ -15,7 +15,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         {
             _context = context;
         }
-        public override async Task<IList<Property>> GetAllAsync()
+        public override async Task<List<Property>> GetAllAsync()
         {
             return await _context.Properties.Include(p => p.PropertyImages)
                 .Include(p => p.PropertyPerks)
@@ -55,14 +55,12 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.UpdateAsync(PropertyToBeSaved);
         }
 
-        public virtual async Task<bool> DeleteAsync(Property entity)
+        public virtual async Task<bool> DeleteAsync(Guid id)
         {
 
-            if (!await ExistsAsync(P => P.Id == entity.Id)) return false;
+            if (!await ExistsAsync(P => P.Id == id)) return false;
 
-            Property PropertyToBeDeleted = await _context.Properties.FindAsync(entity.Id);
-
-            return await base.DeleteAsync(PropertyToBeDeleted);
+            return await base.DeleteAsync(id);
         }
         public async Task<List<Property>> GetAllCurrentAgentUserPropertiesAsync(string id)
         {

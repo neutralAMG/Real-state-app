@@ -7,7 +7,7 @@ using FinalProject.Infraestructure.Persistance.Core;
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
 {
-    internal class FavoriteUserPropertyRepository : BaseRepository<FavoriteUserProperty, Guid>, IFavoriteUserPropertyRepository
+    internal class FavoriteUserPropertyRepository : BaseRepository<FavoriteUserProperty, int>, IFavoriteUserPropertyRepository
     {
         private readonly FinalProjectContext _context;
 
@@ -22,14 +22,14 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         }
 
     
-        public override async Task<bool> DeleteAsync(FavoriteUserProperty entity)
+        public override async Task<bool> DeleteAsync(int id)
         {
 
-            if (!await ExistsAsync(P => P.Id == entity.Id)) return false;
+            if (!await ExistsAsync(P => P.Id == id)) return false;
 
-            FavoriteUserProperty FavoriteUserPropertyToBeDeleted = await _context.FavoriteUserProperties.FindAsync(entity.Id);
+            FavoriteUserProperty FavoriteUserPropertyToBeDeleted = await _context.FavoriteUserProperties.FindAsync(id);
 
-            return await base.DeleteAsync(FavoriteUserPropertyToBeDeleted);
+            return await base.DeleteAsync(id);
         }
  
     }

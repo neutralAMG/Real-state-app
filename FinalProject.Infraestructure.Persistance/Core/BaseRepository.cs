@@ -39,11 +39,13 @@ namespace FinalProject.Infraestructure.Persistance.Core
 
       
 
-        public virtual async Task<bool> DeleteAsync(TEntity entity)
+        public virtual async Task<bool> DeleteAsync(TId id)
         {
             try
             {
-                _entity.Remove(entity);
+                TEntity entityToDelte = await _entity.FindAsync(id);
+
+                _entity.Remove(entityToDelte);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -65,7 +67,7 @@ namespace FinalProject.Infraestructure.Persistance.Core
             _entity = _context.Set<TEntity>();
         }
   
-        public virtual async Task<IList<TEntity>> GetAllAsync()
+        public virtual async Task<List<TEntity>> GetAllAsync()
         {
             return await _entity.ToListAsync();
         }

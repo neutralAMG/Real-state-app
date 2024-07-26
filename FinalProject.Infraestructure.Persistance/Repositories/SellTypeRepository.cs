@@ -16,7 +16,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             _context = context;
         }
 
-        public override async Task<IList<SellType>> GetAllAsync()
+        public override async Task<List<SellType>> GetAllAsync()
         {
             return await base.GetAllAsync();
         }
@@ -41,14 +41,12 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.UpdateAsync(SellTypesToBeSaved);
         }
 
-        public virtual async Task<bool> DeleteAsync(SellType entity)
+        public virtual async Task<bool> DeleteAsync(int id)
         {
 
-            if (!await ExistsAsync(P => P.Id == entity.Id)) return false;
+            if (!await ExistsAsync(P => P.Id == id)) return false;
 
-            SellType SellTypesToBeDeleted = await _context.SellTypes.FindAsync(entity.Id);
-
-            return await base.DeleteAsync(SellTypesToBeDeleted);
+            return await base.DeleteAsync(id);
         }
 
     }
