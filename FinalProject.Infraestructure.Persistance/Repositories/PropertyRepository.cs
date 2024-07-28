@@ -55,12 +55,20 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.UpdateAsync(PropertyToBeSaved);
         }
 
-        public virtual async Task<bool> DeleteAsync(Guid id)
+        public override async Task<bool> DeleteAsync(Guid id)
         {
 
             if (!await ExistsAsync(P => P.Id == id)) return false;
 
-            return await base.DeleteAsync(id);
+            bool deleteOperation = await base.DeleteAsync(id);
+
+            if (deleteOperation)
+            {
+                IQueryable<PropertyImage> propertyImages = _context.PropertyImages.Where(x => x.PropertyId == id);
+                _context.PropertyImages.RemoveRange(propertyImages);
+                await _context.SaveChangesAsync();
+            }
+            return deleteOperation;
         }
         public async Task<List<Property>> GetAllCurrentAgentUserPropertiesAsync(string id)
         {
@@ -74,12 +82,22 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
 
         public async Task<List<Property>> GetAllCurrentClientUserFavPropertiesAsync(string id)
         {
-            if (!await ExistsAsync(P => P.FavoriteUsersProperties.Any( p => p.UserId == id))) return null;
+            if (!await ExistsAsync(P => P.FavoriteUsersProperties.Any(p => p.UserId == id))) return null;
 
             return await _context.Properties.Include(p => p.PropertyImages)
             .Include(p => p.PropertyPerks)
             .Include(p => p.PropertyType)
             .Include(p => p.SellType).Where(p => p.FavoriteUsersProperties.Any(p => p.UserId == id)).ToListAsync();
+        }
+        public async Task<List<Property>> GetAllWithCurrentClientLogIn(string id)
+        {
+            if (!await ExistsAsync(P => P.FavoriteUsersProperties.Any(p => p.UserId == id))) return null;
+
+            return await _context.Properties.Include(p => p.PropertyImages)
+            .Include(p => p.PropertyPerks)
+            .Include(p => p.PropertyType)
+            .Include(p => p.SellType)
+            .Include(p => p.FavoriteUsersProperties).Where(p => p.FavoriteUsersProperties.Any(p => p.UserId == id)).ToListAsync();
         }
     }
 }

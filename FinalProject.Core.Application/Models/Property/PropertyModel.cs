@@ -26,7 +26,7 @@ namespace FinalProject.Core.Application.Models.Property
         public string PropertyTypeName { get; set; }
 
         //public IList<PropertyImage>? PropertyImages { get; set; }
-        List<PropertyImageModel> PropertyImagesUrls { get; set; }
+       public  List<PropertyImageModel> PropertyImagesUrls { get; set; }
         //public IList<FavoriteUserProperty>? FavoriteUsersProperties { get; set; }
         public bool IsMarkAsFavoriteByCurrentUser  { get; set; }
         public List<PerkModel> PropertyPerks { get; set; }

@@ -21,7 +21,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.SaveAsync(entity);
         }
 
-        public virtual async Task<bool> DeleteAsync(int id)
+        public override async Task<bool> DeleteAsync(int id)
         {
 
             if (!await ExistsAsync(P => P.Id == id)) return false;

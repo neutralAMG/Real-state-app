@@ -2,6 +2,7 @@
 
 using FinalProject.Core.Application.Models.Perk;
 using FinalProject.Core.Application.Models.PropertyImgae;
+using Microsoft.AspNetCore.Http;
 
 namespace FinalProject.Core.Application.Models.Property
 {
@@ -21,7 +22,8 @@ namespace FinalProject.Core.Application.Models.Property
         public int SellTypeId { get; set; }
         //public PropertyType PropertyType { get; set; }
         public int PropertyTypeId { get; set; }
-        List<SavePropertyImageModel> PropertyImagesUrls { get; set; }
+        public List<SavePropertyImageModel> PropertyImagesUrls { get; set; }
+        public List<IFormFile> PropertyImagesFiles { get; set; }
 
         public List<SavePerkModel> PropertyPerks { get; set; }
     }

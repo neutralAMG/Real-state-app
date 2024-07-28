@@ -6,8 +6,9 @@ using FinalProject.Core.Domain.Entities;
 
 namespace FinalProject.Core.Application.Interfaces.Contracts.Persistance
 {
-    public interface IPropertyImageService : IBaseService<PropertyImageModel, SavePropertyImageModel, PropertyImage, Guid>
+    internal interface IPropertyImageService : IBaseService< SavePropertyImageModel, PropertyImage, Guid>
     {
-        Task<Result> UpdateAsync(string propertyId, string ImgUrl);
+        Task<Result> UpdateAsync(Guid propertyId, SavePropertyImageModel updateModel);
+        Task<Result<PropertyImageModel>> GetByPropertyId(Guid propertyId);
     }
 }

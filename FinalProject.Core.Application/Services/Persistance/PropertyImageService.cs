@@ -4,12 +4,13 @@ using AutoMapper;
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
+using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Application.Models.PropertyImgae;
 using FinalProject.Core.Domain.Entities;
 
 namespace FinalProject.Core.Application.Services.Persistance
 {
-    public class PropertyImageService : BaseService<PropertyImageModel, SavePropertyImageModel, PropertyImage, Guid>, IPropertyImageService
+    internal class PropertyImageService : BaseService< SavePropertyImageModel, PropertyImage, Guid>, IPropertyImageService
     {
         private readonly IPropertyImageRepository _propertyImageRepository;
         private readonly IMapper _mapper;
@@ -20,9 +21,55 @@ namespace FinalProject.Core.Application.Services.Persistance
             _mapper = mapper;
         }
 
-        public Task<Result> UpdateAsync(string propertyId, string ImgUrl)
+        public async Task<Result<PropertyImageModel>> GetByPropertyId(Guid id)
         {
-            throw new NotImplementedException();
+            Result<PropertyImageModel> result = new();
+            try
+            {
+                PropertyImage imageGetted = await _propertyImageRepository.GetByPropertyIdAsync(id);
+
+
+                if (imageGetted == null)
+                {
+                    result.ISuccess = false;
+                    result.Message = "Error getting the image";
+                    return result;
+                }
+
+                result.Data = _mapper.Map<PropertyImageModel>(imageGetted);
+
+                result.Message = "The Image was getted successfully";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = "Critical error while trying to get the image";
+                return result;
+            }
+        }
+
+        public async Task<Result> UpdateAsync(Guid propertyId, SavePropertyImageModel updateModel)
+        {
+            Result result = new();
+            try
+            {
+                bool operation = await _propertyImageRepository.UpdateAsync(new PropertyImage { PropertyId = propertyId, ImgUrl = updateModel.ImgUrl });
+                if (!operation) {
+                    result.ISuccess = false;
+                    result.Message = "Error updating the image";
+                    return result;
+                }
+
+                result.Message = "The Image was updated successfully";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess= false;
+                result.Message = "Critical error while trying to update the image";
+                return result;
+            }
         }
     }
 }

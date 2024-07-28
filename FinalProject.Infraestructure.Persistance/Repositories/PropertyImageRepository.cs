@@ -45,7 +45,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             }
         }
 
-        public virtual async Task<bool> DeleteAsync(Guid id)
+        public override async Task<bool> DeleteAsync(Guid id)
         {
 
             if (!await ExistsAsync(P => P.Id == id)) return false;
@@ -54,5 +54,9 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.DeleteAsync(id);
         }
 
+        public async Task<PropertyImage> GetByPropertyIdAsync(Guid id)
+        {
+            return await _context.PropertyImages.FindAsync(id);
+        }
     }
 }

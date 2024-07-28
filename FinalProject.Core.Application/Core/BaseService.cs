@@ -6,8 +6,7 @@ using AutoMapper;
 
 namespace FinalProject.Core.Application.Core
 {
-    public class BaseService<TModel, TSaveModel, TEntity, TId> : IBaseService<TModel, TSaveModel, TEntity, TId>
-        where TModel : class
+    public class BaseService< TSaveModel, TEntity, TId> : IBaseService< TSaveModel, TEntity, TId>
         where TSaveModel : class
         where TEntity : class
     {
@@ -21,7 +20,7 @@ namespace FinalProject.Core.Application.Core
             _mapper = mapper;
             _entityName = name;
         }
-        public async Task<Result<TSaveModel>> SaveAsync(TSaveModel saveModel)
+        public virtual async Task<Result<TSaveModel>> SaveAsync(TSaveModel saveModel)
         {
             Result<TSaveModel> result = new();
             try
@@ -47,7 +46,7 @@ namespace FinalProject.Core.Application.Core
                 return result;
             }
         }  
-        public async Task<Result> DeleteAsync(TId id)
+        public virtual async Task<Result> DeleteAsync(TId id)
         {
             Result result = new();
             try
@@ -73,7 +72,7 @@ namespace FinalProject.Core.Application.Core
         }
 
     }
-    public class BaseCompleteService<TModel, TSaveModel, TEntity, TId> : BaseService<TModel, TSaveModel, TEntity, TId>, IBaseCompleteService<TModel, TSaveModel, TEntity, TId>
+    public class BaseCompleteService<TModel, TSaveModel, TEntity, TId> : BaseService<TSaveModel, TEntity, TId>, IBaseCompleteService<TModel, TSaveModel, TEntity, TId>
         where TModel : class
         where TSaveModel : class
         where TEntity : class
@@ -89,7 +88,7 @@ namespace FinalProject.Core.Application.Core
             _entityName = name;
         }
 
-        public async Task<Result<List<TModel>>> GetAllAsync()
+        public virtual async Task<Result<List<TModel>>> GetAllAsync()
         {
             Result<List<TModel>> result = new();
             try
@@ -109,7 +108,7 @@ namespace FinalProject.Core.Application.Core
             }
         }
 
-        public async Task<Result<TModel>> GetByIdAsync(TId id)
+        public virtual async Task<Result<TModel>> GetByIdAsync(TId id)
         {
             Result<TModel> result = new();
             try
@@ -134,7 +133,7 @@ namespace FinalProject.Core.Application.Core
             }
         }
 
-        public async Task<Result<TSaveModel>> UpdateAsync(TId id, TSaveModel updateModel)
+        public virtual async Task<Result<TSaveModel>> UpdateAsync(TId id, TSaveModel updateModel)
         {
             Result<TSaveModel> result = new();
             try
