@@ -6,6 +6,7 @@ using FinalProject.Core.Domain.Settings;
 using FinalProject.Infraestructure.Identity.Context;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Repositories;
+using FinalProject.Infraestructure.Identity.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -47,6 +48,7 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<HandleRegistration>();
+            services.AddTransient<SignInManager<ApplicationUser>, CustomAuthSignInManager<ApplicationUser>>();
             services.AddTransient<IUserRepository, UserRepository>();
 
         }
@@ -61,7 +63,17 @@ namespace FinalProject.Infraestructure.Identity.Extensions
                 m.MigrationsAssembly(typeof(AppIdentityContext).Assembly.FullName));
             });
 
-            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityContext>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                //options.Lockout.AllowedForNewUsers = true;
+                //options.Lockout.MaxFailedAccessAttempts = 5;
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.MaxValue;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+            }).AddEntityFrameworkStores<AppIdentityContext>()
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication(options =>
@@ -69,6 +81,7 @@ namespace FinalProject.Infraestructure.Identity.Extensions
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
 
             }).AddJwtBearer(options =>
             {
@@ -126,6 +139,7 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<HandleRegistration>();
+            services.AddTransient<SignInManager<ApplicationUser>, CustomAuthSignInManager<ApplicationUser>>();
             services.AddTransient<IUserRepository, UserRepository>();
 
         }

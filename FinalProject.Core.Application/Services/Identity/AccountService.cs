@@ -104,7 +104,7 @@ namespace FinalProject.Core.Application.Services.Identity
             {
                 RegisterRequest requestToBeRegister = _mapper.Map<RegisterRequest>(saveModel);
 
-                RegisterResponce responce = await _accountRepository.RegisterAsync(requestToBeRegister);
+                RegisterResponce responce = await _accountRepository.RegisterAsync(saveModel.role, requestToBeRegister);
 
                 if (responce.HasError)
                 {
@@ -127,6 +127,7 @@ namespace FinalProject.Core.Application.Services.Identity
                 return result;
             }
         }    
+
         public async Task<Result> ForgotPassword()
         {
             throw new NotImplementedException();

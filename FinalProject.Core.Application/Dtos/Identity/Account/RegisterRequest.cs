@@ -13,6 +13,6 @@ namespace FinalProject.Core.Application.Dtos.Identity.Account
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string Cedula { get; set; }  
-        public string UserType { get; set; }
+     //   public string UserType { get; set; }
     }
 }

@@ -1,8 +1,10 @@
 ﻿
 
 using FinalProject.Core.Application.Dtos.Identity.Account;
+using FinalProject.Core.Application.Dtos.Identity.User;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using FinalProject.Infraestructure.Identity.Entities;
+using FinalProject.Infraestructure.Identity.Utils;
 using Microsoft.AspNetCore.Identity;
 
 namespace FinalProject.Infraestructure.Identity.Repositories
@@ -12,9 +14,9 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly HandleRegistration _handleRegistration;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly CustomAuthSignInManager<ApplicationUser> _signInManager;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, HandleRegistration handleRegistration)
+        public AccountRepository(UserManager<ApplicationUser> userManager, CustomAuthSignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, HandleRegistration handleRegistration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -25,9 +27,8 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         {
             AuthenticationResponce responce = new();
 
-            ApplicationUser userAuthenticated = await _userManager.FindByNameAsync(request.Username);
-
-            userAuthenticated ??= await _userManager.FindByNameAsync(request.Username);
+            ApplicationUser userAuthenticated = await _userManager.FindByNameAsync(request.Username)
+                ?? await _userManager.FindByEmailAsync(request.Username);
 
             if (userAuthenticated == null)
             {
@@ -36,9 +37,10 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
 
-            SignInResult result = await _signInManager.CheckPasswordSignInAsync(userAuthenticated, request.Password, true);
-           
-            if (result.IsLockedOut) {
+            SignInResult result = await _signInManager.PasswordSignInAsync(userAuthenticated, request.Password, false, true);
+
+            if (result.IsLockedOut)
+            {
                 responce.HasError = true;
                 responce.ErrorMessage = "This user account i bolcked becaouse of multiple false attemp's";
                 responce.IsLockOut = true;
@@ -60,7 +62,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             return responce;
         }
 
-        public async Task<RegisterResponce> RegisterAsync(RegisterRequest request)
+        public async Task<RegisterResponce> RegisterAsync(string role, RegisterRequest request)
         {
             RegisterResponce responce = new();
 
@@ -68,7 +70,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             if (user != null)
             {
-                responce.HasError= true;
+                responce.HasError = true;
                 responce.ErrorMessage = $"Theres already a user with the email: {request.Email}";
                 return responce;
             }
@@ -82,7 +84,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
 
-            responce = await _handleRegistration.HandleRegisterAsync(request.UserType, request);
+            responce = await _handleRegistration.HandleRegisterAsync(role, request);
 
             return responce;
         }
@@ -90,6 +92,39 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         public async Task ForgotPassword()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<UserOperationResponce> UnLockUser(string id)
+        {
+            UserOperationResponce responce = new();
+
+            ApplicationUser user = await _userManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                responce.HasError= true;
+                responce.ErrorMessage = "User was not found";
+                return responce;
+            }
+            IdentityResult result = new();
+
+            result = await _userManager.SetLockoutEnabledAsync(user, false);
+
+            if (!result.Succeeded)
+            {
+                responce.HasError = true;
+                responce.ErrorMessage = result.Errors.First().Description;
+                return responce;
+            }
+            result =  await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow);
+
+            if (!result.Succeeded)
+            {
+                responce.HasError = true;
+                responce.ErrorMessage = result.Errors.First().Description;
+                return responce;
+            }
+            return responce;
         }
     }
 }
