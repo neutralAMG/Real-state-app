@@ -43,9 +43,8 @@ using (IServiceScope scope = app.Services.CreateScope())
         RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
         await DefaultRoles.AddDefaulRoles(roleManager);
-        await DefaultClientUser.AddDefaultClientUser(userManager);
         await DefaultAdminUser.AddDefaultAddminUser(userManager);
-        await DefaultAgentUser.AddDefaultAgentUser(userManager);
+        await DefaultDeveloperUser.AddDefaultDeveloperUser(userManager);
 
     }
     catch

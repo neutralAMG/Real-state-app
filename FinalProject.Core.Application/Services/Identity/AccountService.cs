@@ -30,12 +30,12 @@ namespace FinalProject.Core.Application.Services.Identity
             _httpContext = httpContext;
             _sessionsKeys = sessionsKey.Value;
         }
-        public async Task<Result> AuthenticateWebAppAsync(string username, string password)
+        public async Task<Result> AuthenticateWebAppAsync(string usernameOrEmail, string password)
         {
             Result result = new();
             try
             {
-                if(string.IsNullOrEmpty(password) || string.IsNullOrEmpty(password))
+                if(string.IsNullOrEmpty(usernameOrEmail) || string.IsNullOrEmpty(password))
                 {
                     result.ISuccess = false;
                     result.Message = "Neather the password nor the username/Email can be empty";
@@ -45,11 +45,11 @@ namespace FinalProject.Core.Application.Services.Identity
                 AuthenticationResponce responce = await _accountRepository.AuthenticateAsync(new AuthenticationRequest
                 {
                     Password = password,
-                    Username = username
+                    UsernameOrEmail = usernameOrEmail
                 }
                 );
 
-                if (!responce.HasError)
+                if (responce.HasError)
                 {
                     result.ISuccess = responce.HasError;
                     result.Message = responce.ErrorMessage;
@@ -65,35 +65,6 @@ namespace FinalProject.Core.Application.Services.Identity
             {
                 result.ISuccess= false;
                 result.Message = $"Critical error processing your authentication request";
-                return result;
-            }
-        }
-        public async Task<Result<AuthenticationResponce>> AuthenticateWebApiAsync(string username, string password)
-        {
-            Result<AuthenticationResponce> result = new();
-            try
-            {
-                AuthenticationResponce responce = await _accountRepository.AuthenticateAsync(new AuthenticationRequest
-                {
-                    Password = password,
-                    Username = username
-                }, true);
-
-                if (responce.HasError)
-                {
-                    result.ISuccess = false;
-                    result.Message = responce.ErrorMessage;
-                    return result;
-                }
-
-                result.Message = "Authentication Successfully";
-                result.Data = responce;
-                return result;
-            }
-            catch
-            {
-                result.ISuccess = false;
-                result.Message = "Critical error processing the authentication request";
                 return result;
             }
         }

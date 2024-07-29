@@ -48,7 +48,7 @@ namespace FinalProject.Core.Application.Services.Identity
 
                 result.Data = _mapper.Map<List<UserModel>>(usersGetted);
 
-                result.Message = "The user where getted successfully ";
+                result.Message = "The user was getted successfully ";
 
                 return result;
 
@@ -94,11 +94,11 @@ namespace FinalProject.Core.Application.Services.Identity
             }
         }
 
-        public async Task<Result> HandleUserActivationStateAsync(string id, bool Deativate = false)
+        public async Task<Result> HandleUserActivationStateAsync(string id, bool UserStatus)
         {
             Result result = new();
 
-            string operation = Deativate == true ? "activativated" : "deactivated";
+            string operation = UserStatus == true ? "activativated" : "deactivated";
 
             try
             {
@@ -109,7 +109,7 @@ namespace FinalProject.Core.Application.Services.Identity
                     return result;
                 }
 
-                UserOperationResponce responce = await _userRepository.HandleUserActivationStateAsync(id, Deativate);
+                UserOperationResponce responce = await _userRepository.HandleUserActivationStateAsync(id, UserStatus);
 
                 if (responce.HasError)
                 {

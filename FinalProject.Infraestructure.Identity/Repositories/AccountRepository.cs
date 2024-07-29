@@ -34,8 +34,8 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         {
             AuthenticationResponce responce = new();
 
-            ApplicationUser userAuthenticated = await _userManager.FindByNameAsync(request.Username)
-                ?? await _userManager.FindByEmailAsync(request.Username);
+            ApplicationUser userAuthenticated = await _userManager.FindByNameAsync(request.UsernameOrEmail)
+                ?? await _userManager.FindByEmailAsync(request.UsernameOrEmail);
 
             if (userAuthenticated == null)
             {
