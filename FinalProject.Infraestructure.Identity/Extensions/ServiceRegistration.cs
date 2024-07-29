@@ -55,14 +55,12 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
         public static void AddInfraestructureIdentityLayerForWebApi(this IServiceCollection services, IConfiguration config)
         {
-            services.Configure<JwtSettings>(config.GetSection("JwtSettings"));
-
             services.AddDbContext<AppIdentityContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultIdentityConnection"), m =>
                 m.MigrationsAssembly(typeof(AppIdentityContext).Assembly.FullName));
             });
-
+           
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
@@ -94,9 +92,9 @@ namespace FinalProject.Infraestructure.Identity.Extensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero,
-                    ValidAudience = "",
-                    ValidIssuer = "",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("")),
+                    ValidAudience = config["JwtSettings:Audience"],
+                    ValidIssuer = config["JwtSettings:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JwtSettings:Key"])),
                     RoleClaimType = "Roles"
                 };
 

@@ -1,11 +1,16 @@
-﻿
-
-using FinalProject.Core.Application.Dtos.Identity.Account;
+﻿using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Dtos.Identity.User;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
+using FinalProject.Core.Domain.Settings;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Utils;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace FinalProject.Infraestructure.Identity.Repositories
 {
@@ -15,13 +20,15 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly HandleRegistration _handleRegistration;
         private readonly CustomAuthSignInManager<ApplicationUser> _signInManager;
+        private readonly JwtSettings _jwtSettings;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager, CustomAuthSignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, HandleRegistration handleRegistration)
+        public AccountRepository(UserManager<ApplicationUser> userManager, CustomAuthSignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, HandleRegistration handleRegistration, IOptions<JwtSettings> jwtSettings)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _handleRegistration = handleRegistration;
+            _jwtSettings = jwtSettings.Value;
         }
         public async Task<AuthenticationResponce> AuthenticateAsync(AuthenticationRequest request, bool ApiAuthentication = false)
         {
@@ -55,12 +62,27 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
 
             responce.Id = userAuthenticated.Id;
+
             responce.UserName = userAuthenticated.UserName;
+
             IList<string> Roles = await _userManager.GetRolesAsync(userAuthenticated);
+
             responce.Roles = Roles;
 
+            if (ApiAuthentication)
+            {
+                JwtSecurityToken token = await GenerateJwtTokenAsync(userAuthenticated);
+                responce.JwtToken = new JwtSecurityTokenHandler().WriteToken(token);
+                var refreshToken = GenerateRefreshToken();
+                responce.RefreshToken = refreshToken.Token;
+            }
             return responce;
         }
+         public async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
 
         public async Task<RegisterResponce> RegisterAsync(string role, RegisterRequest request)
         {
@@ -102,7 +124,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             if (user == null)
             {
-                responce.HasError= true;
+                responce.HasError = true;
                 responce.ErrorMessage = "User was not found";
                 return responce;
             }
@@ -116,7 +138,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 responce.ErrorMessage = result.Errors.First().Description;
                 return responce;
             }
-            result =  await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow);
+            result = await _userManager.SetLockoutEndDateAsync(user, DateTime.UtcNow);
 
             if (!result.Succeeded)
             {
@@ -125,6 +147,66 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
             return responce;
+        }
+
+        private async Task<JwtSecurityToken> GenerateJwtTokenAsync(ApplicationUser user)
+        {
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            List<Claim> roleClaims = new();
+
+            foreach (string role in userRoles)
+            {
+                roleClaims.Add(new Claim("Roles", role));
+            }
+
+            var Claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim("UId", user.Id),
+                new Claim("UserName", user.UserName)
+
+            }.Union(roleClaims).Union(userClaims);
+
+            SymmetricSecurityKey jwtSymmetricSecurityKey = new(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+
+            SigningCredentials signingCredentials = new SigningCredentials(jwtSymmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            JwtSecurityToken jwtSecurityToken = new(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims: Claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+                signingCredentials: signingCredentials
+                );
+            return jwtSecurityToken;
+
+        }
+      
+        private string RandomTokenStringGenerator()
+        {
+            using RNGCryptoServiceProvider rNGCryptoServiceProvider = new();
+
+            var randomByte = new byte[40];
+
+            rNGCryptoServiceProvider.GetBytes(randomByte);
+
+            return BitConverter.ToString(randomByte).Replace("-", "");
+        }
+
+        private RefreshToken GenerateRefreshToken()
+        {
+            return new RefreshToken
+            {
+                Token = RandomTokenStringGenerator(),
+
+                Expires = DateTime.UtcNow.AddDays(7),
+
+                Created = DateTime.UtcNow,
+            };
         }
     }
 }

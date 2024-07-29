@@ -12,6 +12,7 @@ namespace FinalProject.Core.Application.Interfaces.Contracts.Persistance
         Task<Result<List<PropertyModel>>> GetAllCurrentAgentUserPropertiesAsync();
         Task<Result<List<PropertyModel>>> GetAllCurrentClientUserFavPropertiesAsync();
         Task<Result<List<PropertyModel>>> FilterProperties(PropertyFilterModel filterModel);
+        Task<Result<PropertyModel>> GetByCodeAsync(string code);
         Task<Result> HandlePropertyFavoriteState(FavoriteUserPropertyModel model, bool isMarkFavoriteByUser);
     }
 }

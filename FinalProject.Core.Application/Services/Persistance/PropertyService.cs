@@ -33,6 +33,8 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly SessionKeys _sessionKeys;
         private const string basePath = "/Images/Properties";
 
+        //Todo: Make it so the peks can be cass a a list and update acordently
+        //Todo: The get by id should also get the agent related to it
         public PropertyService(IPropertyRepository propertyRepository, IMapper mapper, IServiceProvider service, IHttpContextAccessor httpContextAccessor, IOptions<SessionKeys> sessionKeys, IFileHandler<Guid> fileHandler, string name = "Propeerty") : base(propertyRepository, mapper, name)
         {
             _propertyRepository = propertyRepository;
@@ -79,10 +81,10 @@ namespace FinalProject.Core.Application.Services.Persistance
             {
                 updateModel.PropertyImagesFiles.ForEach(async i =>
                 {
-                   
+
                     var propertyToUbdate = await _propertyImageService.GetByPropertyId(id);
 
-                    await _propertyImageService.UpdateAsync(id,new SavePropertyImageModel
+                    await _propertyImageService.UpdateAsync(id, new SavePropertyImageModel
                     {
                         ImgUrl = _fileHandler.UpdateFile(i, basePath, propertyToUbdate.Data.ImgUrl, id),
                         Propertyid = result.Data.Id
@@ -210,6 +212,32 @@ namespace FinalProject.Core.Application.Services.Persistance
             {
                 result.ISuccess = false;
                 result.Message = "Critical error while getting the current client favorite properties";
+                return result;
+            }
+        }
+
+        public async Task<Result<PropertyModel>> GetByCodeAsync(string code)
+        {
+            Result<PropertyModel> result = new();
+            try
+            {
+                Property entityGetted = await _propertyRepository.GetByCodeAsync(code);
+
+                if (entityGetted == null)
+                {
+                    result.ISuccess = false;
+                    result.Message = $"Error while getting the property by it's Id";
+                    return result;
+                }
+
+                result.Data = _mapper.Map<PropertyModel>(entityGetted);
+                result.Message = $"The property get was a success";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = $"Critica error while getting the property by it's id ";
                 return result;
             }
         }

@@ -99,5 +99,13 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             .Include(p => p.SellType)
             .Include(p => p.FavoriteUsersProperties).Where(p => p.FavoriteUsersProperties.Any(p => p.UserId == id)).ToListAsync();
         }
+
+        public async Task<Property> GetByCodeAsync(string code)
+        {
+            return await _context.Properties.Include(p => p.PropertyImages)
+               .Include(p => p.PropertyPerks)
+               .Include(p => p.PropertyType)
+               .Include(p => p.SellType).Where(p => p.PropertyCode == code).FirstOrDefaultAsync();
+        }
     }
 }
