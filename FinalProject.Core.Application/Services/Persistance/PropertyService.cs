@@ -10,6 +10,7 @@ using FinalProject.Core.Application.Models.FavoriteUserProperty;
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Application.Models.PropertyImgae;
 using FinalProject.Core.Application.Models.PropertyPerk;
+using FinalProject.Core.Application.Utils.CodeGenerator;
 using FinalProject.Core.Application.Utils.PropertyFilters;
 using FinalProject.Core.Application.Utils.SessionHandler;
 using FinalProject.Core.Domain.Entities;
@@ -59,6 +60,8 @@ namespace FinalProject.Core.Application.Services.Persistance
         }
         public override async Task<Result<SavePropertyModel>> SaveAsync(SavePropertyModel saveModel)
         {
+            saveModel.PropertyCode = PropertyCodeGenerator.GeneratePropertyCode();
+
             Result<SavePropertyModel> result = await base.SaveAsync(saveModel);
 
             if (result.ISuccess)
@@ -87,21 +90,25 @@ namespace FinalProject.Core.Application.Services.Persistance
         }
         public virtual async Task<Result<SavePropertyModel>> UpdateAsync(Guid id, SavePropertyModel updateModel)
         {
+            //Fix this 
             Result<SavePropertyModel> result = await base.UpdateAsync(id, updateModel);
 
             if (result.ISuccess)
             {
                 foreach (IFormFile file in updateModel.PropertyImagesFiles)
                 {
-                    var propertyToUbdate = await _propertyImageService.GetByPropertyId(id);
-
-                    await _propertyImageService.UpdateAsync(id, new SavePropertyImageModel
+                    foreach (var image in updateModel.PropertyImagesUrls)
                     {
-                        ImgUrl = _fileHandler.UpdateFile(file, basePath, propertyToUbdate.Data.ImgUrl, id),
-                        Propertyid = id
-                    });
+                        var propertyToUbdate = await _propertyImageService.GetById(image.Id);
 
+                        await _propertyImageService.UpdateAsync(id, new SavePropertyImageModel
+                        {
+                            Id = image.Id,
+                            ImgUrl = _fileHandler.UpdateFile(file, basePath, propertyToUbdate.Data.ImgUrl, id),
+                            Propertyid = id
+                        });
 
+                    }
                 }
                 await _propertyPerkService.UpdateAsync(updateModel.PropertyPerks, id);
 

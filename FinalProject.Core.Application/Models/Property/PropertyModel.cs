@@ -16,8 +16,7 @@ namespace FinalProject.Core.Application.Models.Property
         public int AmountOfBedrooms { get; set; }
         public decimal SizeInMeters { get; set; }
 
-        public int SellTypeId { get; set; }
-        public int PropertyTypeId { get; set; }
+
         public string AgentId { get; set; }
 
         //public SellType SellType { get; set; }
@@ -26,7 +25,7 @@ namespace FinalProject.Core.Application.Models.Property
         public string PropertyTypeName { get; set; }
 
         //public IList<PropertyImage>? PropertyImages { get; set; }
-       public  List<PropertyImageModel> PropertyImagesUrls { get; set; }
+        public  List<PropertyImageModel> PropertyImagesUrls { get; set; }
         //public IList<FavoriteUserProperty>? FavoriteUsersProperties { get; set; }
         public bool IsMarkAsFavoriteByCurrentUser  { get; set; }
         public List<PerkModel> PropertyPerks { get; set; }

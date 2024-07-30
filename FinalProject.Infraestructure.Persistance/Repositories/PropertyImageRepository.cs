@@ -54,7 +54,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.DeleteAsync(id);
         }
 
-        public async Task<PropertyImage> GetByPropertyIdAsync(Guid id)
+        public async Task<PropertyImage> GetByIdAsync(Guid id)
         {
             return await _context.PropertyImages.FindAsync(id);
         }

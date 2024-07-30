@@ -11,9 +11,7 @@ namespace FinalProject.Core.Application.Models.Property
         public Guid Id { get; set; }
         public string PropertyCode { get; set; }
         public string Description { get; set; }
-
         public decimal PropertyPrice { get; set; }
-
         public int AmountOfBathrooms { get; set; }
         public int AmountOfBedrooms { get; set; }
         public decimal SizeInMeters { get; set; }
@@ -24,7 +22,6 @@ namespace FinalProject.Core.Application.Models.Property
         public int PropertyTypeId { get; set; }
         public List<SavePropertyImageModel> PropertyImagesUrls { get; set; }
         public List<IFormFile> PropertyImagesFiles { get; set; }
-
         public List<int> PropertyPerks { get; set; }
     }
 }

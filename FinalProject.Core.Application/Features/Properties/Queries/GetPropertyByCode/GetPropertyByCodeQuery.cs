@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.EntityDtos;
+using FinalProject.Core.Application.Interfaces.Contracts.Identity;
+using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
@@ -15,11 +17,13 @@ namespace FinalProject.Core.Application.Features.Properties.Queries.GetPropertyB
     public class GetPropertyByCodeQueryHandler : IRequestHandler<GetPropertyByCodeQuery, Result<PropertyDto>>
     {
         private readonly IPropertyRepository _propertyRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public GetPropertyByCodeQueryHandler(IPropertyRepository propertyRepository, IMapper mapper)
+        public GetPropertyByCodeQueryHandler(IPropertyRepository propertyRepository, IUserRepository userRepository, IMapper mapper)
         {
             _propertyRepository = propertyRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -44,6 +48,11 @@ namespace FinalProject.Core.Application.Features.Properties.Queries.GetPropertyB
                 }
 
                 result.Data = _mapper.Map<PropertyDto>(entityGetted);
+
+                var user = await _userRepository.GetByIdAsync(entityGetted.AgentId);
+
+                result.Data.AgentName = user == null ? "AgentName" : user.FirstName;
+
                 result.Message = $"The property get was a success";
                 return result;
             }

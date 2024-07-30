@@ -9,6 +9,6 @@ namespace FinalProject.Core.Application.Interfaces.Contracts.Persistance
     internal interface IPropertyImageService : IBaseService< SavePropertyImageModel, PropertyImage, Guid>
     {
         Task<Result> UpdateAsync(Guid propertyId, SavePropertyImageModel updateModel);
-        Task<Result<PropertyImageModel>> GetByPropertyId(Guid propertyId);
+        Task<Result<PropertyImageModel>> GetByIdAsync(Guid propertyId);
     }
 }

@@ -21,12 +21,12 @@ namespace FinalProject.Core.Application.Services.Persistance
             _mapper = mapper;
         }
 
-        public async Task<Result<PropertyImageModel>> GetByPropertyId(Guid id)
+        public async Task<Result<PropertyImageModel>> GetByIdAsync(Guid id)
         {
             Result<PropertyImageModel> result = new();
             try
             {
-                PropertyImage imageGetted = await _propertyImageRepository.GetByPropertyIdAsync(id);
+                PropertyImage imageGetted = await _propertyImageRepository.GetByIdAsync(id);
 
 
                 if (imageGetted == null)
