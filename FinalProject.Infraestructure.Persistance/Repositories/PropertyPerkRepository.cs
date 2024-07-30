@@ -3,7 +3,7 @@ using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using FinalProject.Infraestructure.Persistance.Context;
 using FinalProject.Infraestructure.Persistance.Core;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
 {
@@ -30,5 +30,9 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             return await base.DeleteAsync(id);
         }
 
+        public async Task<List<PropertyPerk>> GetAllPerksIdByPropertyId(Guid id)
+        {
+            return await _context.PropertyPerks.Where(p => p.PropertyId == id).ToListAsync();
+        }
     }
 }

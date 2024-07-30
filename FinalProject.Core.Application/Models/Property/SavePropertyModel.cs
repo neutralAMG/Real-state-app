@@ -25,6 +25,6 @@ namespace FinalProject.Core.Application.Models.Property
         public List<SavePropertyImageModel> PropertyImagesUrls { get; set; }
         public List<IFormFile> PropertyImagesFiles { get; set; }
 
-        public List<SavePerkModel> PropertyPerks { get; set; }
+        public List<int> PropertyPerks { get; set; }
     }
 }

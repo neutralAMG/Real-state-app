@@ -6,5 +6,6 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Persistance
 {
     public interface IPropertyPerkRepository : IBaseRepository<PropertyPerk, int>
     {
+        Task<List<PropertyPerk>> GetAllPerksIdByPropertyId(Guid id);
     }
 }

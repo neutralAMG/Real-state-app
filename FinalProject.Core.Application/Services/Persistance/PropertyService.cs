@@ -3,13 +3,13 @@
 using AutoMapper;
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.Identity.Account;
-using FinalProject.Core.Application.Enums;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Application.Interfaces.Utils;
 using FinalProject.Core.Application.Models.FavoriteUserProperty;
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Application.Models.PropertyImgae;
+using FinalProject.Core.Application.Models.PropertyPerk;
 using FinalProject.Core.Application.Utils.PropertyFilters;
 using FinalProject.Core.Application.Utils.SessionHandler;
 using FinalProject.Core.Domain.Entities;
@@ -17,7 +17,7 @@ using FinalProject.Core.Domain.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Security.Cryptography;
+
 
 namespace FinalProject.Core.Application.Services.Persistance
 {
@@ -27,6 +27,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly IMapper _mapper;
         private readonly IFavoriteUserPropertyService _favoriteUserPropertyService;
         private readonly IPropertyImageService _propertyImageService;
+        private readonly IPropertyPerkService _propertyPerkService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFileHandler<Guid> _fileHandler;
         private readonly AuthenticationResponce _currentUserInfo;
@@ -41,6 +42,7 @@ namespace FinalProject.Core.Application.Services.Persistance
             _mapper = mapper;
             _favoriteUserPropertyService = service.GetRequiredService<IFavoriteUserPropertyService>();
             _propertyImageService = service.GetRequiredService<IPropertyImageService>();
+            _propertyPerkService = service.GetRequiredService<IPropertyPerkService>();
             _httpContextAccessor = httpContextAccessor;
             _fileHandler = fileHandler;
             _sessionKeys = sessionKeys.Value;
@@ -61,15 +63,25 @@ namespace FinalProject.Core.Application.Services.Persistance
 
             if (result.ISuccess)
             {
-                saveModel.PropertyImagesFiles.ForEach(async i =>
+                foreach (IFormFile file in saveModel.PropertyImagesFiles)
+                {
+                    await _propertyImageService.SaveAsync(new SavePropertyImageModel
                     {
-                        await _propertyImageService.SaveAsync(new SavePropertyImageModel
-                        {
-                            ImgUrl = _fileHandler.UploadFile(i, basePath, result.Data.Id),
-                            Propertyid = result.Data.Id
-                        });
-
+                        ImgUrl = _fileHandler.UploadFile(file, basePath, result.Data.Id),
+                        Propertyid = result.Data.Id
                     });
+                }
+
+                foreach (int id in saveModel.PropertyPerks)
+                {
+                    await _propertyPerkService.SaveAsync(new SavePropertyPerkModel
+                    {
+                        PerkId = id,
+                        PropertyId = result.Data.Id
+                    });
+                }
+
+
             }
             return result;
         }
@@ -79,18 +91,20 @@ namespace FinalProject.Core.Application.Services.Persistance
 
             if (result.ISuccess)
             {
-                updateModel.PropertyImagesFiles.ForEach(async i =>
+                foreach (IFormFile file in updateModel.PropertyImagesFiles)
                 {
-
                     var propertyToUbdate = await _propertyImageService.GetByPropertyId(id);
 
                     await _propertyImageService.UpdateAsync(id, new SavePropertyImageModel
                     {
-                        ImgUrl = _fileHandler.UpdateFile(i, basePath, propertyToUbdate.Data.ImgUrl, id),
-                        Propertyid = result.Data.Id
+                        ImgUrl = _fileHandler.UpdateFile(file, basePath, propertyToUbdate.Data.ImgUrl, id),
+                        Propertyid = id
                     });
 
-                });
+
+                }
+                await _propertyPerkService.UpdateAsync(updateModel.PropertyPerks, id);
+
             }
             return result;
         }

@@ -3,7 +3,7 @@ using FinalProject.Core.Domain.Entities;
 using FinalProject.Infraestructure.Persistance.Context;
 using FinalProject.Infraestructure.Persistance.Core;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
+
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
 {
