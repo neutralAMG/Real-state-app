@@ -9,7 +9,7 @@ namespace FinalProject.Core.Application.Interfaces.Contracts.Identity
     public interface IAccountService
     {
         Task<Result> AuthenticateWebAppAsync(string usernameOrEmail, string password);
-        Task<Result> RegisterAsync(SaveUserModel saveModel);
+        Task<Result> RegisterAsync(SaveUserModel saveModel, string origin = "");
         Task<Result> ForgotPassword();
     }
 

@@ -1,8 +1,11 @@
 ﻿using Azure;
 using FinalProject.Core.Application.Dtos.Identity.Account;
+using FinalProject.Core.Application.Interfaces.Contracts.Share;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Enums;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace FinalProject.Infraestructure.Identity.Repositories
 {
@@ -11,8 +14,9 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         private Dictionary<string, Func<RegisterRequest, Task<RegisterResponce>>> _registerActions;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailService _emailService;
 
-        public HandleRegistration(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public HandleRegistration(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IEmailService emailService)
         {
             _registerActions = new()
             {
@@ -23,6 +27,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             };
             _userManager = userManager;
             _roleManager = roleManager;
+            _emailService = emailService;
         }
         //TODO: Add email sending fiuntionality
 
@@ -151,5 +156,6 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             return responce;
         }
 
+ 
     }
 }

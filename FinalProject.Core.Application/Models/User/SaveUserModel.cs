@@ -1,9 +1,12 @@
 ﻿
 
+using Microsoft.AspNetCore.Http;
+
 namespace FinalProject.Core.Application.Models.User
 {
     public class SaveUserModel
     {
+        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
@@ -14,5 +17,6 @@ namespace FinalProject.Core.Application.Models.User
         public string ConfirmPassword { get; set; }
         public string Cedula { get; set; }
         public string role { get; set; }
+        public IFormFile file { get; set; }
     }
 }

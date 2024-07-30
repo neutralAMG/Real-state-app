@@ -37,6 +37,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             Perk PerkToBeSaved = await _context.Perks.FindAsync(entity.Id);
 
             PerkToBeSaved.Name = entity.Name;
+            PerkToBeSaved.Description = entity.Description;
  
             return await base.UpdateAsync(PerkToBeSaved);
         }

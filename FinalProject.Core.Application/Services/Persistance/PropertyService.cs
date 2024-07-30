@@ -35,7 +35,6 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly SessionKeys _sessionKeys;
         private const string basePath = "/Images/Properties";
 
-        //Todo: Make it so the peks can be cass a a list and update acordently
         //Todo: The get by id should also get the agent related to it
         public PropertyService(IPropertyRepository propertyRepository, IMapper mapper, IServiceProvider service, IHttpContextAccessor httpContextAccessor, IOptions<SessionKeys> sessionKeys, IFileHandler<Guid> fileHandler, string name = "Propeerty") : base(propertyRepository, mapper, name)
         {
@@ -99,7 +98,7 @@ namespace FinalProject.Core.Application.Services.Persistance
                 {
                     foreach (var image in updateModel.PropertyImagesUrls)
                     {
-                        var propertyToUbdate = await _propertyImageService.GetById(image.Id);
+                        var propertyToUbdate = await _propertyImageService.GetByIdAsync(image.Id);
 
                         await _propertyImageService.UpdateAsync(id, new SavePropertyImageModel
                         {
@@ -180,7 +179,7 @@ namespace FinalProject.Core.Application.Services.Persistance
                 return result;
             }
         }
-        public async Task<Result> HandlePropertyFavoriteState(FavoriteUserPropertyModel model, bool isMarkFavoriteByUser)
+        public async Task<Result> HandlePropertyFavoriteState(SaveFavoriteUserPropertyModel model, bool isMarkFavoriteByUser)
         {
             Result result = new();
             string operationToBeHandled = isMarkFavoriteByUser ? "add" : "Delet";
@@ -192,7 +191,9 @@ namespace FinalProject.Core.Application.Services.Persistance
                     result = await _favoriteUserPropertyService.SaveAsync(new SaveFavoriteUserPropertyModel { UserId = _currentUserInfo.Id, PropertyId = model.PropertyId });
 
                 }
-                result = await _favoriteUserPropertyService.DeleteAsync(model.Id);
+                //refactor this part of code
+                var entityToBeDeleted = await _favoriteUserPropertyService.GetByuserIdAndPropertyIdAsync(_currentUserInfo.Id, model.PropertyId);
+                result = await _favoriteUserPropertyService.DeleteAsync(entityToBeDeleted.Data.Id);
 
                 result.Message = $"Property {operationToBeHandled}ed to favorites";
                 return result;
@@ -219,7 +220,7 @@ namespace FinalProject.Core.Application.Services.Persistance
 
                 propertiesMapped.ForEach(p =>
                 {
-                    if (userFavPropertiesIds.Contains(p.Id)) p.IsMarkAsFavoriteByCurrentUser = true;
+                    if (userFavPropertiesIds.Any(up => up == p.Id)) p.IsMarkAsFavoriteByCurrentUser = true;
                 }
                 );
 

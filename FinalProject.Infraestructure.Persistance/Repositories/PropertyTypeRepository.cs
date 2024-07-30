@@ -35,9 +35,11 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         public override async Task<PropertyType> UpdateAsync(PropertyType entity)
         {
             if (!await ExistsAsync(p => p.Id == entity.Id)) return null;
+
             PropertyType PropertyTypeToBeSaved = await _context.PropertyTypes.FindAsync(entity.Id);
 
             PropertyTypeToBeSaved.Name = entity.Name;
+            PropertyTypeToBeSaved.Description = entity.Description;
 
             return await base.UpdateAsync(PropertyTypeToBeSaved);
         }

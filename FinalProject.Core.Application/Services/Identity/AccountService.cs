@@ -5,6 +5,7 @@ using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
+using FinalProject.Core.Application.Interfaces.Utils;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Core.Application.Utils.SessionHandler;
 using FinalProject.Core.Domain.Settings;
@@ -17,15 +18,18 @@ namespace FinalProject.Core.Application.Services.Identity
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IUserService _userService;
+        private readonly IFileHandler<string> _fileHandler;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
         private readonly SessionKeys _sessionsKeys;
+        private const string basePath = "Images/ProfilePicture";
 
 
-        public AccountService(IAccountRepository accountRepository, IUserService userService,IMapper mapper, IHttpContextAccessor httpContext, IOptions<SessionKeys> sessionsKey)
+        public AccountService(IAccountRepository accountRepository, IUserService userService, IMapper mapper, IHttpContextAccessor httpContext, IFileHandler<string> fileHandler , IOptions<SessionKeys> sessionsKey)
         {
             _accountRepository = accountRepository;
             _userService = userService;
+            _fileHandler = fileHandler;
             _mapper = mapper;
             _httpContext = httpContext;
             _sessionsKeys = sessionsKey.Value;
@@ -68,14 +72,14 @@ namespace FinalProject.Core.Application.Services.Identity
                 return result;
             }
         }
-        public async Task<Result> RegisterAsync(SaveUserModel saveModel)
+        public async Task<Result> RegisterAsync(SaveUserModel saveModel, string origin = "")
         {
             Result result = new();
             try
             {
                 RegisterRequest requestToBeRegister = _mapper.Map<RegisterRequest>(saveModel);
 
-                RegisterResponce responce = await _accountRepository.RegisterAsync(saveModel.role, requestToBeRegister);
+                RegisterResponce responce = await _accountRepository.RegisterAsync(saveModel.role, requestToBeRegister, origin);
 
                 if (responce.HasError)
                 {
@@ -84,9 +88,9 @@ namespace FinalProject.Core.Application.Services.Identity
                     return result;
                 }
 
-                //Todo handel file upload and user update;
-                Result<UserModel> userGetted  = await _userService.GetByIdAsync(responce.Id);
-           
+                saveModel.ImgProfileUrl = _fileHandler.UploadFile(saveModel.file, basePath, responce.Id);
+
+                await _userService.UpdateUserAsync(saveModel);
 
                 result.Message = "Your account has been created succesfully now login!!!!";
                 return result;

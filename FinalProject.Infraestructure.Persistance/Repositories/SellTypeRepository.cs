@@ -37,7 +37,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             SellType SellTypesToBeSaved = await _context.SellTypes.FindAsync(entity.Id);
 
             SellTypesToBeSaved.Name = entity.Name;
-
+            SellTypesToBeSaved.Description = entity.Description;
             return await base.UpdateAsync(SellTypesToBeSaved);
         }
 

@@ -52,6 +52,7 @@ namespace FinalProject.Core.Application.Core
             try
             {
                 bool isDeleteOpreationSuccses = await _baseRepository.DeleteAsync(id);
+
                 if (!isDeleteOpreationSuccses)
                 {
                     result.ISuccess = false;

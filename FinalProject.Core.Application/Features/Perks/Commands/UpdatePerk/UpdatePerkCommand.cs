@@ -12,6 +12,9 @@ namespace FinalProject.Core.Application.Features.Perks.Commands.UpdatePerk
 {
     public class UpdatePerkCommand : IRequest<Result<SavePerkDto>>
     {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
     public class UpdatePerkCommandHandler : IRequestHandler<UpdatePerkCommand, Result<SavePerkDto>>
     {

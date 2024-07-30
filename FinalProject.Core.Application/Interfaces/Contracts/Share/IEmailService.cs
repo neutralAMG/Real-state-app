@@ -6,6 +6,6 @@ namespace FinalProject.Core.Application.Interfaces.Contracts.Share
 {
     public interface IEmailService
     {
-        Task SendEmail(EmailRequest request);
+        Task SendEmailAsync(EmailRequest request);
     }
 }

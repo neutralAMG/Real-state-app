@@ -10,6 +10,8 @@ namespace FinalProject.Core.Application.Features.SellTypes.Comands.CreateSellTyp
 {
     public class CreateSellTypeCommand : IRequest<Result<SaveSellTypeDto>>
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 
     public class CreateSellTypeCommandHanler : IRequestHandler<CreateSellTypeCommand, Result<SaveSellTypeDto>>

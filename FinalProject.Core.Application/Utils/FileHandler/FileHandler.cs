@@ -10,7 +10,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
 
         public string UpdateFile(IFormFile file, string basePath, string imageUrl, TId id)
         {
-            if(file is null)
+            if(file is null && imageUrl is not null)
             {
                 return imageUrl;
             }

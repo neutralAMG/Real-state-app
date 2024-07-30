@@ -9,7 +9,7 @@ using FinalProject.Core.Domain.Entities;
 
 namespace FinalProject.Core.Application.Services.Persistance
 {
-    public class PropertyTypeService : BaseCompleteService<PropertyTypeModel, SavePropertyType, PropertyType, int>, IPropertyTypeService
+    public class PropertyTypeService : BaseCompleteService<PropertyTypeModel, SavePropertyTypeModel, PropertyType, int>, IPropertyTypeService
     {
         private readonly IPropertyTypeRepository _propertyTypeRepository;
         private readonly IMapper _mapper;

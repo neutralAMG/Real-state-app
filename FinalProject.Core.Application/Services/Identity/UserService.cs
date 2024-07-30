@@ -6,6 +6,7 @@ using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Dtos.Identity.User;
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
+using FinalProject.Core.Application.Interfaces.Utils;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Core.Application.Utils.SessionHandler;
 using FinalProject.Core.Domain.Settings;
@@ -17,14 +18,16 @@ namespace FinalProject.Core.Application.Services.Identity
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IFileHandler<string> _fileHandler;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
         private readonly AuthenticationResponce _currentUserInfo;
         private readonly SessionKeys _sessionKeys;
-
-        public UserService(IUserRepository userRepository, IMapper mapper, IHttpContextAccessor httpContext, IOptions<SessionKeys> sessionKeys)
+        private const string basePath = "Images/ProfilePicture";
+        public UserService(IUserRepository userRepository, IFileHandler<string> fileHandler, IMapper mapper, IHttpContextAccessor httpContext, IOptions<SessionKeys> sessionKeys)
         {
             _userRepository = userRepository;
+            _fileHandler = fileHandler;
             _mapper = mapper;
             _httpContext = httpContext;
             _sessionKeys = sessionKeys.Value;
@@ -130,7 +133,7 @@ namespace FinalProject.Core.Application.Services.Identity
             }
         }
 
-        public async Task<Result> UpdateUserAsync(UpdateUserModel request)
+        public async Task<Result> UpdateUserAsync(SaveUserModel request)
         {
             Result result = new();
             try
@@ -141,6 +144,8 @@ namespace FinalProject.Core.Application.Services.Identity
                     result.ISuccess = false;
                     result.Message = "The current user can't modify itself";
                 }
+                request.ImgProfileUrl = _fileHandler.UpdateFile(request.file, basePath, request.ImgProfileUrl, request.Id);
+
                 UpdateUserRequest userRequest = _mapper.Map<UpdateUserRequest>(request);
 
                 UserOperationResponce responce = await _userRepository.UpdateUserAsync(userRequest);
@@ -174,6 +179,7 @@ namespace FinalProject.Core.Application.Services.Identity
                     result.Message = "The current user can't modify itself";
                 }
 
+
                 UserOperationResponce responce = await _userRepository.DeleteUserAsync(id);
 
                 if (responce.HasError)
@@ -183,6 +189,7 @@ namespace FinalProject.Core.Application.Services.Identity
                     return result;
                 }
 
+                _fileHandler.DeleteFile(basePath, id);
                 result.Message = "The user deletion was a success";
                 return result;
             }

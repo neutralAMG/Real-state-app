@@ -11,6 +11,8 @@ namespace FinalProject.Core.Application.Features.PropertyTypes.Commands.UpdatePr
     public class UpdatePropertyTypeCommand : IRequest<Result<SavePropertyTypeDto>>
     {
         public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 
     public class UpdatePropertyTypeCommandHandler : IRequestHandler<UpdatePropertyTypeCommand, Result<SavePropertyTypeDto>>

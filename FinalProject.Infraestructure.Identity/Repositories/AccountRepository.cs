@@ -1,10 +1,15 @@
 ﻿using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Dtos.Identity.User;
+using FinalProject.Core.Application.Dtos.Share;
+using FinalProject.Core.Application.Interfaces.Contracts.Share;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
+using FinalProject.Core.Application.Utils.EmailPreBuildRequest;
 using FinalProject.Core.Domain.Settings;
 using FinalProject.Infraestructure.Identity.Entities;
+using FinalProject.Infraestructure.Identity.Enums;
 using FinalProject.Infraestructure.Identity.Utils;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -19,17 +24,20 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly HandleRegistration _handleRegistration;
-        private readonly CustomAuthSignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailService _emailService;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtSettings _jwtSettings;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager, CustomAuthSignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, HandleRegistration handleRegistration, IOptions<JwtSettings> jwtSettings)
+        public AccountRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager, HandleRegistration handleRegistration, IEmailService emailService, IOptions<JwtSettings> jwtSettings)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _handleRegistration = handleRegistration;
+            _emailService = emailService;
             _jwtSettings = jwtSettings.Value;
         }
+        //Todo: Making email sender method for client register
         public async Task<AuthenticationResponce> AuthenticateAsync(AuthenticationRequest request, bool ApiAuthentication = false)
         {
             AuthenticationResponce responce = new();
@@ -44,7 +52,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
 
-            SignInResult result = await _signInManager.PasswordSignInAsync(userAuthenticated, request.Password, false, true);
+            SignInResult result = await _signInManager.PasswordSignInAsync(userAuthenticated, request.Password, false, false);
 
             if (result.IsLockedOut)
             {
@@ -68,6 +76,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             IList<string> Roles = await _userManager.GetRolesAsync(userAuthenticated);
 
             responce.Roles = Roles;
+            responce.IsActive = userAuthenticated.EmailConfirmed;
 
             if (ApiAuthentication)
             {
@@ -78,13 +87,12 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
             return responce;
         }
-         public async Task SignOut()
+        public async Task SignOutAsync()
         {
             await _signInManager.SignOutAsync();
         }
 
-
-        public async Task<RegisterResponce> RegisterAsync(string role, RegisterRequest request)
+        public async Task<RegisterResponce> RegisterAsync(string role, RegisterRequest request, string origin)
         {
             RegisterResponce responce = new();
 
@@ -108,15 +116,66 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             responce = await _handleRegistration.HandleRegisterAsync(role, request);
 
+            if (!responce.HasError && role == Roles.Client.ToString())
+            {
+                var verificationUri = await SendVerificationEmailUrlAsync(user, "origin");
+                await _emailService.SendEmailAsync(new EmailRequest
+                {
+                    To = request.Email,
+                    Subject = "Activate your user",
+                    Body = EmailPreBuildRequestBodies.EmailActivationBody(verificationUri)
+                });
+            }
             return responce;
         }
+        public async Task<string> ConfirmClientUserEmail(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+            }
+            token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 
-        public async Task ForgotPassword()
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            if (!result.Succeeded)
+            {
+
+            }
+            return "";
+
+        }
+        private async Task<string> SendVerificationEmailUrlAsync(ApplicationUser user, string origin)
+        {
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var route = "user/ConfirmEmail";
+            var Uri = new Uri(string.Concat($"{origin}/", route));
+            var verificatinUrl = QueryHelpers.AddQueryString(Uri.ToString(), "token", token);
+
+            return verificatinUrl;
+
+        }
+        public async Task ForgotPasswordAsync(string email, string origin)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null) { 
+
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var route = "user/ConfirmEmail";
+            var Uri = new Uri(string.Concat($"{origin}/", route));
+            var verificatinUrl = QueryHelpers.AddQueryString(Uri.ToString(), "token", token);
+
+          
+        }
+        public Task ChangePasswordAsync(string password)
         {
             throw new NotImplementedException();
         }
-
-        public async Task<UserOperationResponce> UnLockUser(string id)
+        public async Task<UserOperationResponce> UnLockUserAsync(string id)
         {
             UserOperationResponce responce = new();
 
@@ -185,7 +244,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             return jwtSecurityToken;
 
         }
-      
+
         private string RandomTokenStringGenerator()
         {
             using RNGCryptoServiceProvider rNGCryptoServiceProvider = new();
@@ -208,5 +267,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 Created = DateTime.UtcNow,
             };
         }
+
+
     }
 }

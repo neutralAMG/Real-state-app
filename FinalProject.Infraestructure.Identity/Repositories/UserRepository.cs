@@ -3,6 +3,7 @@
 using FinalProject.Core.Application.Dtos.Identity.User;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using FinalProject.Infraestructure.Identity.Entities;
+using FinalProject.Infraestructure.Identity.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,17 +25,22 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
 
             return usersGetted.Select(u =>
-                 new GetUserDto()
-                 {
-                     Id = u.Id,
-                     FirstName = u.FirstName,
-                     LastName = u.LastName,
-                     Email = u.Email,
-                     ImgProfileUrl = u.ImgProfileUrl,
-                     UserName = u.UserName,
-                     Password = u.PasswordHash,
-                     Roles = _userManager.GetRolesAsync(u).Result.ToList()
-                 }
+            {
+                var userRoles = _userManager.GetRolesAsync(u).Result;
+                return new GetUserDto()
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Email = u.Email,
+                    ImgProfileUrl = u.ImgProfileUrl,
+                    UserName = u.UserName,
+                    Password = u.PasswordHash,
+                    IsActive = u.EmailConfirmed,
+                    Cedula = userRoles.Any(r => r == Roles.Developer.ToString() || r == Roles.Agent.ToString()) ? u.Cedula : null,
+                    Roles = userRoles.ToList()
+                };
+            }    
             ).ToList();
         }
 
@@ -53,6 +59,8 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 ImgProfileUrl = userGetted.ImgProfileUrl,
                 Password = userGetted.PasswordHash,
                 UserName = userGetted.UserName,
+                Cedula  = roles.Any(r => r == Roles.Developer.ToString() || r == Roles.Agent.ToString()) ? userGetted.Cedula : null,
+                IsActive = userGetted.EmailConfirmed,
                 Roles = roles.ToList()
             };
         }

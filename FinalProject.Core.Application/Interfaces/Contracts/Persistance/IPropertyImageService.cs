@@ -10,5 +10,6 @@ namespace FinalProject.Core.Application.Interfaces.Contracts.Persistance
     {
         Task<Result> UpdateAsync(Guid propertyId, SavePropertyImageModel updateModel);
         Task<Result<PropertyImageModel>> GetByIdAsync(Guid propertyId);
+
     }
 }

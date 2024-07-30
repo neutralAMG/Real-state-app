@@ -10,6 +10,8 @@ namespace FinalProject.Core.Application.Features.PropertyTypes.Commands.CreatePr
 {
     public class CreatePropertyTypeCommand : IRequest<Result<SavePropertyTypeDto>>
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
     public class CreatePropertyTypeCommandHandler : IRequestHandler<CreatePropertyTypeCommand, Result<SavePropertyTypeDto>>
     {

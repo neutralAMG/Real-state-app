@@ -13,6 +13,7 @@ namespace FinalProject.Core.Application.Models.User
         public string UserName { get; set; }
         public string PhoneNumber { get; set; }
         public string Cedula { get; set; }
+        public bool IsActive { get; set; }
         public List<string> Roles { get; set; }
     }
 }

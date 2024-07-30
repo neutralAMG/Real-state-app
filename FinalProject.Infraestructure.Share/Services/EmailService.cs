@@ -15,7 +15,7 @@ namespace FinalProject.Infraestructure.Share.Services
         {
             _emailSettings = emailSettings.Value;
         }
-        public async Task SendEmail(EmailRequest request)
+        public async Task SendEmailAsync(EmailRequest request)
         {
             try
             {

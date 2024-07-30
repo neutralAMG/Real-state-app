@@ -33,9 +33,6 @@ namespace FinalProject.Infraestructure.Identity.Extensions
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true; 
-                options.Lockout.AllowedForNewUsers = true; 
-                options.Lockout.MaxFailedAccessAttempts = 5; 
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.MaxValue;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
@@ -64,9 +61,6 @@ namespace FinalProject.Infraestructure.Identity.Extensions
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.User.RequireUniqueEmail = true;
-                //options.Lockout.AllowedForNewUsers = true;
-                //options.Lockout.MaxFailedAccessAttempts = 5;
-                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.MaxValue;
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;

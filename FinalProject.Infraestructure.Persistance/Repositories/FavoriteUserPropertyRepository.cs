@@ -3,7 +3,7 @@ using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using FinalProject.Infraestructure.Persistance.Context;
 using FinalProject.Infraestructure.Persistance.Core;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
 {
@@ -18,6 +18,8 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
   
         public override async Task<FavoriteUserProperty> SaveAsync(FavoriteUserProperty entity)
         {
+            if (await ExistsAsync(f => f.UserId == entity.UserId && f.PropertyId == entity.PropertyId)) return null;
+
             return await base.SaveAsync(entity);
         }
 
@@ -31,6 +33,10 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
 
             return await base.DeleteAsync(id);
         }
- 
+
+        public async Task<FavoriteUserProperty> GetByUserIdAndPropertyIdAsync(string userId, Guid propertyId)
+        {
+            return await _context.FavoriteUserProperties.Where(f => f.UserId == userId && f.PropertyId == propertyId).FirstOrDefaultAsync();
+        }
     }
 }

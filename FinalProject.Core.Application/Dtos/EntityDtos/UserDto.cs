@@ -15,7 +15,6 @@ namespace FinalProject.Core.Application.Dtos.EntityDtos
         public string PhoneNumber { get; set; }
         public string Cedula { get; set; }    
         public int AmountOfProperties { get; set; }
-        public List<string> Roles { get; set; }
     }
    
 }

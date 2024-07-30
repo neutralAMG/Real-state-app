@@ -7,9 +7,10 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Identity
     public interface IAccountRepository
     {
         Task<AuthenticationResponce> AuthenticateAsync(AuthenticationRequest request, bool ApiAuthentication = false);
-        Task<RegisterResponce> RegisterAsync(string Roles, RegisterRequest request);
-        Task<UserOperationResponce> UnLockUser(string id);
-        Task SignOut();
-        Task ForgotPassword();
+        Task<RegisterResponce> RegisterAsync(string Roles, RegisterRequest request, string origin = "");
+        Task<UserOperationResponce> UnLockUserAsync(string id);
+        Task SignOutAsync();
+        Task ForgotPasswordAsync(string email, string origin);
+        Task ChangePasswordAsync(string password);
     }
 }

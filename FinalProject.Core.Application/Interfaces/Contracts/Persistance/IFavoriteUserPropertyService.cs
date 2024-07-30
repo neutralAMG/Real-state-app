@@ -9,6 +9,6 @@ namespace FinalProject.Core.Application.Interfaces.Contracts.Persistance
 {
     internal interface IFavoriteUserPropertyService : IBaseService<SaveFavoriteUserPropertyModel, FavoriteUserProperty, int>
     {
-       
+        Task<Result<FavoriteUserProperty>> GetByuserIdAndPropertyIdAsync(string userId, Guid propertyId);
     }
 }

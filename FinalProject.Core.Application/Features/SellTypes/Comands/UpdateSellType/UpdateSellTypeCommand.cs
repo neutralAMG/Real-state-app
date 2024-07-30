@@ -11,6 +11,8 @@ namespace FinalProject.Core.Application.Features.SellTypes.Comands.UpdateSellTyp
     public class UpdateSellTypeCommand : IRequest<Result<SaveSellTypeDto>>
     {
         public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
     public class UpdateSellTypeCommandHandler : IRequestHandler<UpdateSellTypeCommand, Result<SaveSellTypeDto>>
     {

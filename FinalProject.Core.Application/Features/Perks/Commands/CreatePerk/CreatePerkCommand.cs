@@ -10,6 +10,8 @@ namespace FinalProject.Core.Application.Features.Perks.Commands.CreatePerk
 {
     public class CreatePerkCommand : IRequest<Result<SavePerkDto>>
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 
     public class CreatePerkCommandHandler : IRequestHandler<CreatePerkCommand, Result<SavePerkDto>>

@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\SubEntityDto\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
 
