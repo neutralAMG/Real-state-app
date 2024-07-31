@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.AspNetCore.Http;
+
 namespace FinalProject.Core.Application.Models.PropertyImgae
 {
     public class SavePropertyImageModel
@@ -7,5 +9,6 @@ namespace FinalProject.Core.Application.Models.PropertyImgae
         public Guid Id { get; set; }
         public string ImgUrl { get; set; }
         public Guid Propertyid { get; set; }
+        public IFormFile file { get; set; }
     }
 }

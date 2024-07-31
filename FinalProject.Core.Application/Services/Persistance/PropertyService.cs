@@ -33,7 +33,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly IFileHandler<Guid> _fileHandler;
         private readonly AuthenticationResponce _currentUserInfo;
         private readonly SessionKeys _sessionKeys;
-        private const string basePath = "/Images/Properties";
+
 
         //Todo: The get by id should also get the agent related to it
         public PropertyService(IPropertyRepository propertyRepository, IMapper mapper, IServiceProvider service, IHttpContextAccessor httpContextAccessor, IOptions<SessionKeys> sessionKeys, IFileHandler<Guid> fileHandler, string name = "Propeerty") : base(propertyRepository, mapper, name)
@@ -69,8 +69,8 @@ namespace FinalProject.Core.Application.Services.Persistance
                 {
                     await _propertyImageService.SaveAsync(new SavePropertyImageModel
                     {
-                        ImgUrl = _fileHandler.UploadFile(file, basePath, result.Data.Id),
-                        Propertyid = result.Data.Id
+                        Propertyid = result.Data.Id,
+                        file = file
                     });
                 }
 
@@ -89,25 +89,21 @@ namespace FinalProject.Core.Application.Services.Persistance
         }
         public virtual async Task<Result<SavePropertyModel>> UpdateAsync(Guid id, SavePropertyModel updateModel)
         {
-            //Fix this 
+            //Fix this with this implementation a random file will by change
             Result<SavePropertyModel> result = await base.UpdateAsync(id, updateModel);
 
             if (result.ISuccess)
             {
-                foreach (IFormFile file in updateModel.PropertyImagesFiles)
+                foreach (KeyValuePair<string, IFormFile> ImageToBeUpdated in updateModel.ImagesToUpdateAndItsFiles)
                 {
-                    foreach (var image in updateModel.PropertyImagesUrls)
-                    {
-                        var propertyToUbdate = await _propertyImageService.GetByIdAsync(image.Id);
-
-                        await _propertyImageService.UpdateAsync(id, new SavePropertyImageModel
+                        await _propertyImageService.UpdateAsync(new SavePropertyImageModel
                         {
-                            Id = image.Id,
-                            ImgUrl = _fileHandler.UpdateFile(file, basePath, propertyToUbdate.Data.ImgUrl, id),
-                            Propertyid = id
+                            //Get's the entity (Property Image) primary key. for more info go to File handler in the Utils folder and the save method in PropertyImage service
+                            Id = Guid.Parse(ImageToBeUpdated.Key.Split("/")[3].ToUpper()),
+                            ImgUrl = ImageToBeUpdated.Key,
+                            Propertyid = id,
+                            file = ImageToBeUpdated.Value,
                         });
-
-                    }
                 }
                 await _propertyPerkService.UpdateAsync(updateModel.PropertyPerks, id);
 

@@ -23,7 +23,7 @@ namespace FinalProject.Core.Application.Services.Identity
         private readonly IHttpContextAccessor _httpContext;
         private readonly AuthenticationResponce _currentUserInfo;
         private readonly SessionKeys _sessionKeys;
-        private const string basePath = "Images/ProfilePicture";
+        private const string basePath = "/Images/ProfilePicture";
         public UserService(IUserRepository userRepository, IFileHandler<string> fileHandler, IMapper mapper, IHttpContextAccessor httpContext, IOptions<SessionKeys> sessionKeys)
         {
             _userRepository = userRepository;

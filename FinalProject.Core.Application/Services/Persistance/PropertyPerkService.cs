@@ -33,19 +33,19 @@ namespace FinalProject.Core.Application.Services.Persistance
             Result result = new();
             try
             {
-                List<PropertyPerk> propertyPerk = await _propertyPerkRepository.GetAllPerksIdByPropertyId(propertyId);
+                List<PropertyPerk> propertyPerks = await _propertyPerkRepository.GetAllPerksIdByPropertyId(propertyId);
 
-                List<int> propertysPerkids = propertyPerk.Select(p => p.Id).ToList();
+                List<int> propertysPerkids = propertyPerks.Select(p => p.PerkId).ToList();
 
-                List<PropertyPerk> oldPerksToDelete = propertyPerk.Where(p => propertysPerkids.Contains(p.PerkId) == false).ToList();
+                List<PropertyPerk> oldPropertyPerksToDelete = propertyPerks.Where(p => propertysPerkids.Contains(p.PerkId) == false).ToList();
 
                 List<int> NewPropertyPerksToSave = perkIds.Where(p => propertysPerkids.Contains(p) == false).ToList();
 
-                if (oldPerksToDelete.Count > 0)
+                if (oldPropertyPerksToDelete.Count > 0)
                 {
-                    foreach (PropertyPerk property in oldPerksToDelete)
+                    foreach (PropertyPerk propertyPerk in oldPropertyPerksToDelete)
                     {
-                        await DeleteAsync(property.Id);
+                        await DeleteAsync(propertyPerk.Id);
                     }
 
                 }

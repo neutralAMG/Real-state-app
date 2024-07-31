@@ -7,6 +7,10 @@ namespace FinalProject.Core.Domain.Entities
 {
     public class Property
     {
+        public Property()
+        {
+            Id = Guid.NewGuid();
+        }
         public Guid Id { get; set; }
         public string PropertyCode { get; set; }
         public string Description { get; set; }

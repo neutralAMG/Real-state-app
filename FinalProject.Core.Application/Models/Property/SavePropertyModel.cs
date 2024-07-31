@@ -20,7 +20,9 @@ namespace FinalProject.Core.Application.Models.Property
         public int SellTypeId { get; set; }
         //public PropertyType PropertyType { get; set; }
         public int PropertyTypeId { get; set; }
-        public List<SavePropertyImageModel> PropertyImagesUrls { get; set; }
+        public List<string> PropertyImagesUrls { get; set; }
+        // Ditionary to update each coresponding file, file may be null;
+        public Dictionary<string, IFormFile> ImagesToUpdateAndItsFiles {  get; set; }
         public List<IFormFile> PropertyImagesFiles { get; set; }
         public List<int> PropertyPerks { get; set; }
     }

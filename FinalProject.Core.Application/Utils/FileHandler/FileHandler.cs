@@ -10,10 +10,17 @@ namespace FinalProject.Core.Application.Utils.FileHandler
 
         public string UpdateFile(IFormFile file, string basePath, string imageUrl, TId id)
         {
+            if (file is null)
+            {
+                return imageUrl;
+            }
+
             if(file is null && imageUrl is not null)
             {
                 return imageUrl;
             }
+
+            // first part of the complete image url path is a base pasth somethin like "/Images/somthing" and the provided id
             basePath = $"{basePath}/{id}";
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
@@ -38,7 +45,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
             {
                 System.IO.File.Delete(completeOldPath);
             }
-
+            
             return $"{basePath}/{fileName}";
         }
 
