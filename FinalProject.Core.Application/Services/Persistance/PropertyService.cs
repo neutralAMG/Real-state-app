@@ -30,13 +30,12 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly IPropertyImageService _propertyImageService;
         private readonly IPropertyPerkService _propertyPerkService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IFileHandler<Guid> _fileHandler;
         private readonly AuthenticationResponce _currentUserInfo;
         private readonly SessionKeys _sessionKeys;
 
 
         //Todo: The get by id should also get the agent related to it
-        public PropertyService(IPropertyRepository propertyRepository, IMapper mapper, IServiceProvider service, IHttpContextAccessor httpContextAccessor, IOptions<SessionKeys> sessionKeys, IFileHandler<Guid> fileHandler, string name = "Propeerty") : base(propertyRepository, mapper, name)
+        public PropertyService(IPropertyRepository propertyRepository, IMapper mapper, IServiceProvider service, IHttpContextAccessor httpContextAccessor, IOptions<SessionKeys> sessionKeys, string name = "Propeerty") : base(propertyRepository, mapper, name)
         {
             _propertyRepository = propertyRepository;
             _mapper = mapper;
@@ -44,7 +43,6 @@ namespace FinalProject.Core.Application.Services.Persistance
             _propertyImageService = service.GetRequiredService<IPropertyImageService>();
             _propertyPerkService = service.GetRequiredService<IPropertyPerkService>();
             _httpContextAccessor = httpContextAccessor;
-            _fileHandler = fileHandler;
             _sessionKeys = sessionKeys.Value;
             _currentUserInfo = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponce>(_sessionKeys.UserKey);
         }

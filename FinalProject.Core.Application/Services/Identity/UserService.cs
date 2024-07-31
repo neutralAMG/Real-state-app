@@ -23,8 +23,8 @@ namespace FinalProject.Core.Application.Services.Identity
         private readonly IHttpContextAccessor _httpContext;
         private readonly AuthenticationResponce _currentUserInfo;
         private readonly SessionKeys _sessionKeys;
-        private const string basePath = "/Images/ProfilePicture";
-        public UserService(IUserRepository userRepository, IFileHandler<string> fileHandler, IMapper mapper, IHttpContextAccessor httpContext, IOptions<SessionKeys> sessionKeys)
+        private readonly BasePathsForFileStorage _basePathForFileStorage;
+        public UserService(IUserRepository userRepository, IFileHandler<string> fileHandler, IMapper mapper, IHttpContextAccessor httpContext, IOptions<BasePathsForFileStorage> basePaths, IOptions<SessionKeys> sessionKeys)
         {
             _userRepository = userRepository;
             _fileHandler = fileHandler;
@@ -32,6 +32,7 @@ namespace FinalProject.Core.Application.Services.Identity
             _httpContext = httpContext;
             _sessionKeys = sessionKeys.Value;
             _currentUserInfo = _httpContext.HttpContext.Session.Get<AuthenticationResponce>(_sessionKeys.UserKey);
+            _basePathForFileStorage = basePaths.Value;
         }
 
 
@@ -144,7 +145,7 @@ namespace FinalProject.Core.Application.Services.Identity
                     result.ISuccess = false;
                     result.Message = "The current user can't modify itself";
                 }
-                request.ImgProfileUrl = _fileHandler.UpdateFile(request.file, basePath, request.ImgProfileUrl, request.Id);
+                request.ImgProfileUrl = _fileHandler.UpdateFile(request.file, _basePathForFileStorage.UserProfilePictureBasePath, request.ImgProfileUrl, request.Id);
 
                 UpdateUserRequest userRequest = _mapper.Map<UpdateUserRequest>(request);
 
@@ -189,7 +190,7 @@ namespace FinalProject.Core.Application.Services.Identity
                     return result;
                 }
 
-                _fileHandler.DeleteFile(basePath, id);
+                _fileHandler.DeleteFile(_basePathForFileStorage.UserProfilePictureBasePath, id);
                 result.Message = "The user deletion was a success";
                 return result;
             }

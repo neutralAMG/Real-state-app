@@ -5,9 +5,10 @@ using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Application.Interfaces.Utils;
-using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Application.Models.PropertyImgae;
 using FinalProject.Core.Domain.Entities;
+using FinalProject.Core.Domain.Settings;
+using Microsoft.Extensions.Options;
 
 namespace FinalProject.Core.Application.Services.Persistance
 {
@@ -16,12 +17,13 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly IPropertyImageRepository _propertyImageRepository;
         private readonly IFileHandler<Guid> _fileHandler;
         private readonly IMapper _mapper;
-        private const string basePath = "/Images/Properties";
-        public PropertyImageService(IPropertyImageRepository propertyImageRepository,IFileHandler<Guid> fileHandler, IMapper mapper, string name = "Property Image") : base(propertyImageRepository, mapper, name)
+        private readonly BasePathsForFileStorage _basePathsForFileStorage;
+        public PropertyImageService(IPropertyImageRepository propertyImageRepository,IFileHandler<Guid> fileHandler, IOptions<BasePathsForFileStorage> basePaths,  IMapper mapper, string name = "Property Image") : base(propertyImageRepository, mapper, name)
         {
             _propertyImageRepository = propertyImageRepository;
             _fileHandler = fileHandler;
             _mapper = mapper;
+            _basePathsForFileStorage = basePaths.Value;
         }
 
         public override async Task<Result<SavePropertyImageModel>> SaveAsync(SavePropertyImageModel saveModel)
@@ -30,8 +32,11 @@ namespace FinalProject.Core.Application.Services.Persistance
 
             if (!result.ISuccess) return result;
          
-            saveModel.ImgUrl = _fileHandler.UploadFile(saveModel.file, basePath, result.Data.Id);
+            saveModel.ImgUrl = _fileHandler.UploadFile(saveModel.file, _basePathsForFileStorage.PropertyImagesBasePath, result.Data.Id);
+
             saveModel.Id = result.Data.Id;
+            saveModel.file = null;
+
             Result updateOperation = await UpdateAsync(saveModel);
 
             if (!updateOperation.ISuccess)
@@ -76,7 +81,7 @@ namespace FinalProject.Core.Application.Services.Persistance
             Result result = new();
             try
             {
-                updateModel.ImgUrl = _fileHandler.UpdateFile(updateModel.file, basePath, updateModel.ImgUrl, updateModel.Id);
+                updateModel.ImgUrl = _fileHandler.UpdateFile(updateModel.file, _basePathsForFileStorage.PropertyImagesBasePath, updateModel.ImgUrl, updateModel.Id);
                 bool operation = await _propertyImageRepository.UpdateAsync(new PropertyImage {Id = updateModel.Id, PropertyId = updateModel.Propertyid, ImgUrl = updateModel.ImgUrl });
                 if (!operation) {
                     result.ISuccess = false;

@@ -22,10 +22,10 @@ namespace FinalProject.Core.Application.Services.Identity
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
         private readonly SessionKeys _sessionsKeys;
-        private const string basePath = "Images/ProfilePicture";
+        private readonly BasePathsForFileStorage _basePathsForFileStorage;
 
 
-        public AccountService(IAccountRepository accountRepository, IUserService userService, IMapper mapper, IHttpContextAccessor httpContext, IFileHandler<string> fileHandler , IOptions<SessionKeys> sessionsKey)
+        public AccountService(IAccountRepository accountRepository, IUserService userService, IMapper mapper, IHttpContextAccessor httpContext, IFileHandler<string> fileHandler , IOptions<BasePathsForFileStorage> basePaths, IOptions<SessionKeys> sessionsKey)
         {
             _accountRepository = accountRepository;
             _userService = userService;
@@ -33,6 +33,7 @@ namespace FinalProject.Core.Application.Services.Identity
             _mapper = mapper;
             _httpContext = httpContext;
             _sessionsKeys = sessionsKey.Value;
+            _basePathsForFileStorage = basePaths.Value;
         }
         public async Task<Result> AuthenticateWebAppAsync(string usernameOrEmail, string password)
         {
@@ -88,7 +89,7 @@ namespace FinalProject.Core.Application.Services.Identity
                     return result;
                 }
 
-                saveModel.ImgProfileUrl = _fileHandler.UploadFile(saveModel.file, basePath, responce.Id);
+                saveModel.ImgProfileUrl = _fileHandler.UploadFile(saveModel.file, _basePathsForFileStorage.UserProfilePictureBasePath, responce.Id);
 
                 await _userService.UpdateUserAsync(saveModel);
 

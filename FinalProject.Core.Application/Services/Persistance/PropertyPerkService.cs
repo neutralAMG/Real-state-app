@@ -11,12 +11,11 @@ namespace FinalProject.Core.Application.Services.Persistance
     internal class PropertyPerkService : BaseService<SavePropertyPerkModel, PropertyPerk, int>, IPropertyPerkService
     {
         private readonly IPropertyPerkRepository _propertyPerkRepository;
-        private readonly IMapper _mapper;
-
+    
         public PropertyPerkService(IPropertyPerkRepository propertyPerkRepository, IMapper mapper, string name = "property perk") : base(propertyPerkRepository, mapper, name)
         {
             _propertyPerkRepository = propertyPerkRepository;
-            _mapper = mapper;
+
         }
         public override Task<Result<SavePropertyPerkModel>> SaveAsync(SavePropertyPerkModel saveModel)
         {
@@ -35,22 +34,22 @@ namespace FinalProject.Core.Application.Services.Persistance
             {
                 List<PropertyPerk> propertyPerks = await _propertyPerkRepository.GetAllPerksIdByPropertyId(propertyId);
 
-                List<int> propertysPerkids = propertyPerks.Select(p => p.PerkId).ToList();
+                List<int> CurrentpropertysPerkids = propertyPerks.Select(p => p.PerkId).ToList();
 
-                List<PropertyPerk> oldPropertyPerksToDelete = propertyPerks.Where(p => propertysPerkids.Contains(p.PerkId) == false).ToList();
+                List<int> oldPropertyPerksToDelete = CurrentpropertysPerkids.Except(perkIds).ToList();
 
-                List<int> NewPropertyPerksToSave = perkIds.Where(p => propertysPerkids.Contains(p) == false).ToList();
+                List<int> NewPropertyPerksToSave = perkIds.Except(CurrentpropertysPerkids).ToList();
 
-                if (oldPropertyPerksToDelete.Count > 0)
+                if (oldPropertyPerksToDelete.Any())
                 {
-                    foreach (PropertyPerk propertyPerk in oldPropertyPerksToDelete)
+                    foreach (int propertyPerk in oldPropertyPerksToDelete)
                     {
-                        await DeleteAsync(propertyPerk.Id);
+                        await DeleteAsync(propertyPerk);
                     }
 
                 }
 
-                if (NewPropertyPerksToSave.Count > 0)
+                if (NewPropertyPerksToSave.Any())
                 {
                     foreach (int p in NewPropertyPerksToSave)
                     {
