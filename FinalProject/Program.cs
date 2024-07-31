@@ -1,3 +1,4 @@
+using FinalProject.Core.Application.Extensions;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Extensions;
 using FinalProject.Infraestructure.Identity.Seeds;
@@ -12,6 +13,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddInfraestructureIdentityLayerForWebApp(builder.Configuration);
 builder.Services.AddInfraestructureShareLayer(builder.Configuration);
 builder.Services.AddInfraestructurePersistanceLayer(builder.Configuration);
+builder.Services.AddCoreApplicationLayerForWebApp(builder.Configuration);
 builder.Services.AddSession();
 
 var app = builder.Build();

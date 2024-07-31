@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FinalProject.Core.Domain\FinalProject.Core.Domain.csproj" />
   </ItemGroup>
 

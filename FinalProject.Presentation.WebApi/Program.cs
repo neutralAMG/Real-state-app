@@ -2,6 +2,8 @@ using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Extensions;
 using FinalProject.Infraestructure.Identity.Seeds;
 using FinalProject.Infraestructure.Persistance.Extensions;
+using FinalProject.Core.Application.Extensions;
+using FinalProject.Infraestructure.Share.Extensions;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,9 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddInfraestructureIdentityLayerForWebApi(builder.Configuration);
 builder.Services.AddInfraestructurePersistanceLayer(builder.Configuration);
+builder.Services.AddInfraestructureShareLayer(builder.Configuration);
+builder.Services.AddCoreApplicationLayerForWebApi(builder.Configuration);
 builder.Services.AddSession();
 builder.Services.AddHealthChecks();
-
+builder.Services.AddDistributedMemoryCache();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

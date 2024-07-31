@@ -5,7 +5,6 @@ using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
-using FinalProject.Core.Application.Interfaces.Utils;
 using FinalProject.Core.Application.Models.FavoriteUserProperty;
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Application.Models.PropertyImgae;

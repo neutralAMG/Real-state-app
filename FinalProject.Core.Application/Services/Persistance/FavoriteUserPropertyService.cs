@@ -13,7 +13,7 @@ namespace FinalProject.Core.Application.Services.Persistance
     {
         private readonly IFavoriteUserPropertyRepository _favoriteUserPropertyRepository;
 
-        internal FavoriteUserPropertyService(IFavoriteUserPropertyRepository favoriteUserPropertyRepository, IMapper mapper, string name = "image") : base(favoriteUserPropertyRepository, mapper, name)
+        public FavoriteUserPropertyService(IFavoriteUserPropertyRepository favoriteUserPropertyRepository, IMapper mapper, string name = "image") : base(favoriteUserPropertyRepository, mapper, name)
         {
             _favoriteUserPropertyRepository = favoriteUserPropertyRepository;
         }
