@@ -13,9 +13,10 @@ namespace FinalProject.Infraestructure.Persistance.Extensions
     {
         public static void AddInfraestructurePersistanceLayer(this IServiceCollection services, IConfiguration config)
         {
+            
             services.AddDbContext<FinalProjectContext>(options =>
             {
-                options.UseSqlServer("",m =>
+                options.UseSqlServer(config.GetConnectionString("DefaultConnection"),m =>
                 m.MigrationsAssembly(typeof(FinalProjectContext).Assembly.FullName));
             });
 

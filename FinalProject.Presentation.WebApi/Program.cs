@@ -1,6 +1,7 @@
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Extensions;
 using FinalProject.Infraestructure.Identity.Seeds;
+using FinalProject.Infraestructure.Persistance.Extensions;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddInfraestructureIdentityLayerForWebApi(builder.Configuration);
+builder.Services.AddInfraestructurePersistanceLayer(builder.Configuration);
 builder.Services.AddSession();
 builder.Services.AddHealthChecks();
 

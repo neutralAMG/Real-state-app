@@ -42,12 +42,13 @@ namespace FinalProject.Infraestructure.Persistance.Context
 
                 p.HasOne(p => p.SellType).WithMany( s => s.Properties).IsRequired(true).HasForeignKey(p => p.SellTypeId);
                 p.HasOne(p => p.PropertyType).WithMany( s => s.Properties).IsRequired(true).HasForeignKey(p => p.PropertyTypeId);
-                p.HasMany(p => p.PropertyPerks).WithOne( s => s.Property).IsRequired(true).HasForeignKey(p => p.PropertyId);
-                p.HasMany(p => p.PropertyImages).WithOne( s => s.Property).IsRequired(true).HasForeignKey(p => p.PropertyId);
-                p.HasMany(p => p.FavoriteUsersProperties).WithOne( s => s.Property).IsRequired(true).HasForeignKey(p => p.PropertyId);
+                p.HasMany(p => p.PropertyPerks).WithOne( s => s.Property).IsRequired(true).HasForeignKey(p => p.PropertyId).OnDelete(DeleteBehavior.Cascade);
+                p.HasMany(p => p.PropertyImages).WithOne( s => s.Property).IsRequired(true).HasForeignKey(p => p.PropertyId).OnDelete(DeleteBehavior.Cascade);
+                p.HasMany(p => p.FavoriteUsersProperties).WithOne( s => s.Property).IsRequired(true).HasForeignKey(p => p.PropertyId).OnDelete(DeleteBehavior.Cascade);
 
                 p.HasIndex(p => p.SellTypeId).IsClustered(false);
                 p.HasIndex(p => p.PropertyTypeId).IsClustered(false);
+                p.HasIndex(p => p.PropertyCode).IsClustered(false);
 
                 p.Property(p => p.PropertyCode).IsRequired(true);
                 p.Property(p => p.Description).IsRequired(true);
@@ -58,16 +59,18 @@ namespace FinalProject.Infraestructure.Persistance.Context
             modelBuilder.Entity<SellType>(s =>
             {
                 s.HasKey(s => s.Id);
-                s.HasMany(s => s.Properties).WithOne(p => p.SellType).IsRequired(true).HasForeignKey(p => p.SellTypeId);
+                s.HasMany(s => s.Properties).WithOne(p => p.SellType).IsRequired(true).HasForeignKey(p => p.SellTypeId).OnDelete(DeleteBehavior.Cascade);
 
                 s.Property(p => p.Name).IsRequired(true);
+                s.Property(s => s.Description).IsRequired(true);
             });
             modelBuilder.Entity<PropertyType>(p =>
             {
                 p.HasKey(p => p.Id);
-                p.HasMany(p => p.Properties).WithOne(s => s.PropertyType).IsRequired(true).HasForeignKey(p => p.PropertyTypeId);
+                p.HasMany(p => p.Properties).WithOne(s => s.PropertyType).IsRequired(true).HasForeignKey(p => p.PropertyTypeId).OnDelete(DeleteBehavior.Cascade);
 
                 p.Property(p => p.Name);
+                p.Property(p => p.Description).IsRequired(true);
             });
             modelBuilder.Entity<Perk>(p =>
             {
@@ -76,6 +79,7 @@ namespace FinalProject.Infraestructure.Persistance.Context
                 p.HasMany(p => p.PropertyPerks).WithOne(p => p.Perk).IsRequired(true).HasForeignKey(p => p.PerkId).OnDelete(DeleteBehavior.Cascade);
 
                 p.Property(p => p.Name);
+                p.Property(p => p.Description).IsRequired(true);
             });
             modelBuilder.Entity<PropertyImage>(p =>
             {
@@ -85,7 +89,7 @@ namespace FinalProject.Infraestructure.Persistance.Context
 
                 p.HasIndex(p => p.PropertyId).IsClustered(false);
                 p.Property(p => p.ImgUrl).IsRequired(true);
-                p.
+               
             });
             modelBuilder.Entity<PropertyPerk>(p =>
             {
@@ -96,6 +100,7 @@ namespace FinalProject.Infraestructure.Persistance.Context
 
                 p.HasIndex(p => p.PropertyId).IsClustered(false);
                 p.HasIndex(p => p.PerkId).IsClustered(false);
+               
 
             });
 
@@ -104,8 +109,7 @@ namespace FinalProject.Infraestructure.Persistance.Context
                 f.HasKey(f => f.Id);
                 f.HasOne(f => f.Property).WithMany(p => p.FavoriteUsersProperties).IsRequired(true).HasForeignKey(p => p.PropertyId);
 
-                f.HasIndex(f => f.PropertyId).IsClustered(true)
-                ;
+                f.HasIndex(f => f.PropertyId).IsClustered(false);
             });
         }
     }

@@ -16,12 +16,13 @@ namespace FinalProject.Infraestructure.Identity.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("", m => m.MigrationsAssembly(typeof(AppIdentityContext).Assembly.FullName));
+            optionsBuilder.UseSqlServer("Server=DESKTOP-LL4GL68; Database=FinalProjectUsers; Integrated Security=true; TrustServerCertificate=true;", m => m.MigrationsAssembly(typeof(AppIdentityContext).Assembly.FullName));
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
             builder.HasDefaultSchema("Identity");
 
             builder.Entity<ApplicationUser>(u =>

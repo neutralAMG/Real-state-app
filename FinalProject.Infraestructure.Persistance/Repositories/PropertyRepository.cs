@@ -62,12 +62,12 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
 
             bool deleteOperation = await base.DeleteAsync(id);
 
-            if (deleteOperation)
-            {
-                IQueryable<PropertyImage> propertyImages = _context.PropertyImages.Where(x => x.PropertyId == id);
-                _context.PropertyImages.RemoveRange(propertyImages);
-                await _context.SaveChangesAsync();
-            }
+            //if (deleteOperation)
+            //{
+            //    IQueryable<PropertyImage> propertyImages = _context.PropertyImages.Where(x => x.PropertyId == id);
+            //    _context.PropertyImages.RemoveRange(propertyImages);
+            //    await _context.SaveChangesAsync();
+            //}
             return deleteOperation;
         }
         public async Task<List<Property>> GetAllCurrentAgentUserPropertiesAsync(string id)

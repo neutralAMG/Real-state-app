@@ -7,6 +7,6 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Persistance
     public interface IPropertyImageRepository : IBaseRepository<PropertyImage,Guid>
     {
         Task<bool> UpdateAsync(PropertyImage entity);
-        Task<PropertyImage> GetByIdAsync(Guid id);
+        Task<List<Guid>> GetAllIdsByPropertyIdAsync(Guid propertyId);
     }
 }

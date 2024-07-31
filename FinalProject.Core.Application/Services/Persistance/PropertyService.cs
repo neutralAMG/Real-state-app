@@ -85,23 +85,39 @@ namespace FinalProject.Core.Application.Services.Persistance
             }
             return result;
         }
+        public override async Task<Result> DeleteAsync(Guid id)
+        {
+            Result<List<Guid>> propertyImagesIdsToBeDeleted = await _propertyImageService.GetAllIdsByPropertyIdAsync(id);
+            Result result = await base.DeleteAsync(id);
+            if (result.ISuccess)
+            {
+                foreach (Guid imageId in propertyImagesIdsToBeDeleted.Data)
+                {
+                    await _propertyImageService.DeleteAsync(imageId);
+                }
+
+            }
+            return result;
+        }
         public virtual async Task<Result<SavePropertyModel>> UpdateAsync(Guid id, SavePropertyModel updateModel)
         {
-            //Fix this with this implementation a random file will by change
+
             Result<SavePropertyModel> result = await base.UpdateAsync(id, updateModel);
 
             if (result.ISuccess)
             {
                 foreach (KeyValuePair<string, IFormFile> ImageToBeUpdated in updateModel.ImagesToUpdateAndItsFiles)
                 {
-                        await _propertyImageService.UpdateAsync(new SavePropertyImageModel
-                        {
-                            //Get's the entity (Property Image) primary key. for more info go to File handler in the Utils folder and the save method in PropertyImage service
-                            Id = Guid.Parse(ImageToBeUpdated.Key.Split("/")[3].ToUpper()),
-                            ImgUrl = ImageToBeUpdated.Key,
-                            Propertyid = id,
-                            file = ImageToBeUpdated.Value,
-                        });
+                    if (ImageToBeUpdated.Value == null) continue;
+
+                    await _propertyImageService.UpdateAsync(new SavePropertyImageModel
+                    {
+                        //Get's the entity (Property Image) primary key. for more info go to File handler in the Utils folder and the save method in PropertyImage service
+                        Id = Guid.Parse(ImageToBeUpdated.Key.Split("/")[3].ToUpper()),
+                        ImgUrl = ImageToBeUpdated.Key,
+                        Propertyid = id,
+                        file = ImageToBeUpdated.Value,
+                    });
                 }
                 await _propertyPerkService.UpdateAsync(updateModel.PropertyPerks, id);
 

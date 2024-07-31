@@ -48,12 +48,20 @@ namespace FinalProject.Core.Application.Services.Persistance
 
             return result;
         }
-        public async Task<Result<PropertyImageModel>> GetByIdAsync(Guid id)
+        public override async Task<Result> DeleteAsync(Guid id)
         {
-            Result<PropertyImageModel> result = new();
+            Result result = new();
+
+            _fileHandler.DeleteFile(_basePathsForFileStorage.PropertyImagesBasePath, id);
+            result.Message = "Images delete wass successfull";
+            return result;
+        }
+        public async Task<Result<List<Guid>>> GetAllIdsByPropertyIdAsync(Guid id)
+        {
+            Result<List<Guid>> result = new();
             try
             {
-                PropertyImage imageGetted = await _propertyImageRepository.GetByIdAsync(id);
+                List<Guid> imageGetted = await _propertyImageRepository.GetAllIdsByPropertyIdAsync(id);
 
 
                 if (imageGetted == null)
@@ -62,8 +70,6 @@ namespace FinalProject.Core.Application.Services.Persistance
                     result.Message = "Error getting the image";
                     return result;
                 }
-
-                result.Data = _mapper.Map<PropertyImageModel>(imageGetted);
 
                 result.Message = "The Image was getted successfully";
                 return result;
