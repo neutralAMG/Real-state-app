@@ -73,7 +73,7 @@ namespace FinalProject.Infraestructure.Persistance.Context
             {
                 p.HasKey(p => p.Id);
 
-                p.HasMany(p => p.PropertyPerks).WithOne(p => p.Perk).IsRequired(true).HasForeignKey(p => p.PerkId);
+                p.HasMany(p => p.PropertyPerks).WithOne(p => p.Perk).IsRequired(true).HasForeignKey(p => p.PerkId).OnDelete(DeleteBehavior.Cascade);
 
                 p.Property(p => p.Name);
             });
@@ -85,6 +85,7 @@ namespace FinalProject.Infraestructure.Persistance.Context
 
                 p.HasIndex(p => p.PropertyId).IsClustered(false);
                 p.Property(p => p.ImgUrl).IsRequired(true);
+                p.
             });
             modelBuilder.Entity<PropertyPerk>(p =>
             {
