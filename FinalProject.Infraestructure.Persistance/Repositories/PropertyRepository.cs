@@ -52,6 +52,10 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
 
             PropertyToBeSaved.Description = entity.Description;
 
+            PropertyToBeSaved.SellTypeId = entity.SellTypeId;
+
+            PropertyToBeSaved.PropertyTypeId = entity.PropertyTypeId;   
+
             return await base.UpdateAsync(PropertyToBeSaved);
         }
 

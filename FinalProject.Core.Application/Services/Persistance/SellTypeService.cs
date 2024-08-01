@@ -13,7 +13,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly ISellTypeRepository _sellTypeRepository;
         private readonly IMapper _mapper;
 
-        public SellTypeService(ISellTypeRepository sellTypeRepository, IMapper mapper, string name = "Sell Type") : base(sellTypeRepository, mapper, name)
+        public SellTypeService(ISellTypeRepository sellTypeRepository, IMapper mapper) : base(sellTypeRepository, mapper, "Sell Type")
         {
             _sellTypeRepository = sellTypeRepository;
             _mapper = mapper;

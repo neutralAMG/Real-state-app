@@ -48,6 +48,12 @@ namespace FinalProject.Infraestructure.Identity.Extensions
             services.AddTransient<SignInManager<ApplicationUser>, CustomAuthSignInManager<ApplicationUser>>();
             services.AddTransient<IUserRepository, UserRepository>();
 
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = "";
+                options.LoginPath = "";
+            });
+
         }
 
         public static void AddInfraestructureIdentityLayerForWebApi(this IServiceCollection services, IConfiguration config)

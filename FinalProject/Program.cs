@@ -4,6 +4,7 @@ using FinalProject.Infraestructure.Identity.Extensions;
 using FinalProject.Infraestructure.Identity.Seeds;
 using FinalProject.Infraestructure.Persistance.Extensions;
 using FinalProject.Infraestructure.Share.Extensions;
+using FinalProject.Presentation.WebApp.Extensions;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddInfraestructureIdentityLayerForWebApp(builder.Configuration)
 builder.Services.AddInfraestructureShareLayer(builder.Configuration);
 builder.Services.AddInfraestructurePersistanceLayer(builder.Configuration);
 builder.Services.AddCoreApplicationLayerForWebApp(builder.Configuration);
+builder.Services.AddPresentationWebAppLayer();
 builder.Services.AddSession();
 
 var app = builder.Build();

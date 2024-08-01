@@ -18,7 +18,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly IFileHandler<Guid> _fileHandler;
         private readonly IMapper _mapper;
         private readonly BasePathsForFileStorage _basePathsForFileStorage;
-        public PropertyImageService(IPropertyImageRepository propertyImageRepository,IFileHandler<Guid> fileHandler, IOptions<BasePathsForFileStorage> basePaths,  IMapper mapper, string name = "Property Image") : base(propertyImageRepository, mapper, name)
+        public PropertyImageService(IPropertyImageRepository propertyImageRepository,IFileHandler<Guid> fileHandler, IOptions<BasePathsForFileStorage> basePaths,  IMapper mapper) : base(propertyImageRepository, mapper, "Property Image")
         {
             _propertyImageRepository = propertyImageRepository;
             _fileHandler = fileHandler;

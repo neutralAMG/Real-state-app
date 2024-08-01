@@ -14,7 +14,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly IPropertyTypeRepository _propertyTypeRepository;
         private readonly IMapper _mapper;
 
-        public PropertyTypeService(IPropertyTypeRepository propertyTypeRepository, IMapper mapper, string name = "Property type") : base(propertyTypeRepository, mapper, name)
+        public PropertyTypeService(IPropertyTypeRepository propertyTypeRepository, IMapper mapper) : base(propertyTypeRepository, mapper, "Property type")
         {
             _propertyTypeRepository = propertyTypeRepository;
             _mapper = mapper;

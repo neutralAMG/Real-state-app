@@ -34,7 +34,7 @@ namespace FinalProject.Core.Application.Services.Persistance
 
 
         //Todo: The get by id should also get the agent related to it
-        public PropertyService(IPropertyRepository propertyRepository, IMapper mapper, IServiceProvider service, IHttpContextAccessor httpContextAccessor, IOptions<SessionKeys> sessionKeys, string name = "Propeerty") : base(propertyRepository, mapper, name)
+        public PropertyService(IPropertyRepository propertyRepository, IMapper mapper, IServiceProvider service, IHttpContextAccessor httpContextAccessor, IOptions<SessionKeys> sessionKeys) : base(propertyRepository, mapper, "Property")
         {
             _propertyRepository = propertyRepository;
             _mapper = mapper;
@@ -62,12 +62,13 @@ namespace FinalProject.Core.Application.Services.Persistance
 
             if (result.ISuccess)
             {
-                foreach (IFormFile file in saveModel.PropertyImagesFiles)
+                foreach (KeyValuePair<string, IFormFile> file in saveModel.ImagesToUpdateAndItsFiles)
                 {
+                    if (file.Value is null) continue;
                     await _propertyImageService.SaveAsync(new SavePropertyImageModel
                     {
                         Propertyid = result.Data.Id,
-                        file = file
+                        file = file.Value,
                     });
                 }
 
@@ -79,8 +80,6 @@ namespace FinalProject.Core.Application.Services.Persistance
                         PropertyId = result.Data.Id
                     });
                 }
-
-
             }
             return result;
         }
@@ -188,7 +187,7 @@ namespace FinalProject.Core.Application.Services.Persistance
                 return result;
             }
         }
-        public async Task<Result> HandlePropertyFavoriteState(SaveFavoriteUserPropertyModel model, bool isMarkFavoriteByUser)
+        public async Task<Result> HandlePropertyFavoriteState(Guid propertyId, bool isMarkFavoriteByUser)
         {
             Result result = new();
             string operationToBeHandled = isMarkFavoriteByUser ? "add" : "Delet";
@@ -197,11 +196,11 @@ namespace FinalProject.Core.Application.Services.Persistance
 
                 if (!isMarkFavoriteByUser)
                 {
-                    result = await _favoriteUserPropertyService.SaveAsync(new SaveFavoriteUserPropertyModel { UserId = _currentUserInfo.Id, PropertyId = model.PropertyId });
+                    result = await _favoriteUserPropertyService.SaveAsync(new SaveFavoriteUserPropertyModel { UserId = _currentUserInfo.Id, PropertyId = propertyId });
 
                 }
                 //refactor this part of code
-                var entityToBeDeleted = await _favoriteUserPropertyService.GetByuserIdAndPropertyIdAsync(_currentUserInfo.Id, model.PropertyId);
+                var entityToBeDeleted = await _favoriteUserPropertyService.GetByuserIdAndPropertyIdAsync(_currentUserInfo.Id, propertyId);
                 result = await _favoriteUserPropertyService.DeleteAsync(entityToBeDeleted.Data.Id);
 
                 result.Message = $"Property {operationToBeHandled}ed to favorites";
@@ -210,7 +209,7 @@ namespace FinalProject.Core.Application.Services.Persistance
             catch
             {
                 result.ISuccess = false;
-                result.Message = $"Critical error while trying {operationToBeHandled} the property";
+                result.Message = $"Critical error while trying to {operationToBeHandled} the property";
                 return result;
             }
         }

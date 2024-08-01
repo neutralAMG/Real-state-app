@@ -13,7 +13,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         private readonly IPerkRepository _perkRepository;
         private readonly IMapper _mapper;
 
-        public PerkService(IPerkRepository perkRepository, IMapper mapper, string name = "Perk") : base(perkRepository, mapper, name)
+        public PerkService(IPerkRepository perkRepository, IMapper mapper) : base(perkRepository, mapper, "Perk")
         {
             _perkRepository = perkRepository;
             _mapper = mapper;

@@ -24,6 +24,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
             basePath = $"{basePath}/{id}";
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
+
             if (Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -54,6 +55,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
             basePath = $"{basePath}/{id}";
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
+
             if (Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
