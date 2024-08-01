@@ -16,9 +16,9 @@ namespace FinalProject.Core.Application.Utils.SessionHandler
         {
             string storeValue = session.GetString(key);
 
-            TValue deserializedValue = JsonConvert.DeserializeObject<TValue>(storeValue);
+            TValue deserializedValue = storeValue == null ? default : JsonConvert.DeserializeObject<TValue>(storeValue);
 
-            return deserializedValue == null ? default : deserializedValue;
+            return deserializedValue;
         }
     }
 }
