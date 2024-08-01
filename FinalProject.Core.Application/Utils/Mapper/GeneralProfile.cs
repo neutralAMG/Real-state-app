@@ -52,7 +52,7 @@ namespace FinalProject.Core.Application.Utils.Mapper
                .ForMember(dest => dest.SellType, opt => opt.Ignore());
 
             CreateMap<Property, SavePropertyModel>()
-                .ForMember(dest => dest.PropertyImagesFiles, opt => opt.Ignore())
+                .ForMember(dest => dest.ImagesToUpdateAndItsFiles, opt => opt.Ignore())
                .ReverseMap()
                  .ForMember(dest => dest.PropertyPerks, opt => opt.Ignore())
                  .ForMember(dest => dest.PropertyImages, opt => opt.Ignore());

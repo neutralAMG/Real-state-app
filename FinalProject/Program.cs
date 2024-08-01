@@ -1,4 +1,5 @@
 using FinalProject.Core.Application.Extensions;
+using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Extensions;
 using FinalProject.Infraestructure.Identity.Seeds;
@@ -20,6 +21,26 @@ builder.Services.AddSession();
 
 var app = builder.Build();
 
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    IServiceProvider services = scope.ServiceProvider;
+
+
+    try
+    {
+        UserManager<ApplicationUser> userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+   
+        await DefaultRoles.AddDefaulRoles(userManager, roleManager);
+        await DefaultClientUser.AddDefaultClientUser(userManager, roleManager);
+        await DefaultAdminUser.AddDefaultAddminUser(userManager, roleManager);
+        await DefaultAgentUser.AddDefaultAgentUser(userManager, roleManager);
+    }
+    catch
+    {
+        throw;
+    }
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -41,24 +62,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-using (IServiceScope scope = app.Services.CreateScope())
-{
-    IServiceProvider services = scope.ServiceProvider;
 
-
-    try
-    {
-        UserManager<ApplicationUser> userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-        RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-        await DefaultRoles.AddDefaulRoles(roleManager);
-        await DefaultClientUser.AddDefaultClientUser(userManager);
-        await DefaultAdminUser.AddDefaultAddminUser(userManager);
-        await DefaultAgentUser.AddDefaultAgentUser(userManager);
-    }
-    catch
-    {
-        throw;
-    }
-}
 app.Run();

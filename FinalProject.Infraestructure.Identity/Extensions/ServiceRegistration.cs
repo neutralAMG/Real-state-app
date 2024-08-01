@@ -32,11 +32,11 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.User.RequireUniqueEmail = true; 
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequireUppercase = true;
+                //options.User.RequireUniqueEmail = true; 
+                //options.Password.RequireNonAlphanumeric = true;
+                //options.Password.RequireDigit = true;
+                //options.Password.RequiredLength = 8;
+                //options.Password.RequireUppercase = true;
             
             }).AddEntityFrameworkStores<AppIdentityContext>()
                 .AddDefaultTokenProviders();
@@ -66,11 +66,11 @@ namespace FinalProject.Infraestructure.Identity.Extensions
            
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
-                options.User.RequireUniqueEmail = true;
-                options.Password.RequireNonAlphanumeric = true;
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequireUppercase = true;
+                //options.User.RequireUniqueEmail = true;
+                //options.Password.RequireNonAlphanumeric = true;
+                //options.Password.RequireDigit = true;
+                //options.Password.RequiredLength = 8;
+                //options.Password.RequireUppercase = true;
             }).AddEntityFrameworkStores<AppIdentityContext>()
                 .AddDefaultTokenProviders();
 

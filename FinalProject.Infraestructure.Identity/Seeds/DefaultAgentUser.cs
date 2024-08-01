@@ -7,21 +7,23 @@ namespace FinalProject.Infraestructure.Identity.Seeds
 {
     public static class DefaultAgentUser
     {
-        public static async Task AddDefaultAgentUser(UserManager<ApplicationUser> userManager)
+        public static async Task AddDefaultAgentUser(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             ApplicationUser defaultAdminUser = new()
             {
-                FirstName = "DefaultFirstName",
-                LastName = "DefaultLastName",
+                FirstName = "DefaultFirstNamec",
+                LastName = "DefaultLastNamed",
+                UserName = "AgentUser",
                 Email = "DefaultAgentEmail@gmail.com",
                 PhoneNumber = "1234567890",
                 ImgProfileUrl = "Img",
+                Cedula = " ",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
 
             };
 
-            if (userManager.Users.Any(u => u.Id == defaultAdminUser.Id))
+            if (!userManager.Users.Any(u => u.Id == defaultAdminUser.Id))
             {
                 ApplicationUser user = await userManager.FindByEmailAsync(defaultAdminUser.Email);
 

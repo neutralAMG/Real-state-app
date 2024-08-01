@@ -7,20 +7,22 @@ namespace FinalProject.Infraestructure.Identity.Seeds
 {
     public static class DefaultDeveloperUser
     {
-        public static async Task AddDefaultDeveloperUser(UserManager<ApplicationUser> userManager)
+        public static async Task AddDefaultDeveloperUser(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             ApplicationUser defaultDeveloperUser = new()
             {
-                FirstName = "DefaultFirstName",
-                LastName = "DefaultLastName",
+                FirstName = "DefaultFirstNameh",
+                LastName = "DefaultLastNamei",
                 Email = "DefaultDeveloperEmail@gmail.com",
                 PhoneNumber = "1234567890",
+                Cedula = "3243244",
+                UserName = "DeveloperUser",
                 ImgProfileUrl = "Img",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
 
             };
-            if (userManager.Users.Any(u => u.Id == defaultDeveloperUser.Id))
+            if (!userManager.Users.Any(u => u.Id == defaultDeveloperUser.Id))
             {
                 ApplicationUser user = await userManager.FindByEmailAsync(defaultDeveloperUser.Email);
                 if (user == null)

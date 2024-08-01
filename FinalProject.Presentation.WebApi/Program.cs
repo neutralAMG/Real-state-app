@@ -23,7 +23,25 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    IServiceProvider services = scope.ServiceProvider;
+    try
+    {
+        UserManager<ApplicationUser> userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
+        RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+        await DefaultRoles.AddDefaulRoles(userManager, roleManager);
+        await DefaultAdminUser.AddDefaultAddminUser(userManager, roleManager);
+        await DefaultDeveloperUser.AddDefaultDeveloperUser(userManager, roleManager);
+
+    }
+    catch
+    {
+        throw;
+    }
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -39,23 +57,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-using (IServiceScope scope = app.Services.CreateScope())
-{
-    IServiceProvider services = scope.ServiceProvider;
-    try
-    {
-        UserManager<ApplicationUser> userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
 
-        RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-        await DefaultRoles.AddDefaulRoles(roleManager);
-        await DefaultAdminUser.AddDefaultAddminUser(userManager);
-        await DefaultDeveloperUser.AddDefaultDeveloperUser(userManager);
-
-    }
-    catch
-    {
-        throw;
-    }
-}
 app.Run();
