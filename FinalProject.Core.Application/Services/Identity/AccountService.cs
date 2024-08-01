@@ -56,7 +56,7 @@ namespace FinalProject.Core.Application.Services.Identity
 
                 if (responce.HasError)
                 {
-                    result.ISuccess = responce.HasError;
+                    result.ISuccess = false;
                     result.Message = responce.ErrorMessage;
                     return result;
                 }
@@ -107,6 +107,24 @@ namespace FinalProject.Core.Application.Services.Identity
         public async Task<Result> ForgotPassword()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Result> SignOutAsync()
+        {
+            Result result = new();
+            try
+            {
+                await _accountRepository.SignOutAsync();
+
+                result.Message = "User logout";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = "Critical error while loging out the user";
+                return result;
+            }
         }
     }
 }

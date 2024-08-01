@@ -147,6 +147,13 @@ namespace FinalProject.Core.Application.Services.Persistance
         public async Task<Result<List<PropertyModel>>> GetAllCurrentAgentUserPropertiesAsync()
         {
             Result<List<PropertyModel>> result = new();
+
+            if (_currentUserInfo == null)
+            {
+                result.ISuccess = false;
+                result.Message = "There is no user logIn right now";
+                return result;
+            }
             try
             {
                 List<Property> propertiesGetted = await _propertyRepository.GetAllCurrentAgentUserPropertiesAsync(_currentUserInfo.Id);
@@ -166,6 +173,13 @@ namespace FinalProject.Core.Application.Services.Persistance
         public async Task<Result<List<PropertyModel>>> GetAllCurrentClientUserFavPropertiesAsync()
         {
             Result<List<PropertyModel>> result = new();
+
+            if (_currentUserInfo == null)
+            {
+                result.ISuccess = false;
+                result.Message = "There is no user logIn right now";
+                return result;
+            }
             try
             {
                 List<Property> propertiesGetted = await _propertyRepository.GetAllCurrentClientUserFavPropertiesAsync(_currentUserInfo.Id);
@@ -191,6 +205,13 @@ namespace FinalProject.Core.Application.Services.Persistance
         {
             Result result = new();
             string operationToBeHandled = isMarkFavoriteByUser ? "add" : "Delet";
+
+            if (_currentUserInfo == null)
+            {
+                result.ISuccess = false;
+                result.Message = "There is no user logIn right now";
+                return result;
+            }
             try
             {
 
@@ -218,6 +239,14 @@ namespace FinalProject.Core.Application.Services.Persistance
         private async Task<Result<List<PropertyModel>>> GetAllWithCurrentClientLogIn()
         {
             Result<List<PropertyModel>> result = new();
+
+            if (_currentUserInfo == null)
+            {
+                result.ISuccess = false;
+                result.Message = "There is no user logIn right now";
+                return result;
+            }
+
             try
             {
                 List<Property> propertiesGetted = await _propertyRepository.GetAllWithCurrentClientLogIn(_currentUserInfo.Id);
