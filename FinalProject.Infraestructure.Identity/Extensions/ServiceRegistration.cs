@@ -45,7 +45,6 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
             services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<HandleRegistration>();
-            services.AddTransient<SignInManager<ApplicationUser>, CustomAuthSignInManager<ApplicationUser>>();
             services.AddTransient<IUserRepository, UserRepository>();
 
             services.ConfigureApplicationCookie(options =>

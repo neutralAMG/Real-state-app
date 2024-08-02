@@ -24,6 +24,11 @@ namespace Chequeando.Controllers
             return View();
         }
 
+        public IActionResult IndexAgent()
+        {
+            return View();
+        }
+
         public IActionResult LogOut()
         {
             // logica deslogear

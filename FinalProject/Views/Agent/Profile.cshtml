@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Edit Agent Information";
+}
+
+<div class="container mx-auto px-4 py-6">
+    <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 p-10 rounded-lg shadow-lg">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Edit Agent Information</h2>
+            <form id="editAgentForm" method="post">
+                <div class="mb-6">
+                    <label for="firstName" class="block text-gray-700 text-lg font-semibold mb-2">First Name</label>
+                    <input type="text" id="firstName" name="firstName" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required value="<!-- Current First Name -->">
+                </div>
+                <div class="mb-6">
+                    <label for="lastName" class="block text-gray-700 text-lg font-semibold mb-2">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required value="<!-- Current Last Name -->">
+                </div>
+                <div class="mb-6">
+                    <label for="phone" class="block text-gray-700 text-lg font-semibold mb-2">Phone</label>
+                    <input type="tel" id="phone" name="phone" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required value="<!-- Current Phone -->">
+                </div>
+                <div class="mb-6">
+                    <label for="photo" class="block text-gray-700 text-lg font-semibold mb-2">Photo</label>
+                    <input type="file" id="photo" name="photo" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <img src="<!-- Current Photo URL -->" alt="Current Photo" class="w-24 h-24 rounded-full mt-4 mx-auto">
+                </div>
+                <div class="flex justify-between mt-6">
+                    <button type="button" onclick="window.location.href='@Url.Action("IndexAgent", "Home")'" class="bg-gray-300 text-gray-700 p-3 rounded-lg hover:bg-gray-400">
+                        Back to Home
+                    </button>
+                    <button type="submit" class="bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700">
+                        Save Information
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('editAgentForm').addEventListener('submit', function (event) {
+            // Client-side validation if needed
+            var firstName = document.getElementById('firstName').value.trim();
+            var lastName = document.getElementById('lastName').value.trim();
+            var phone = document.getElementById('phone').value.trim();
+
+            if (!firstName || !lastName || !phone) {
+                event.preventDefault();
+                alert('Please fill out all required fields.');
+            }
+        });
+    </script>
+}
