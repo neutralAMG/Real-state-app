@@ -3,50 +3,115 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - FinalProject</title>
+    <title>@ViewData["Title"] - Chequeando</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/FinalProject.styles.css" asp-append-version="true" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Chequeando.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/static/home.css" />
 </head>
-<body>
+<body class="bg-gray-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FinalProject</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <nav class="bg-indigo-600 shadow-md">
+            <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+                <a class="text-2xl font-bold text-white" asp-area="" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Chequeando</a>
+                <button class="text-white focus:outline-none lg:hidden" id="navbar-toggle">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="hidden lg:flex lg:items-center lg:w-auto w-full" id="navbar-collapse">
+                    <ul class="flex flex-col lg:flex-row lg:ml-auto mt-3 lg:mt-0">
+                        <!--Esta ruta sera para gente no logeada-->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home"></i> Home
+                            </a>
                         </li>
+
+                        <!--Esta ruta sera para Clientes logeados-->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="IndexLogeado">
+                                <i class="fas fa-home"></i> HomeLOg
+                            </a>
                         </li>
+
+                        <!--Esta ruta sera para Clientes logeados-->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Property" asp-action="FavoriteProperty">
+                                <i class="fas fa-home"></i> MyProperties
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para Todos-->
+                        <li class="nav-item">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="About">
+                                <i class="fas fa-info-circle"></i> About
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para Todos-->
+                        <li class="nav-item">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="Contact">
+                                <i class="fas fa-envelope"></i> Contact
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para Todos-->
+                        <li class="nav-item lg:ml-6">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="Index">
+                                <i class="fas fa-users"></i> Agents
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para Todos-->
+                        <li class="nav-item lg:ml-6">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="User" asp-action="Register">
+                                <i class="fas fa-user-plus"></i> Join Us
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para gente que no este logeada-->
+                        <li class="nav-item lg:ml-6">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="User" asp-action="Login">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para gente que este logeada-->
+                        <li class="nav-item lg:ml-6">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="LogOut">
+                                <i class="fas fa-sign-out-alt"></i> LogOut
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="container mx-auto px-4 py-6">
+        <main role="main" class="bg-white p-6 rounded shadow-sm">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - FinalProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="bg-indigo-600 border-t mt-6 py-4">
+        <div class="container mx-auto px-4 text-center text-white">
+            &copy; 2024 - Chequeando - <a class="text-white hover:underline" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
         </div>
     </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        document.getElementById('navbar-toggle').addEventListener('click', function () {
+            var navbarCollapse = document.getElementById('navbar-collapse');
+            navbarCollapse.classList.toggle('hidden');
+        });
+    </script>
 </body>
 </html>

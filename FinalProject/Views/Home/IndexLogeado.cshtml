@@ -80,8 +80,18 @@
                 <h2 class="text-2xl font-bold mb-4">Available Properties</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Property Card -->
-                    <a href="@Url.Action("Detail", "Property")" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
+                    <div class="relative border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
                         <img src="https://www.sbid.org/wp-content/uploads/2021/12/V.Concept-by-Victoria-Vitkovskaya-Almond-Apartment16.jpg" alt="Property Image" class="w-full">
+                        <div class="absolute top-2 right-2">
+                            <button class="text-red-500 hover:text-red-700 focus:outline-none text-3xl">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            @*  
+                                Asi seria en caso para cuando conectemos y queramos que cambie de color si es favorito o no
+                            <button type="submit" class="text-gray-500 hover:text-red-700">
+                                <i class="fas fa-heart @((property.IsFavorite) ? "text-red-500" : "text-gray-500")"></i>
+                            </button> *@
+                        </div>
                         <div class="p-4">
                             <p class="text-gray-700 flex items-center">
                                 <i class="fas fa-code mr-2"></i> Property Code: AP1234
@@ -102,33 +112,37 @@
                                 <i class="fas fa-ruler-combined mr-2"></i> Size: 120 sqm
                             </p>
                         </div>
-                    </a>
+                    </div>
                     <!-- Repeat Property Card as needed -->
-                    <a href="/property/details/HS5678" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
-                        <img src="https://st.houzz.com/simgs/ef11653b0db38dd6_8-1917/traditional-exterior.jpg" alt="Property Image" class="w-full">
+
+                    <div class="relative border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
+                        <img src="https://hillvalleysuites.com/wp-content/uploads/2021/03/Suite-123-Hill-Valley-Suites-4.jpg" alt="Property Image" class="w-full">
+                        <div class="absolute top-2 right-2">
+                            <button class="text-gray-500 hover:text-red-700 focus:outline-none text-3xl">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
                         <div class="p-4">
                             <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-code mr-2"></i> Property Code: HS5678
+                                <i class="fas fa-code mr-2"></i> Property Code: CT7890
                             </p>
                             <p class="text-gray-700 flex items-center">
                                 <i class="fas fa-tag mr-2"></i> Sale Type: Sale
                             </p>
                             <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-dollar-sign mr-2"></i> Price: $1,200,000
+                                <i class="fas fa-dollar-sign mr-2"></i> Price: $950,000
                             </p>
                             <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-bed mr-2"></i> Bedrooms: 4
+                                <i class="fas fa-bed mr-2"></i> Bedrooms: 3
                             </p>
                             <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-bath mr-2"></i> Bathrooms: 3
+                                <i class="fas fa-bath mr-2"></i> Bathrooms: 2
                             </p>
                             <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-ruler-combined mr-2"></i> Size: 200 sqm
+                                <i class="fas fa-ruler-combined mr-2"></i> Size: 150 sqm
                             </p>
                         </div>
-                    </a>
-                    <!-- Repeat Property Card as needed -->
-                    <!-- Add more Property Cards as needed with updated details -->
+                    </div>
                 </div>
             </div>
         </div>
