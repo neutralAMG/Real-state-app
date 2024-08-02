@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Agents";
+}
+
+<div class="container mx-auto px-4 py-6">
+    <h1 class="text-4xl font-bold mb-6">Our Agents</h1>
+
+    <!-- Search Bar -->
+    <div class="mb-6">
+        <input type="text" id="agentSearch" class="w-full p-3 border rounded shadow-sm" placeholder="Search agents by name...">
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="agentsList">
+        <!-- Agent 1 -->
+        <a href="@Url.Action("Property", "Agent")">
+            <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
+                <img src="https://via.placeholder.com/150" alt="John Doe" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
+                <h2 class="text-xl font-semibold">John Doe</h2>
+            </div>
+        </a>
+
+        <!-- Agent 2 -->
+        <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
+            <img src="https://via.placeholder.com/150" alt="Jane Smith" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
+            <h2 class="text-xl font-semibold">Jane Smith</h2>
+        </div>
+
+        <!-- Agent 3 -->
+        <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
+            <img src="https://via.placeholder.com/150" alt="Emily Johnson" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
+            <h2 class="text-xl font-semibold">Emily Johnson</h2>
+        </div>
+
+        <!-- Agent 4 -->
+        <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
+            <img src="https://via.placeholder.com/150" alt="Michael Brown" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
+            <h2 class="text-xl font-semibold">Michael Brown</h2>
+        </div>
+
+        <!-- Agent 5 -->
+        <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
+            <img src="https://via.placeholder.com/150" alt="Sarah Davis" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
+            <h2 class="text-xl font-semibold">Sarah Davis</h2>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/agent.js"></script>

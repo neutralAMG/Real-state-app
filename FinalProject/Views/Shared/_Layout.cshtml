@@ -23,12 +23,28 @@
                 </button>
                 <div class="hidden lg:flex lg:items-center lg:w-auto w-full" id="navbar-collapse">
                     <ul class="flex flex-col lg:flex-row lg:ml-auto mt-3 lg:mt-0">
+
+                        <!--Esta ruta sera para gente no logeada-->
+
                         <li class="nav-item">
                             <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="Index">
                                 <i class="fas fa-home"></i> Home
                             </a>
                         </li>
+
+                        <!--Esta ruta sera para Clientes logeados-->
                         <li class="nav-item">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="IndexLogeado">
+                                <i class="fas fa-home"></i> HomeLOg
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para Clientes logeados-->
+                        <li class="nav-item">
+
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Property" asp-action="FavoriteProperty">
+                                <i class="fas fa-home"></i> MyProperties
+
                             <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="About">
                                 <i class="fas fa-info-circle"></i> About
                             </a>
@@ -46,10 +62,50 @@
                         <li class="nav-item lg:ml-6">
                             <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="" asp-action="">
                                 <i class="fas fa-sign-out-alt"></i> Logout
+
                             </a>
                         </li>
+
+                        <!--Esta ruta sera para Todos-->
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="About">
+                                <i class="fas fa-info-circle"></i> About
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para Todos-->
+                        <li class="nav-item">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="Contact">
+                                <i class="fas fa-envelope"></i> Contact
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para Todos-->
+                        <li class="nav-item lg:ml-6">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="Index">
+                                <i class="fas fa-users"></i> Agents
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para Todos-->
+                        <li class="nav-item lg:ml-6">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="User" asp-action="Register">
+                                <i class="fas fa-user-plus"></i> Join Us
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para gente que no este logeada-->
+                        <li class="nav-item lg:ml-6">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="User" asp-action="Login">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+
+                        <!--Esta ruta sera para gente que este logeada-->
+                        <li class="nav-item lg:ml-6">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="LogOut">
+                                <i class="fas fa-sign-out-alt"></i> LogOut
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -64,7 +120,11 @@
 
     <footer class="bg-indigo-600 border-t mt-6 py-4">
         <div class="container mx-auto px-4 text-center text-white">
+
+            &copy; 2024 - Chequeando - <a class="text-white hover:underline" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+
             &copy; 2024 - Chequeando - <a class="text-white hover:underline" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

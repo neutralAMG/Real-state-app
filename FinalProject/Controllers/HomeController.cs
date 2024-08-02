@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace FinalProject.Controllers
+namespace Chequeando.Controllers
 {
     public class HomeController : Controller
     {
@@ -14,6 +14,28 @@ namespace FinalProject.Controllers
         }
 
         public IActionResult Index()
+        {
+            return View();
+
+        }
+
+        public IActionResult IndexLogeado()
+        {
+            return View();
+        }
+
+        public IActionResult LogOut()
+        {
+            // logica deslogear
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult About()
+        {
+            return View();
+        }
+
+        public IActionResult Contact()
         {
             return View();
         }

@@ -2,22 +2,15 @@
 
 namespace Chequeando.Controllers
 {
-    public class PropertyController : Controller
+    public class AgentController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
-
-        public IActionResult Detail()
+        public IActionResult Property()
         {
             return View();
         }
-
-        public IActionResult FavoriteProperty()
-        {
-            return View();
-        }
-
     }
 }
