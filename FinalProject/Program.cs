@@ -21,7 +21,7 @@ builder.Services.AddCoreApplicationLayerForWebApp(builder.Configuration);
 builder.Services.AddPresentationWebAppLayer();
 builder.Services.AddSession();
 // Registrar el AccountService
-builder.Services.AddScoped<AccountService>();
+
 //builder.Services.AddScoped<AccountService>();
 
 var app = builder.Build();

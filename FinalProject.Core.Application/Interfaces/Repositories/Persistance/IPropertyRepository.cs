@@ -11,5 +11,6 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Persistance
         Task<List<Property>> GetAllCurrentClientUserFavPropertiesAsync(string id);
         Task<Property> GetByCodeAsync(string code);
         Task<List<Property>> GetAllWithCurrentClientLogIn(string id);
+        Task<int> GetAmountOfPropertiesAsync();
     }
 }

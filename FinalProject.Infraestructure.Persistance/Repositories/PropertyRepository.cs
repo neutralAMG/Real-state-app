@@ -111,5 +111,10 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
                .Include(p => p.PropertyType)
                .Include(p => p.SellType).Where(p => p.PropertyCode == code).FirstOrDefaultAsync();
         }
+        
+        public async Task<int> GetAmountOfPropertiesAsync()
+        {
+            return await _context.Properties.CountAsync();
+        }
     }
 }

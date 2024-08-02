@@ -115,6 +115,7 @@ namespace FinalProject.Core.Application.Services.Identity
             try
             {
                 await _accountRepository.SignOutAsync();
+                _httpContext.HttpContext.Session.Remove(_sessionsKeys.UserKey);
 
                 result.Message = "User logout";
                 return result;

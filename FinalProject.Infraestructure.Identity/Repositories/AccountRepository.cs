@@ -7,7 +7,6 @@ using FinalProject.Core.Application.Utils.EmailPreBuildRequest;
 using FinalProject.Core.Domain.Settings;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Enums;
-using FinalProject.Infraestructure.Identity.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
@@ -54,13 +53,13 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             SignInResult result = await _signInManager.PasswordSignInAsync(userAuthenticated, request.Password, false, false).ConfigureAwait(true);
 
-            //if (result.IsLockedOut)
-            //{
-            //    responce.HasError = true;
-            //    responce.ErrorMessage = "This user account i bolcked becaouse of multiple false attemp's";
-            //    responce.IsLockOut = true;
-            //    return responce;
-            //}
+            if (result.IsLockedOut)
+            {
+                responce.HasError = true;
+               responce.ErrorMessage = "This user account i bolcked becaouse of multiple false attemp's";
+                responce.IsLockOut = true;
+               return responce;
+            }
 
             if (!result.Succeeded)
             {

@@ -1,6 +1,8 @@
-﻿using FinalProject.Core.Application.Interfaces.Contracts.Identity;
+﻿using FinalProject.Core.Application.Interfaces.Contracts;
+using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Interfaces.Utils;
+using FinalProject.Core.Application.Services;
 using FinalProject.Core.Application.Services.Identity;
 using FinalProject.Core.Application.Services.Persistance;
 using FinalProject.Core.Application.Utils.FileHandler;
@@ -26,8 +28,10 @@ namespace FinalProject.Core.Application.Extensions
             services.AddTransient<ISellTypeService, SellTypeService>();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IHomeStatisticsService, AdminHomeStatisticsService>();
             services.AddTransient<IFileHandler<Guid>, FileHandler<Guid>>(); 
             services.AddTransient<IFileHandler<string>, FileHandler<string>>(); 
+
 
             services.Configure<SessionKeys>(config.GetSection("SessionKeys"));
             services.Configure<BasePathsForFileStorage>(config.GetSection("BasePathsForFileStorage"));

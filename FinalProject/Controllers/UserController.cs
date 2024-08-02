@@ -1,13 +1,14 @@
-﻿using FinalProject.Core.Application.Services.Identity;
+﻿using FinalProject.Core.Application.Interfaces.Contracts.Identity;
+using FinalProject.Core.Application.Services.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chequeando.Controllers
 {
     public class UserController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
 
-        public UserController(AccountService accountService)
+        public UserController(IAccountService accountService)
         {
             _accountService = accountService;
         }
@@ -23,9 +24,9 @@ namespace Chequeando.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoginPost(string usernameMail, string password)
+        public async Task<IActionResult> Login(string usernameMail, string password)
         {
-            var result = _accountService.AuthenticateWebAppAsync(usernameMail, password);
+            var result = await _accountService.AuthenticateWebAppAsync(usernameMail, password);
             return RedirectToAction("Index", "Home");
         }
 
