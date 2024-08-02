@@ -27,7 +27,7 @@ namespace FinalProject.Infraestructure.Persistance.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=DESKTOP-LL4GL68; Database=FinalProject; Integrated Security=true; TrustServerCertificate=true;", m => m.MigrationsAssembly(typeof(FinalProjectContext).Assembly.FullName));
+            optionsBuilder.UseSqlServer("Server=DESKTOP-TD7H9NB; Database=FinalProject; Integrated Security=true; TrustServerCertificate=true;", m => m.MigrationsAssembly(typeof(FinalProjectContext).Assembly.FullName));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

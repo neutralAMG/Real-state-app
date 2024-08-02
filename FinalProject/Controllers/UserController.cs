@@ -1,5 +1,4 @@
-﻿using FinalProject.Core.Application.Core;
-using FinalProject.Core.Application.Interfaces.Contracts.Identity;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,106 +8,17 @@ namespace FinalProject.Presentation.WebApp.Controllers
     {
         private readonly IAccountService accountService;
 
-        public UserController(IAccountService accountService)
-        {
-            this.accountService = accountService;
-        }
-        // GET: UserController
-        public ActionResult Index()
-        {
-            return View();
-        }
 
-        // GET: UserController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: UserController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: UserController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: UserController/Create
-        public async Task<IActionResult> Login()
-        {
-            return View();
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Login(string nameormail, string password)
+        //{
+        //    await accountService.AuthenticateWebAppAsync(nameormail, password);
+        //    return View();
+        //}
 
-        // POST: UserController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login( string usernameOrEmail, string password)
-        {
-            Result result = new();
-            try
-            {
-                 result = await accountService.AuthenticateWebAppAsync(usernameOrEmail, password);  
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UserController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: UserController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: UserController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: UserController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
