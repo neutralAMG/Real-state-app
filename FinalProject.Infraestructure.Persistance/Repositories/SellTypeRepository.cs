@@ -28,6 +28,8 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
 
         public override async Task<SellType> SaveAsync(SellType entity)
         {
+            if (await ExistsAsync(e => e.Name == entity.Name)) return null;
+
             return await base.SaveAsync(entity);
         }
 

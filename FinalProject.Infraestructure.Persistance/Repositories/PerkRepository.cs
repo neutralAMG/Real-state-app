@@ -27,6 +27,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
 
         public override async Task<Perk> SaveAsync(Perk entity)
         {
+            if (await ExistsAsync(e => e.Name == entity.Name)) return null;
             return await base.SaveAsync(entity);
         }
 

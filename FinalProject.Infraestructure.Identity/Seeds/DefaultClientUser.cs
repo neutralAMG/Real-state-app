@@ -8,21 +8,23 @@ namespace FinalProject.Infraestructure.Identity.Seeds
 {
     public static class DefaultClientUser
     {
-        public static async Task AddDefaultClientUser(UserManager<ApplicationUser> userManager)
+        public static async Task AddDefaultClientUser(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             ApplicationUser defaultAdminUser = new()
             {
-                FirstName = "DefaultFirstName",
-                LastName = "DefaultLastName",
+                FirstName = "DefaultFirstNamea",
+                LastName = "DefaultLastNameb",
+                UserName = "clientUser",
                 Email = "DefaultClientEmail@gmail.com",
                 PhoneNumber = "1234567890",
                 ImgProfileUrl = "Img",
-                EmailConfirmed = true,
+                Cedula = " ",
+                EmailConfirmed = false,
                 PhoneNumberConfirmed = true,
 
-            };
+            };;
 
-            if (userManager.Users.Any(u => u.Id == defaultAdminUser.Id))
+            if (!userManager.Users.Any(u => u.Id == defaultAdminUser.Id))
             {
                 ApplicationUser user = await userManager.FindByEmailAsync(defaultAdminUser.Email);
 
