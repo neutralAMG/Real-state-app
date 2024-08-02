@@ -52,15 +52,15 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
 
-            SignInResult result = await _signInManager.PasswordSignInAsync(userAuthenticated, request.Password, false, false);
+            SignInResult result = await _signInManager.PasswordSignInAsync(userAuthenticated, request.Password, false, false).ConfigureAwait(true);
 
-            if (result.IsLockedOut)
-            {
-                responce.HasError = true;
-                responce.ErrorMessage = "This user account i bolcked becaouse of multiple false attemp's";
-                responce.IsLockOut = true;
-                return responce;
-            }
+            //if (result.IsLockedOut)
+            //{
+            //    responce.HasError = true;
+            //    responce.ErrorMessage = "This user account i bolcked becaouse of multiple false attemp's";
+            //    responce.IsLockOut = true;
+            //    return responce;
+            //}
 
             if (!result.Succeeded)
             {

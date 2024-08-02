@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "Create New Property";
+}
+
+<div class="container mx-auto px-4 py-6 bg-gray-100 min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-4xl font-bold text-indigo-600 mb-8">Create New Property</h1>
+        <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Property Type -->
+                <div>
+                    <label class="block text-gray-700">Property Type</label>
+                    <select class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyType" required>
+                        <!-- Options should be populated dynamically -->
+                        <option value="">Select Property Type</option>
+                        <option>House</option>
+                        <option>Apartment</option>
+                        <option>Condo</option>
+                    </select>
+                </div>
+
+                <!-- Sale Type -->
+                <div>
+                    <label class="block text-gray-700">Sale Type</label>
+                    <select class="w-full p-3 border border-gray-300 rounded-lg" name="SaleType" required>
+                        <!-- Options should be populated dynamically -->
+                        <option value="">Select Sale Type</option>
+                        <option>Rent</option>
+                        <option>Sale</option>
+                    </select>
+                </div>
+
+                <!-- Price -->
+                <div>
+                    <label class="block text-gray-700">Price (in Dominican Peso)</label>
+                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Price" required>
+                </div>
+
+                <!-- Description -->
+                <div class="md:col-span-2">
+                    <label class="block text-gray-700">Description</label>
+                    <textarea class="w-full p-3 border border-gray-300 rounded-lg" name="Description" rows="4" required></textarea>
+                </div>
+
+                <!-- Size -->
+                <div>
+                    <label class="block text-gray-700">Size (in sqm)</label>
+                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Size" required>
+                </div>
+
+                <!-- Bedrooms -->
+                <div>
+                    <label class="block text-gray-700">Bedrooms</label>
+                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Bedrooms" required>
+                </div>
+
+                <!-- Bathrooms -->
+                <div>
+                    <label class="block text-gray-700">Bathrooms</label>
+                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Bathrooms" required>
+                </div>
+
+                <!-- Amenities -->
+                <div class="md:col-span-2">
+                    <label class="block text-gray-700">Amenities</label>
+                    <select multiple class="w-full p-3 border border-gray-300 rounded-lg" name="Amenities" required>
+                        <!-- Options should be populated dynamically -->
+                        <option>Swimming Pool</option>
+                        <option>Gym</option>
+                        <option>Garden</option>
+                    </select>
+                </div>
+
+                <!-- Images -->
+                <div class="md:col-span-2">
+                    <label class="block text-gray-700">Property Images (1-4)</label>
+                    <input type="file" class="w-full p-3 border border-gray-300 rounded-lg" name="Images" accept="image/*" multiple required id="imagesInput">
+                    <small class="text-gray-600">Please select at least one image.</small>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-end space-x-4">
+                <a href="@Url.Action("MantProperty", "Agent")" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
+                    Back
+                </a>
+                <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function validateForm() {
+        const imagesInput = document.getElementById('imagesInput');
+        if (imagesInput.files.length < 1) {
+            alert('Please select at least one image.');
+            return false;
+        }
+        return true;
+    }
+</script>

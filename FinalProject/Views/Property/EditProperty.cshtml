@@ -1,0 +1,142 @@
+﻿@{
+    ViewData["Title"] = "Edit Property";
+    var propertyTypes = new List<string> { "House", "Apartment", "Condo" }; // Example data, replace with actual data from the database
+    var saleTypes = new List<string> { "Rent", "Sale" }; // Example data, replace with actual data from the database
+    var amenities = new List<string> { "Swimming Pool", "Gym", "Garden" }; // Example data, replace with actual data from the database
+    var property = new { 
+        PropertyType = "House", 
+        SaleType = "Rent", 
+        Price = 850000, 
+        Description = "A beautiful house.", 
+        Size = 120, 
+        Bedrooms = 2, 
+        Bathrooms = 2, 
+        SelectedAmenities = new List<string> { "Swimming Pool", "Gym" }, 
+        Images = new List<string> { "https://foxchronicle.com/wp-content/uploads/2020/01/zoolander-movie.jpg", "image2.jpg" }
+    }; // Example data, replace with actual property data
+}
+
+@if (!propertyTypes.Any() || !saleTypes.Any() || !amenities.Any())
+{
+    <div class="container mx-auto px-4 py-6 bg-red-100 min-h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h1 class="text-4xl font-bold text-red-600 mb-8">Error</h1>
+            <p class="text-xl text-red-700">There are no property types, sale types, or amenities created. Please create them before editing properties.</p>
+        </div>
+    </div>
+}
+else
+{
+    <div class="container mx-auto px-4 py-6 bg-gray-100 min-h-screen">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h1 class="text-4xl font-bold text-indigo-600 mb-8">Edit Property</h1>
+            <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Property Type -->
+                    <div>
+                        <label class="block text-gray-700">Property Type</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyType" required>
+                            @foreach (var type in propertyTypes)
+                            {
+                                //<option value="@type" @(type == property.PropertyType ? "selected='selected'" : "")>@type</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Sale Type -->
+                    <div>
+                        <label class="block text-gray-700">Sale Type</label>
+                        <select class="w-full p-3 border border-gray-300 rounded-lg" name="SaleType" required>
+                            @foreach (var type in saleTypes)
+                            {
+                                //<option value="@type" @(type == property.SaleType ? "selected='selected'" : "")>@type</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Price -->
+                    <div>
+                        <label class="block text-gray-700">Price (in Dominican Peso)</label>
+                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Price" value="@property.Price" required>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700">Description</label>
+                        <textarea class="w-full p-3 border border-gray-300 rounded-lg" name="Description" rows="4" required>@property.Description</textarea>
+                    </div>
+
+                    <!-- Size -->
+                    <div>
+                        <label class="block text-gray-700">Size (in sqm)</label>
+                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Size" value="@property.Size" required>
+                    </div>
+
+                    <!-- Bedrooms -->
+                    <div>
+                        <label class="block text-gray-700">Bedrooms</label>
+                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Bedrooms" value="@property.Bedrooms" required>
+                    </div>
+
+                    <!-- Bathrooms -->
+                    <div>
+                        <label class="block text-gray-700">Bathrooms</label>
+                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Bathrooms" value="@property.Bathrooms" required>
+                    </div>
+
+                    <!-- Amenities -->
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700">Amenities</label>
+                        <select multiple class="w-full p-3 border border-gray-300 rounded-lg" name="Amenities" required>
+                            @foreach (var amenity in amenities)
+                            {
+                                //<option value="@amenity" @(property.SelectedAmenities.Contains(amenity) ? "selected='selected'" : "")>@amenity</option>
+                            }
+                        </select>
+                    </div>
+
+                    <!-- Images -->
+                    <div class="md:col-span-2">
+                        <label class="block text-gray-700">Property Images (1-4)</label>
+                        @for (int i = 0; i < property.Images.Count; i++)
+                        {
+                            <div class="mt-4">
+                                <label class="block text-gray-700">Image @(i + 1)</label>
+                                <img src="@property.Images[i]" alt="Property Image @(i + 1)" class="w-full h-32 object-cover rounded-lg mb-2">
+                                <input type="file" class="w-full p-3 border border-gray-300 rounded-lg" name="Images[@i]" accept="image/*">
+                            </div>
+                        }
+                        <small class="text-gray-600">Please select at least one image.</small>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end space-x-4">
+                    <a href="@Url.Action("Index", "Property")" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
+                        Back
+                    </a>
+                    <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            const imagesInputs = document.querySelectorAll('input[type="file"]');
+            let hasImage = false;
+            imagesInputs.forEach(input => {
+                if (input.files.length > 0) {
+                    hasImage = true;
+                }
+            });
+
+            if (!hasImage && document.querySelectorAll('.property-images img').length < 1) {
+                alert('Please select at least one image.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+}

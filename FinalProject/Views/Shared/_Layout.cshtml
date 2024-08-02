@@ -23,9 +23,7 @@
                 </button>
                 <div class="hidden lg:flex lg:items-center lg:w-auto w-full" id="navbar-collapse">
                     <ul class="flex flex-col lg:flex-row lg:ml-auto mt-3 lg:mt-0">
-
                         <!--Esta ruta sera para gente no logeada-->
-
                         <li class="nav-item">
                             <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="Index">
                                 <i class="fas fa-home"></i> Home
@@ -33,36 +31,37 @@
                         </li>
 
                         <!--Esta ruta sera para Clientes logeados-->
-                        <li class="nav-item">
+                        @* <li class="nav-item">
                             <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="IndexLogeado">
                                 <i class="fas fa-home"></i> HomeLOg
+                            </a>
+                        </li> *@
+
+                        <!--Esta ruta sera para Agentes logeados-->
+                        <li class="nav-item">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="IndexAgent">
+                                <i class="fas fa-home"></i> HomeAgents
                             </a>
                         </li>
 
                         <!--Esta ruta sera para Clientes logeados-->
-                        <li class="nav-item">
-
+                        @* <li class="nav-item">
                             <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Property" asp-action="FavoriteProperty">
                                 <i class="fas fa-home"></i> MyProperties
-
-                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="About">
-                                <i class="fas fa-info-circle"></i> About
                             </a>
-                        </li>
+                        </li> *@
+
+                        <!--Esta ruta sera para Agentes logeados-->
                         <li class="nav-item">
-                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Home" asp-action="Contact">
-                                <i class="fas fa-envelope"></i> Contact
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="Profile">
+                                <i class="fas fa-home"></i> ProfileAgent
                             </a>
                         </li>
-                        <li class="nav-item lg:ml-6">
-                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="User" asp-action="Login">
-                                <i class="fas fa-sign-in-alt"></i> Login
-                            </a>
-                        </li>
-                        <li class="nav-item lg:ml-6">
-                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="" asp-action="">
-                                <i class="fas fa-sign-out-alt"></i> Logout
 
+                        <!--Esta ruta sera para Agentes logeados-->
+                        <li class="nav-item">
+                            <a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="MantProperty">
+                                <i class="fas fa-home"></i> MantProperty
                             </a>
                         </li>
 
@@ -120,11 +119,7 @@
 
     <footer class="bg-indigo-600 border-t mt-6 py-4">
         <div class="container mx-auto px-4 text-center text-white">
-
             &copy; 2024 - Chequeando - <a class="text-white hover:underline" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-
-            &copy; 2024 - Chequeando - <a class="text-white hover:underline" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-
         </div>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -132,7 +127,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
     <script>
         document.getElementById('navbar-toggle').addEventListener('click', function () {

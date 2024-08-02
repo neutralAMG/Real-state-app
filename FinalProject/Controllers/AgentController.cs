@@ -12,5 +12,15 @@ namespace Chequeando.Controllers
         {
             return View();
         }
+
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        public IActionResult MantProperty()
+        {
+            return View();
+        }
     }
 }

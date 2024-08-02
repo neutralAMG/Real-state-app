@@ -14,6 +14,16 @@ namespace Chequeando.Controllers
             return View();
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        public IActionResult EditProperty()
+        {
+            return View();
+        }
+
         public IActionResult FavoriteProperty()
         {
             return View();

@@ -1,15 +1,16 @@
-
-﻿using Microsoft.AspNetCore.Mvc;
-
-
-using Microsoft.AspNetCore.Http;
+﻿using FinalProject.Core.Application.Services.Identity;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace Chequeando.Controllers
 {
     public class UserController : Controller
     {
+        private readonly AccountService _accountService;
+
+        public UserController(AccountService accountService)
+        {
+            _accountService = accountService;
+        }
 
         public IActionResult Index()
         {
@@ -22,8 +23,9 @@ namespace Chequeando.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoginPost()
+        public async Task<IActionResult> LoginPost(string usernameMail, string password)
         {
+            var result = _accountService.AuthenticateWebAppAsync(usernameMail, password);
             return RedirectToAction("Index", "Home");
         }
 
@@ -37,20 +39,5 @@ namespace Chequeando.Controllers
         {
             return RedirectToAction("Login", "User");
         }
-
-        private readonly IAccountService accountService;
-
-
-
-
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Login(string nameormail, string password)
-        //{
-        //    await accountService.AuthenticateWebAppAsync(nameormail, password);
-        //    return View();
-        //}
-
     }
 }

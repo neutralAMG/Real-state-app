@@ -1,5 +1,7 @@
 using FinalProject.Core.Application.Extensions;
+using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
+using FinalProject.Core.Application.Services.Identity;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Extensions;
 using FinalProject.Infraestructure.Identity.Seeds;
@@ -18,6 +20,9 @@ builder.Services.AddInfraestructurePersistanceLayer(builder.Configuration);
 builder.Services.AddCoreApplicationLayerForWebApp(builder.Configuration);
 builder.Services.AddPresentationWebAppLayer();
 builder.Services.AddSession();
+// Registrar el AccountService
+builder.Services.AddScoped<AccountService>();
+//builder.Services.AddScoped<AccountService>();
 
 var app = builder.Build();
 
