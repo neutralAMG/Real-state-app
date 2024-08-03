@@ -90,6 +90,7 @@ namespace FinalProject.Core.Application.Services.Identity
                 }
 
                 saveModel.ImgProfileUrl = _fileHandler.UploadFile(saveModel.file, _basePathsForFileStorage.UserProfilePictureBasePath, responce.Id);
+                saveModel.Id = responce.Id;
 
                 await _userService.UpdateUserAsync(saveModel);
 

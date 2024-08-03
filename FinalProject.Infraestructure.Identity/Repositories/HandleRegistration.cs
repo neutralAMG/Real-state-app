@@ -45,6 +45,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
+                UserName = request.UserName,
                 PhoneNumber = request.PhoneNumber,
                 ImgProfileUrl = request.ImgProfileUrl,
                 EmailConfirmed = false,
@@ -60,8 +61,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
             await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
-
-            responce.Id = user.Id;
+  
 
             return responce;
 
@@ -74,6 +74,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                UserName = request.UserName,
                 Email = request.Email,
                 PhoneNumber = request.PhoneNumber,
                 ImgProfileUrl = request.ImgProfileUrl,
@@ -91,7 +92,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
             await _userManager.AddToRoleAsync(user, Roles.Agent.ToString());
 
-            responce.Id = user.Id;
+      
 
             return responce;
         }
@@ -104,6 +105,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
+                UserName= request.UserName,
                 PhoneNumber = request.PhoneNumber,
                 ImgProfileUrl = request.ImgProfileUrl,
                 EmailConfirmed = true,
@@ -121,7 +123,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
             await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
 
-            responce.Id = user.Id;
+
 
             return responce;
         }
@@ -134,6 +136,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
+                UserName= request.UserName,
                 PhoneNumber = request.PhoneNumber,
                 ImgProfileUrl = request.ImgProfileUrl,
                 EmailConfirmed = true,
@@ -151,7 +154,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
             result = await _userManager.AddToRoleAsync(user, Roles.Developer.ToString());
 
-            responce.Id = user.Id;
+      
 
             return responce;
         }

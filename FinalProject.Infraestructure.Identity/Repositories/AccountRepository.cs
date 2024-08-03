@@ -115,7 +115,10 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             responce = await _handleRegistration.HandleRegisterAsync(role, request);
 
-            if (!responce.HasError && role == Roles.Client.ToString())
+            var newUser = await _userManager.FindByNameAsync(request.UserName);
+            responce.Id = newUser.Id;
+
+            if (!responce.HasError && role == Roles.Client.ToString() && !string.IsNullOrEmpty(origin))
             {
                 var verificationUri = await SendVerificationEmailUrlAsync(user, "origin");
                 await _emailService.SendEmailAsync(new EmailRequest

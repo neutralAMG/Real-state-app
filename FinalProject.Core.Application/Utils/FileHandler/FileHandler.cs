@@ -25,7 +25,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
-            if (Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
@@ -56,7 +56,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
 
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
-            if (Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
@@ -76,7 +76,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
             basePath = $"{basePath}/{id}";
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
-            if (Directory.Exists(path))
+            if (!Directory.Exists(path))
             {
                 DirectoryInfo directoryInfo = new(path);
                 foreach(FileInfo file in directoryInfo.GetFiles())

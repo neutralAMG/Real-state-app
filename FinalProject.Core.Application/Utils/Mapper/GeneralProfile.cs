@@ -40,6 +40,9 @@ namespace FinalProject.Core.Application.Utils.Mapper
 
             CreateMap<GetUserStatisticDto, HomeViewStatisticsModel>()
                 .ReverseMap();
+
+            CreateMap<UpdateUserRequest, SaveUserModel>()
+                .ReverseMap();
             #endregion
 
             #region Property mapping setup configuration

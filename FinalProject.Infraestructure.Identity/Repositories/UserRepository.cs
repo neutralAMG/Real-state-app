@@ -149,6 +149,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             userToBeUpdate.UserName = request.UserName;
             userToBeUpdate.PhoneNumber = request.PhoneNumber;
             userToBeUpdate.Cedula = request.Cedula;
+            userToBeUpdate.ImgProfileUrl = request.ImgProfileUrl;
             userToBeUpdate.Email = request.Email;
 
             result = await _userManager.UpdateAsync(userToBeUpdate);
