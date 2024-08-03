@@ -40,7 +40,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                     Cedula = userRoles.Any(r => r == Roles.Developer.ToString() || r == Roles.Agent.ToString()) ? u.Cedula : null,
                     Roles = userRoles.ToList()
                 };
-            }    
+            }
             ).ToList();
         }
 
@@ -59,7 +59,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 ImgProfileUrl = userGetted.ImgProfileUrl,
                 Password = userGetted.PasswordHash,
                 UserName = userGetted.UserName,
-                Cedula  = roles.Any(r => r == Roles.Developer.ToString() || r == Roles.Agent.ToString()) ? userGetted.Cedula : null,
+                Cedula = roles.Any(r => r == Roles.Developer.ToString() || r == Roles.Agent.ToString()) ? userGetted.Cedula : null,
                 IsActive = userGetted.EmailConfirmed,
                 Roles = roles.ToList()
             };
@@ -139,7 +139,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 responce.HasError = true;
                 responce.ErrorMessage = $"There is already a user with the username: {request.UserName}";
                 return responce;
-             };
+            };
 
 
             IdentityResult result = new();
@@ -149,6 +149,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             userToBeUpdate.UserName = request.UserName;
             userToBeUpdate.PhoneNumber = request.PhoneNumber;
             userToBeUpdate.Cedula = request.Cedula;
+            userToBeUpdate.ImgProfileUrl = request.ImgProfileUrl;
             userToBeUpdate.Email = request.Email;
 
             result = await _userManager.UpdateAsync(userToBeUpdate);
@@ -188,11 +189,35 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             if (!result.Succeeded)
             {
                 responce.HasError = true;
-                responce.ErrorMessage= result.Errors.First().Description;
+                responce.ErrorMessage = result.Errors.First().Description;
                 return responce;
             }
             return responce;
         }
 
+        public async Task<GetUserStatisticDto> GetUserStatistics()
+        {
+
+            IList<ApplicationUser> allOfTheUsers = await _userManager.GetUsersInRoleAsync(Roles.Agent.ToString());
+            GetUserStatisticDto data = new();
+
+            data.AmountOfActiveAgentUsers = allOfTheUsers.Where(u => u.EmailConfirmed == true).Count();
+
+            data.AmountOfInActiveAgentUsers = allOfTheUsers.Count - data.AmountOfActiveAgentUsers;
+
+            allOfTheUsers = await _userManager.GetUsersInRoleAsync(Roles.Developer.ToString());
+
+            data.AmountOfActiveClienUsers = allOfTheUsers.Where(u => u.EmailConfirmed == true).Count();
+
+            data.AmountOfInActiveClientUsers = allOfTheUsers.Count - data.AmountOfInActiveClientUsers;
+
+            allOfTheUsers = await _userManager.GetUsersInRoleAsync(Roles.Developer.ToString());
+
+            data.AmountOfActiveDeveloperUsers = allOfTheUsers.Where(u => u.EmailConfirmed = true).Count();
+
+            data.AmountOfInActiveDeveloperUsers = allOfTheUsers.Count - data.AmountOfInActiveDeveloperUsers;
+
+            return data;
+        }
     }
 }

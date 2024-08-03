@@ -11,7 +11,7 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Identity
         Task<UserOperationResponce> UpdateUserAsync(UpdateUserRequest request);
         Task<UserOperationResponce> DeleteUserAsync(string id);
         Task<UserOperationResponce> HandleUserActivationStateAsync(string id, bool Deativate = false);
-
+        Task<GetUserStatisticDto> GetUserStatistics();
         //Make un bolcking request for client users 
     }
 }

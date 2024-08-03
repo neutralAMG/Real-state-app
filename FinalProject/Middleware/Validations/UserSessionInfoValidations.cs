@@ -22,7 +22,11 @@ namespace FinalProject.Presentation.WebApp.Middleware.Validations
 
         public bool IsUserActive()
         {
-            return _currentLoginUserInfo.IsActive;
+            return _currentLoginUserInfo == null ? false : _currentLoginUserInfo.IsActive;
+        }
+        public bool IsUserFromRoleSpecific(string role)
+        {
+            return _currentLoginUserInfo == null ? false : _currentLoginUserInfo.Roles.Any(r => r == role);
         }
         
     }

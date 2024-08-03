@@ -1,21 +1,4 @@
 
-﻿@{
-    ViewData["Title"] = "Login";
-}
-
-<div class="relative bg-gray-100 h-screen flex items-center justify-center">
-    <!-- Background Image -->
-    <img src="https://www.adanirealty.com/-/media/Project/Realty/Blogs/EOI-Expression-of-Interest-in-Real-Estate--A-Comprehensive-Guide.png" alt="Background Image" class="absolute inset-0 object-cover w-full h-full opacity-60" />
-
-    <div class="relative w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h1 class="text-3xl font-extrabold mb-6 text-center text-indigo-700">Login</h1>
-        <form asp-action="LoginPost" asp-controller="User" method="post">
-            <div class="mb-4">
-                <label for="usernameMail" class="block text-gray-700 text-sm font-semibold mb-2">Username/Mail</label>
-                <input type="text" id="usernameMail" name="usernameMail" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Enter your username or mail" required>
-            </div>
-        </form>
-
 
 ﻿@{
     ViewData["Title"] = "Login";
@@ -29,8 +12,8 @@
         <h1 class="text-3xl font-extrabold mb-6 text-center text-indigo-700">Login</h1>
         <form method="POST" asp-action="Login" asp-controller="User">
             <div class="mb-4">
-                <label for="username" class="block text-gray-700 text-sm font-semibold mb-2">Username</label>
-                <input type="text" id="username" name="username" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Enter your username" required>
+                <label for="usernameMail" class="block text-gray-700 text-sm font-semibold mb-2">Username</label>
+                <input type="text" id="usernameMail" name="usernameMail" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600" placeholder="Enter your username" required>
 
             </div>
             <div class="mb-6">

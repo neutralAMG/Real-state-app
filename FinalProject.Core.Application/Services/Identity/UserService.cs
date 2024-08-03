@@ -139,12 +139,15 @@ namespace FinalProject.Core.Application.Services.Identity
             Result result = new();
             try
             {
-
-                if (request.Id == _currentUserInfo.Id)
+                if (_currentUserInfo != null)
                 {
-                    result.ISuccess = false;
-                    result.Message = "The current user can't modify itself";
+                    if (request.Id == _currentUserInfo.Id)
+                    {
+                        result.ISuccess = false;
+                        result.Message = "The current user can't modify itself";
+                    }
                 }
+                request.file = null;
                 request.ImgProfileUrl = _fileHandler.UpdateFile(request.file, _basePathForFileStorage.UserProfilePictureBasePath, request.ImgProfileUrl, request.Id);
 
                 UpdateUserRequest userRequest = _mapper.Map<UpdateUserRequest>(request);

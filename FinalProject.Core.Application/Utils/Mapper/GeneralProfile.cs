@@ -2,6 +2,7 @@
 using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Dtos.Identity.User;
+using FinalProject.Core.Application.Models;
 using FinalProject.Core.Application.Models.FavoriteUserProperty;
 using FinalProject.Core.Application.Models.Perk;
 using FinalProject.Core.Application.Models.Property;
@@ -37,6 +38,11 @@ namespace FinalProject.Core.Application.Utils.Mapper
             CreateMap<GetUserDto, UserDto>()
                 .ReverseMap();
 
+            CreateMap<GetUserStatisticDto, HomeViewStatisticsModel>()
+                .ReverseMap();
+
+            CreateMap<UpdateUserRequest, SaveUserModel>()
+                .ReverseMap();
             #endregion
 
             #region Property mapping setup configuration

@@ -18,5 +18,7 @@ namespace FinalProject.Core.Application.Models.User
         public string Cedula { get; set; }
         public string role { get; set; }
         public IFormFile file { get; set; }
+
+
     }
 }
