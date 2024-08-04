@@ -29,7 +29,12 @@ namespace Chequeando.Controllers
             return View();
         }
 
-        public IActionResult LogOut()
+		public IActionResult IndexAdmin()
+		{
+			return View();
+		}
+
+		public IActionResult LogOut()
         {
             // logica deslogear
             return RedirectToAction("Index");

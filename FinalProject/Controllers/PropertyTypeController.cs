@@ -35,6 +35,17 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
         }
 
+        public IActionResult MantPropertyType()
+        {
+            return View();
+        }
+
+        public IActionResult EditPropertyType()
+        {
+            return View();
+        }
+
+
         // GET: PropertyTypeController/Details/5
         public async Task<IActionResult> Details(int id)
         {
@@ -71,49 +82,49 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
 
         // GET: PropertyTypeController/Edit/5
-        public async Task<IActionResult> EditPropertyType(int id)
-        {
-            Result<PropertyTypeModel> result = new();
-            try
-            {
-                result = await _propertyTypeService.GetByIdAsync(id);
+        //public async Task<IActionResult> EditPropertyType(int id)
+        //{
+        //    Result<PropertyTypeModel> result = new();
+        //    try
+        //    {
+        //        result = await _propertyTypeService.GetByIdAsync(id);
 
-                if (!result.ISuccess)
-                {
-                    return RedirectToAction("Index");
-                }
+        //        if (!result.ISuccess)
+        //        {
+        //            return RedirectToAction("Index");
+        //        }
 
-                return View(result.Data);
-            }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
+        //        return View(result.Data);
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
 
-        }
+        //}
 
         // POST: PropertyTypeController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPropertyType(int id, SavePropertyTypeModel saveModel)
-        {
-            Result<SavePropertyTypeModel> result = new();
-            try
-            {
-                result = await _propertyTypeService.UpdateAsync(id, saveModel);
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditPropertyType(int id, SavePropertyTypeModel saveModel)
+        //{
+        //    Result<SavePropertyTypeModel> result = new();
+        //    try
+        //    {
+        //        result = await _propertyTypeService.UpdateAsync(id, saveModel);
 
-                if (!result.ISuccess)
-                {
-                    return RedirectToAction("Edit", id);
-                }
+        //        if (!result.ISuccess)
+        //        {
+        //            return RedirectToAction("Edit", id);
+        //        }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
-        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //}
 
         // GET: PropertyTypeController/Delete/5
         public async Task<IActionResult> DeletePropertyType(int id)
