@@ -5,6 +5,7 @@ using FinalProject.Infraestructure.Persistance.Extensions;
 using FinalProject.Core.Application.Extensions;
 using FinalProject.Infraestructure.Share.Extensions;
 using Microsoft.AspNetCore.Identity;
+using FinalProject.Presentation.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,8 @@ builder.Services.AddCoreApplicationLayerForWebApi(builder.Configuration);
 builder.Services.AddSession();
 builder.Services.AddHealthChecks();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSwaggerExtension();
+builder.Services.AddApiVersioningExtension();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -45,8 +48,7 @@ using (IServiceScope scope = app.Services.CreateScope())
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerExtension();
 }
 
 app.UseHttpsRedirection();

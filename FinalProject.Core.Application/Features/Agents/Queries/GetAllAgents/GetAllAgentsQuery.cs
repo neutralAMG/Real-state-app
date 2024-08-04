@@ -18,7 +18,7 @@ namespace FinalProject.Core.Application.Features.Agents.Queries.GetAllAgents
         private readonly IPropertyRepository _propertyRepository;
         private readonly IMapper _mapper;
 
-        public GetAllAgentsQueryHandler(IUserRepository userRepository, IPropertyRepository propertyRepository,IMapper mapper)
+        public GetAllAgentsQueryHandler(IUserRepository userRepository, IPropertyRepository propertyRepository, IMapper mapper)
         {
             _userRepository = userRepository;
             _propertyRepository = propertyRepository;
@@ -38,15 +38,13 @@ namespace FinalProject.Core.Application.Features.Agents.Queries.GetAllAgents
 
                 result.Data = _mapper.Map<List<UserDto>>(usersGetted);
 
-                result.Data.ForEach(u => u.AmountOfProperties = _propertyRepository.GetAllCurrentAgentUserPropertiesAsync(u.Id).Result.Count);
+                if (result.Data is not null || result.Data.Count != 0) result.Data.ForEach(u => u.AmountOfProperties = _propertyRepository.GetAllCurrentAgentUserPropertiesAsync(u.Id).Result.Count);
 
                 result.Message = "The user was getted successfully ";
 
                 return result;
 
-            }
-            catch
-            {
+            }catch {
                 result.ISuccess = false;
                 result.Message = $"Critical error while getting the agent user's ";
                 return result;

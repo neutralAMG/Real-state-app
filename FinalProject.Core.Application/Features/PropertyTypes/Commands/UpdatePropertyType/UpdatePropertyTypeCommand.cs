@@ -8,14 +8,14 @@ using MediatR;
 
 namespace FinalProject.Core.Application.Features.PropertyTypes.Commands.UpdatePropertyType
 {
-    public class UpdatePropertyTypeCommand : IRequest<Result<SavePropertyTypeDto>>
+    public class UpdatePropertyTypeCommand : IRequest<Result<UpdatePropertyTypeDto>>
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }
 
-    public class UpdatePropertyTypeCommandHandler : IRequestHandler<UpdatePropertyTypeCommand, Result<SavePropertyTypeDto>>
+    public class UpdatePropertyTypeCommandHandler : IRequestHandler<UpdatePropertyTypeCommand, Result<UpdatePropertyTypeDto>>
     {
         private readonly IPropertyTypeRepository _propertyTypeRepository;
         private readonly IMapper _mapper;
@@ -26,9 +26,9 @@ namespace FinalProject.Core.Application.Features.PropertyTypes.Commands.UpdatePr
             _mapper = mapper;
         }
 
-        public async Task<Result<SavePropertyTypeDto>> Handle(UpdatePropertyTypeCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UpdatePropertyTypeDto>> Handle(UpdatePropertyTypeCommand request, CancellationToken cancellationToken)
         {
-            return await BaseCqrsOperations.UpdateAsync<UpdatePropertyTypeCommand, SavePropertyTypeDto, PropertyType, int>(_propertyTypeRepository, _mapper, request.Id, request, "property type");
+            return await BaseCqrsOperations.UpdateAsync<UpdatePropertyTypeCommand, UpdatePropertyTypeDto, PropertyType, int>(_propertyTypeRepository, _mapper, request.Id, request, "property type");
         }
     }
 }

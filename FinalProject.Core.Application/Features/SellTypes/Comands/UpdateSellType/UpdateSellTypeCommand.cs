@@ -8,13 +8,13 @@ using MediatR;
 
 namespace FinalProject.Core.Application.Features.SellTypes.Comands.UpdateSellType
 {
-    public class UpdateSellTypeCommand : IRequest<Result<SaveSellTypeDto>>
+    public class UpdateSellTypeCommand : IRequest<Result<UpdateSellTypeDto>>
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }
-    public class UpdateSellTypeCommandHandler : IRequestHandler<UpdateSellTypeCommand, Result<SaveSellTypeDto>>
+    public class UpdateSellTypeCommandHandler : IRequestHandler<UpdateSellTypeCommand, Result<UpdateSellTypeDto>>
     {
         private readonly ISellTypeRepository _sellTypeRepository;
         private readonly IMapper _mapper;
@@ -24,9 +24,9 @@ namespace FinalProject.Core.Application.Features.SellTypes.Comands.UpdateSellTyp
             _sellTypeRepository = sellTypeRepository;
             _mapper = mapper;
         }
-        public async Task<Result<SaveSellTypeDto>> Handle(UpdateSellTypeCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UpdateSellTypeDto>> Handle(UpdateSellTypeCommand request, CancellationToken cancellationToken)
         {
-            return await BaseCqrsOperations.UpdateAsync<UpdateSellTypeCommand, SaveSellTypeDto, SellType, int>(_sellTypeRepository, _mapper, request.Id, request, "sell type");
+            return await BaseCqrsOperations.UpdateAsync<UpdateSellTypeCommand, UpdateSellTypeDto, SellType, int>(_sellTypeRepository, _mapper, request.Id, request, "sell type");
         }
     }
 }

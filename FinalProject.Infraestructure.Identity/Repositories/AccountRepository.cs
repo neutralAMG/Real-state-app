@@ -115,10 +115,10 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             responce = await _handleRegistration.HandleRegisterAsync(role, request);
 
-            var newUser = await _userManager.FindByNameAsync(request.UserName);
-            responce.Id = newUser.Id;
+            if (responce.HasError)  return responce;
+            
 
-            if (!responce.HasError && role == Roles.Client.ToString() && !string.IsNullOrEmpty(origin))
+            if (role == Roles.Client.ToString() && !string.IsNullOrEmpty(origin))
             {
                 var verificationUri = await SendVerificationEmailUrlAsync(user, "origin");
                 await _emailService.SendEmailAsync(new EmailRequest
@@ -127,7 +127,11 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                     Subject = "Activate your user",
                     Body = EmailPreBuildRequestBodies.EmailActivationBody(verificationUri)
                 });
-            }
+            }   
+            
+            var newUser = await _userManager.FindByNameAsync(request.UserName);
+            responce.Id = newUser.Id;
+
             return responce;
         }
         public async Task<string> ConfirmClientUserEmail(string userId, string token)

@@ -10,13 +10,13 @@ using System.Security.Cryptography;
 
 namespace FinalProject.Core.Application.Features.Perks.Commands.UpdatePerk
 {
-    public class UpdatePerkCommand : IRequest<Result<SavePerkDto>>
+    public class UpdatePerkCommand : IRequest<Result<UpdatePerkDto>>
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
     }
-    public class UpdatePerkCommandHandler : IRequestHandler<UpdatePerkCommand, Result<SavePerkDto>>
+    public class UpdatePerkCommandHandler : IRequestHandler<UpdatePerkCommand, Result<UpdatePerkDto>>
     {
         private readonly IPerkRepository _perkRepository;
         private readonly IMapper _mapper;
@@ -27,13 +27,13 @@ namespace FinalProject.Core.Application.Features.Perks.Commands.UpdatePerk
             _mapper = mapper;
         }
 
-        public async Task<Result<SavePerkDto>> Handle(UpdatePerkCommand request, CancellationToken cancellationToken)
+        public async Task<Result<UpdatePerkDto>> Handle(UpdatePerkCommand request, CancellationToken cancellationToken)
         {
             return await UpdateAsync(request);
         }
-        private async Task<Result<SavePerkDto>> UpdateAsync(UpdatePerkCommand updateModel)
+        private async Task<Result<UpdatePerkDto>> UpdateAsync(UpdatePerkCommand updateModel)
         {
-            Result<SavePerkDto> result = new();
+            Result<UpdatePerkDto> result = new();
             try
             {
                 Perk entityToBeUpdate = _mapper.Map<Perk>(updateModel);
@@ -47,7 +47,7 @@ namespace FinalProject.Core.Application.Features.Perks.Commands.UpdatePerk
                     return result;
                 }
 
-                result.Data = _mapper.Map<SavePerkDto>(entityUpdated);
+                result.Data = _mapper.Map<UpdatePerkDto>(entityUpdated);
 
                 result.Message = $"The perk updated successfully";
                 return result;

@@ -57,6 +57,7 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
         public static void AddInfraestructureIdentityLayerForWebApi(this IServiceCollection services, IConfiguration config)
         {
+            services.Configure<JwtSettings>(config.GetSection("JwtSettings"));
             services.AddDbContext<AppIdentityContext>(options =>
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultIdentityConnection"), m =>
@@ -101,12 +102,14 @@ namespace FinalProject.Infraestructure.Identity.Extensions
                 {
                     OnAuthenticationFailed = async c =>
                     {
+                        c.NoResult();
                         c.Response.StatusCode = 500;
                         c.Response.ContentType = "text/plain";
                         await c.Response.WriteAsync(c.Exception.ToString());
                     },
                     OnChallenge = async c =>
                     {
+                        c.HandleResponse();
                         c.Response.StatusCode = 401;
                         c.Response.ContentType = "application/json";
                         var result = JsonConvert.SerializeObject(new JsonResponce()

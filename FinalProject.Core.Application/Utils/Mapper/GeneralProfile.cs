@@ -2,6 +2,14 @@
 using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Dtos.Identity.User;
+using FinalProject.Core.Application.Features.Account.Commands.RegisterAdminTypeUser;
+using FinalProject.Core.Application.Features.Account.Commands.RegisterDeveloperTypeUser;
+using FinalProject.Core.Application.Features.Perks.Commands.CreatePerk;
+using FinalProject.Core.Application.Features.Perks.Commands.UpdatePerk;
+using FinalProject.Core.Application.Features.PropertyTypes.Commands.CreatePropertyType;
+using FinalProject.Core.Application.Features.PropertyTypes.Commands.UpdatePropertyType;
+using FinalProject.Core.Application.Features.SellTypes.Comands.CreateSellType;
+using FinalProject.Core.Application.Features.SellTypes.Comands.UpdateSellType;
 using FinalProject.Core.Application.Models;
 using FinalProject.Core.Application.Models.FavoriteUserProperty;
 using FinalProject.Core.Application.Models.Perk;
@@ -24,7 +32,7 @@ namespace FinalProject.Core.Application.Utils.Mapper
             CreateMap<GetUserDto, UserModel>()
                 .ReverseMap();
 
-            CreateMap<UpdateUserModel , UserModel>()
+            CreateMap<UpdateUserModel, UserModel>()
                 .ReverseMap();
 
             CreateMap<UpdateUserRequest, UpdateUserModel>()
@@ -42,6 +50,12 @@ namespace FinalProject.Core.Application.Utils.Mapper
                 .ReverseMap();
 
             CreateMap<UpdateUserRequest, SaveUserModel>()
+                .ReverseMap();
+
+            CreateMap<RegisterDeveloperTypeUserCommand, RegisterRequest>()
+                .ReverseMap();
+
+            CreateMap<RegisterAdminTypeUserCommand, RegisterRequest>()
                 .ReverseMap();
             #endregion
 
@@ -85,6 +99,17 @@ namespace FinalProject.Core.Application.Utils.Mapper
             CreateMap<Perk, SavePerkDto>()
                .ReverseMap()
                .ForMember(dest => dest.PropertyPerks, opt => opt.Ignore());
+            CreateMap<Perk, CreatePerkCommand>()
+               .ReverseMap()
+               .ForMember(dest => dest.PropertyPerks, opt => opt.Ignore());
+
+            CreateMap<Perk, UpdatePerkCommand>()
+              .ReverseMap()
+              .ForMember(dest => dest.PropertyPerks, opt => opt.Ignore());
+
+            CreateMap<Perk, UpdatePerkDto>()
+            .ReverseMap()
+            .ForMember(dest => dest.PropertyPerks, opt => opt.Ignore());
             #endregion
 
 
@@ -98,13 +123,25 @@ namespace FinalProject.Core.Application.Utils.Mapper
               .ReverseMap()
               .ForMember(dest => dest.Properties, opt => opt.Ignore());
 
-            CreateMap<PropertyType, PropertyDto>()
+            CreateMap<PropertyType, PropertyTypeDto>()
               .ReverseMap()
               .ForMember(dest => dest.Properties, opt => opt.Ignore());
 
             CreateMap<PropertyType, SavePropertyTypeDto>()
              .ReverseMap()
              .ForMember(dest => dest.Properties, opt => opt.Ignore());
+
+            CreateMap<PropertyType, CreatePropertyTypeCommand>()
+             .ReverseMap()
+             .ForMember(dest => dest.Properties, opt => opt.Ignore());
+
+            CreateMap<PropertyType, UpdatePropertyTypeCommand>()
+             .ReverseMap()
+             .ForMember(dest => dest.Properties, opt => opt.Ignore());
+
+            CreateMap<PropertyType, UpdatePropertyTypeDto>()
+              .ReverseMap()
+              .ForMember(dest => dest.Properties, opt => opt.Ignore());
             #endregion
 
             #region SellType mapping setup configuration
@@ -124,6 +161,18 @@ namespace FinalProject.Core.Application.Utils.Mapper
             CreateMap<SellType, SaveSellTypeDto>()
              .ReverseMap()
              .ForMember(dest => dest.Properties, opt => opt.Ignore());
+
+            CreateMap<SellType, CreateSellTypeCommand>()
+             .ReverseMap()
+             .ForMember(dest => dest.Properties, opt => opt.Ignore());
+
+            CreateMap<SellType, UpdateSellTypeCommand>()
+             .ReverseMap()
+             .ForMember(dest => dest.Properties, opt => opt.Ignore());
+
+            CreateMap<SellType, UpdateSellTypeDto>()
+            .ReverseMap()
+            .ForMember(dest => dest.Properties, opt => opt.Ignore());
             #endregion
 
 

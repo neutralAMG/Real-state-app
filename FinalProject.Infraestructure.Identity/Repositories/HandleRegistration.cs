@@ -5,6 +5,7 @@ using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Text;
 
 namespace FinalProject.Infraestructure.Identity.Repositories
@@ -39,7 +40,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
         private async Task<RegisterResponce> RegisterClientAsync(RegisterRequest request)
         {
             RegisterResponce responce = new();
-
+  
             ApplicationUser user = new()
             {
                 FirstName = request.FirstName,

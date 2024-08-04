@@ -76,7 +76,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         }
         public async Task<List<Property>> GetAllCurrentAgentUserPropertiesAsync(string id)
         {
-            if (!await ExistsAsync(P => P.AgentId == id)) return null;
+           // if (!await ExistsAsync(P => P.AgentId == id)) return null;
 
             return await _context.Properties.Include(p => p.PropertyImages)
             .Include(p => p.PropertyPerks)
