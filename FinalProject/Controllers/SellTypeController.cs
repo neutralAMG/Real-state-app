@@ -34,8 +34,19 @@ namespace FinalProject.Presentation.WebApp.Controllers
           
         }
 
-        // GET: SellTypeController/Details/5
-        public async Task<IActionResult> Details(int id)
+
+		public IActionResult MantSellType()
+		{
+			return View();
+		}
+
+		public IActionResult EditSellType()
+		{
+			return View();
+		}
+
+		// GET: SellTypeController/Details/5
+		public async Task<IActionResult> Details(int id)
         {
             return View();
         }
@@ -69,47 +80,47 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
 
         // GET: SellTypeController/Edit/5
-        public async Task<IActionResult> EditSellType(int id)
-        {
-            Result<SellTypeModel> result = new();
-            try
-            {
-                result = await _sellTypeService.GetByIdAsync(id);
+        //public async Task<IActionResult> EditSellType(int id)
+        //{
+        //    Result<SellTypeModel> result = new();
+        //    try
+        //    {
+        //        result = await _sellTypeService.GetByIdAsync(id);
 
-                if (!result.ISuccess)
-                {
-                    return RedirectToAction("Index");
-                }
-                return View(result.Data);
-            }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
+        //        if (!result.ISuccess)
+        //        {
+        //            return RedirectToAction("Index");
+        //        }
+        //        return View(result.Data);
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
          
-        }
+        //}
 
         // POST: SellTypeController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditSellType(int id, SaveSellTypeModel saveModel)
-        {
-            Result result = new();
-            try
-            {
-                result = await _sellTypeService.UpdateAsync(id, saveModel);
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditSellType(int id, SaveSellTypeModel saveModel)
+        //{
+        //    Result result = new();
+        //    try
+        //    {
+        //        result = await _sellTypeService.UpdateAsync(id, saveModel);
 
-                if (!result.ISuccess)
-                {
-                    return RedirectToAction("EditSellType", saveModel);
-                }
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return RedirectToAction("Index");
-            }
-        }
+        //        if (!result.ISuccess)
+        //        {
+        //            return RedirectToAction("EditSellType", saveModel);
+        //        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //}
 
         // GET: SellTypeController/Delete/5
         public async Task<IActionResult> DeleteSellType(int id)

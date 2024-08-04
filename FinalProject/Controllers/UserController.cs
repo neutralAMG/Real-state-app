@@ -3,6 +3,7 @@ using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Core.Application.Services.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Chequeando.Controllers
 {
@@ -29,7 +30,12 @@ namespace Chequeando.Controllers
 		public async Task<IActionResult> Login(string usernameMail, string password)
 		{
 			var result = await _accountService.AuthenticateWebAppAsync(usernameMail, password);
-			return RedirectToAction("Index", "Home");
+			if (!result.ISuccess)
+			{
+				ModelState.AddModelError("", result.Message);
+				return View();
+			}
+			return RedirectToAction("About", "Home");
 		}
 
 		public IActionResult Register()
@@ -46,18 +52,21 @@ namespace Chequeando.Controllers
 			{
 				if(saveModel.Password != saveModel.ConfirmPassword)
 				{
+					ModelState.AddModelError("", "Passwords do not match.");
 					return View(saveModel);
 				}
 				result = await _accountService.RegisterAsync(saveModel);
 
 				if (!result.ISuccess)
 				{
+					ModelState.AddModelError("", "No se a logrado registrar");
 					return View("Redirect", saveModel);
 				}
 				return RedirectToAction("Login", "User");
 			}
 			catch
 			{
+				ModelState.AddModelError("", "An unexpected error occurred. Please try again.");
 				return RedirectToAction("Index", "Home");
 			}
 

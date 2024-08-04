@@ -35,6 +35,17 @@ namespace FinalProject.Presentation.WebApp.Controllers
             return View();
         }
 
+        public IActionResult MantPerk()
+        {
+            return View();
+        }
+
+        public IActionResult EditPerk()
+        {
+            return View();
+        }
+
+
         // GET: PerkController/Details/5
         public async Task<IActionResult> Details(int id)
         {
@@ -72,48 +83,48 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
 
         // GET: PerkController/Edit/5
-        public async Task<IActionResult> EditPerk(int id)
-        {
-            Result<PerkModel> result = new();
-            try
-            {
-                result = await _perkService.GetByIdAsync(id);
+        //public async Task<IActionResult> EditPerk(int id)
+        //{
+        //    Result<PerkModel> result = new();
+        //    try
+        //    {
+        //        result = await _perkService.GetByIdAsync(id);
 
-                if (!result.ISuccess)
-                {
-                    return RedirectToAction("Index");
-                }
+        //        if (!result.ISuccess)
+        //        {
+        //            return RedirectToAction("Index");
+        //        }
 
-                return View(result.Data);
-            }
-            catch
-            {
-                return RedirectToAction("IndexAdmin", "Home");
-            }
+        //        return View(result.Data);
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("IndexAdmin", "Home");
+        //    }
 
-        }
+        //}
 
         // POST: PerkController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditPerk(int id, SavePerkModel saveModel)
-        {
-            Result result = new();
-            try
-            {
-                result = await _perkService.UpdateAsync(id, saveModel);
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> EditPerk(int id, SavePerkModel saveModel)
+        //{
+        //    Result result = new();
+        //    try
+        //    {
+        //        result = await _perkService.UpdateAsync(id, saveModel);
 
-                if (!result.ISuccess)
-                {
-                    return RedirectToAction("EditPerk", id);
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return RedirectToAction("IndexAdmin", "Home");
-            }
-        }
+        //        if (!result.ISuccess)
+        //        {
+        //            return RedirectToAction("EditPerk", id);
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("IndexAdmin", "Home");
+        //    }
+        //}
 
         // GET: PerkController/Delete/5
         public async Task<IActionResult> DeletePerk(int id)

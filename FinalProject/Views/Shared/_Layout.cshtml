@@ -14,10 +14,10 @@
 	<title>@ViewData["Title"] - Chequeando</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-  	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
- 	 <link rel="stylesheet" href="~/Chequeando.styles.css" asp-append-version="true" />  
- 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> 
-	<link rel="stylesheet" href="~/lib/static/home.css" />  
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="~/Chequeando.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<link rel="stylesheet" href="~/lib/static/home.css" />
 </head>
 <body class="bg-gray-100">
 	<header>
@@ -36,7 +36,7 @@
 					<a class="text-2xl font-bold text-white" asp-area="" asp-controller="Home" asp-action="IndexAgent"><i class="fas fa-home"></i> Chequeando</a>
 				}
 				@if (userValidations.IsUserFromRoleSpecific(Roles.Admin.ToString()))
-				{//hacer esta home vista
+				{
 					<a class="text-2xl font-bold text-white" asp-area="" asp-controller="Home" asp-action="IndexAdmin"><i class="fas fa-home"></i> Chequeando</a>
 				}
 				<button class="text-white focus:outline-none lg:hidden" id="navbar-toggle">
@@ -50,12 +50,6 @@
 					<ul class="flex flex-col lg:flex-row lg:ml-auto mt-3 lg:mt-0">
 						@if (userValidations.IsUserLogIn())
 						{
-							<!--Esta ruta sera para Todos-->
-							<li class="nav-item lg:ml-6">
-								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="Index">
-									<i class="fas fa-users"></i> Agents
-								</a>
-							</li>
 							@if (userValidations.IsUserFromRoleSpecific(Roles.Client.ToString()))
 							{
 								<!--Esta ruta sera para Clientes logeados-->
@@ -85,35 +79,33 @@
 						}
 						@if (userValidations.IsUserFromRoleSpecific(Roles.Admin.ToString()))
 						{
-							<!--Esta ruta sera para Agentes logeados-->
-							<!--Esta ruta sera para Agentes logeados-->
 							<li class="nav-item">
-								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="MantProperty">
+								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="AgentList">
 									<i class="fas fa-home"></i> Agents
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="MantProperty">
+								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Admin" asp-action="MantAdmin">
 									<i class="fas fa-home"></i> MantAdmins
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="MantProperty">
+								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Developer" asp-action="MantDeveloper">
 									<i class="fas fa-home"></i> MantDevelopers
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="MantProperty">
-									<i class="fas fa-home"></i> MantProperty
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="MantProperty">
+								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="PropertyType" asp-action="MantPropertyType">
 									<i class="fas fa-home"></i> MantPropertyType
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="MantProperty">
+								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="SellType" asp-action="MantSellType">
+									<i class="fas fa-home"></i> MantSales
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Perk" asp-action="MantPerk">
 									<i class="fas fa-home"></i> MantPerks
 								</a>
 							</li>
@@ -136,6 +128,13 @@
 
 						@if (!userValidations.IsUserLogIn())
 						{
+							<!--Esta ruta sera para Todos-->
+							<li class="nav-item lg:ml-6">
+								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="Agent" asp-action="Index">
+									<i class="fas fa-users"></i> Agents
+								</a>
+							</li>
+
 							<!--Esta ruta sera para Todos-->
 							<li class="nav-item lg:ml-6">
 								<a class="nav-link block lg:inline-block text-white hover:text-indigo-200 lg:px-4 py-2 transform transition duration-200 hover:scale-105" asp-area="" asp-controller="User" asp-action="Register">
@@ -170,6 +169,17 @@
 	</header>
 	<div class="container mx-auto px-4 py-6">
 		<main role="main" class="bg-white p-6 rounded shadow-sm">
+			@if (ViewData.ModelState.ErrorCount > 0)
+			{
+				<div class="container mt-4">
+					<div class="alert alert-danger">
+						@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+						{
+							<p>@error.ErrorMessage</p>
+						}
+					</div>
+				</div>
+			}
 			@RenderBody()
 		</main>
 	</div>

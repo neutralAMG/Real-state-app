@@ -8,6 +8,12 @@ namespace Chequeando.Controllers
         {
             return View();
         }
+
+        public IActionResult AgentList()
+        {
+            return View();
+        }
+
         public IActionResult Property()
         {
             return View();
