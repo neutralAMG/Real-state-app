@@ -11,13 +11,13 @@ namespace Chequeando.Controllers
 	public class UserController : Controller
 	{
 		private readonly IAccountService _accountService;
-        private readonly IUserService _userService;
+		private readonly IUserService _userService;
 
-        public UserController(IAccountService accountService, IUserService userService)
+		public UserController(IAccountService accountService, IUserService userService)
 		{
 			_accountService = accountService;
-            _userService = userService;
-        }
+			_userService = userService;
+		}
 
 		public IActionResult Index()
 		{
@@ -53,7 +53,7 @@ namespace Chequeando.Controllers
 			Result result = new();
 			try
 			{
-				if(saveModel.Password != saveModel.ConfirmPassword)
+				if (saveModel.Password != saveModel.ConfirmPassword)
 				{
 					ModelState.AddModelError("", "Passwords do not match.");
 					return View(saveModel);
@@ -75,49 +75,99 @@ namespace Chequeando.Controllers
 
 		}
 
-        public async Task<IActionResult> EditUser(string id)
-        {
-            Result<UserModel> result = new();
-            try
-            {
-                result = await _userService.GetByIdAsync(id);
+		public async Task<IActionResult> CreateUser()
+		{
+			return View(new SaveUserModel());
+		}
 
-                if (!result.ISuccess)
-                {
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> CreateUser(SaveUserModel saveModel)
+		{
+			Result result = new();
+			try
+			{
+				result = await _accountService.RegisterAsync(saveModel);
 
-                }
+				if (!result.ISuccess)
+				{
+					return View(saveModel);
+				}
+				return RedirectToAction("MantAdmin", "Admin");
+			}
+			catch
+			{
+				return View(saveModel);
+			}
 
-                return View(result.Data);
-            }
-            catch
-            {
-                return RedirectToAction("IndexAgent", "Home");
-            }
+		}
 
-        }
+		public async Task<IActionResult> EditUser(string id)
+		{
+			Result<UserModel> result = new();
+			try
+			{
+				result = await _userService.GetByIdAsync(id);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(string id, SaveUserModel saveModel)
-        {
-            Result result = new();
-            try
-            {
-                result = await _userService.UpdateUserAsync(saveModel);
+				if (!result.ISuccess)
+				{
+					return RedirectToAction("MantAdmin", "Admin");
+				}
 
-                if (!result.ISuccess)
-                {
-                    RedirectToAction("EditProperty", id);
-                }
+				return View(result.Data);
+			}
+			catch
+			{
+				return RedirectToAction("IndexAgent", "Home");
+			}
 
-                return RedirectToAction("IndexAgent", "Home");
+		}
 
-            }
-            catch
-            {
-                return RedirectToAction("IndexAgent", "Home");
-            }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> EditUser(string id, SaveUserModel saveModel)
+		{
+			Result result = new();
+			try
+			{
+				result = await _userService.UpdateUserAsync(saveModel);
 
-        }
-    }
+				if (!result.ISuccess)
+				{
+					RedirectToAction("EditUser", id);
+				}
+
+				return RedirectToAction("MantAdmin", "Admin");
+
+			}
+			catch
+			{
+				return RedirectToAction("MantAdmin", "Home");
+			}
+
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> HabdelUserActiveState(string id, bool IsActive)
+		{
+			Result result = new();
+			try
+			{
+				result = await _userService.HandleUserActivationStateAsync(id, IsActive);
+
+				if (!result.ISuccess)
+				{
+
+				}
+				return NoContent();
+			}
+			catch
+			{
+				return RedirectToAction("IndexAgent", "Home");
+			}
+
+		}
+
+	}
 }

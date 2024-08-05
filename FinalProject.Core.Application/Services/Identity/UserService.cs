@@ -178,8 +178,8 @@ namespace FinalProject.Core.Application.Services.Identity
                         result.Message = "The current user can't modify itself";
                     }
                 }
-          
-                request.ImgProfileUrl = await _fileHandler.UpdateFile(request.file, _basePathForFileStorage.UserProfilePictureBasePath, request.ImgProfileUrl, request.Id);
+
+                if (request.file is not null) request.ImgProfileUrl = await _fileHandler.UpdateFile(request.file, _basePathForFileStorage.UserProfilePictureBasePath, request.ImgProfileUrl, request.Id);
 
                 UpdateUserRequest userRequest = _mapper.Map<UpdateUserRequest>(request);
 

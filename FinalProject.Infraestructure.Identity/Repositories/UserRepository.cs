@@ -38,7 +38,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                     UserName = u.UserName,
                     Password = u.PasswordHash,
                     IsActive = u.EmailConfirmed,
-                    Cedula = userRoles.Any(r => r == Roles.Developer.ToString() || r == Roles.Agent.ToString()) ? u.Cedula : null,
+                    Cedula =  u.Cedula,
                     Roles = userRoles.ToList()
                 };
             }
@@ -61,7 +61,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 ImgProfileUrl = userGetted.ImgProfileUrl,
                 Password = userGetted.PasswordHash,
                 UserName = userGetted.UserName,
-                Cedula = roles.Any(r => r == Roles.Developer.ToString() || r == Roles.Agent.ToString()) ? userGetted.Cedula : null,
+                Cedula =  userGetted.Cedula,
                 IsActive = userGetted.EmailConfirmed,
                 Roles = roles.ToList()
             };
