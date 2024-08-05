@@ -14,6 +14,7 @@ namespace FinalProject.Core.Application.Models.User
         public string PhoneNumber { get; set; }
         public string Cedula { get; set; }
         public bool IsActive { get; set; }
+        public int AmountOfProperties { get; set; }
         public List<string> Roles { get; set; }
     }
 }
