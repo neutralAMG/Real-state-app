@@ -173,7 +173,7 @@ namespace Chequeando.Controllers
                     return NoContent();
 				}
 
-				return View("Detail", result.Data);
+				return RedirectToAction("Detail",new { id = result.Data.Id });
 
 			}
 			catch
@@ -192,11 +192,15 @@ namespace Chequeando.Controllers
             try
             {
                 result = await _propertyService.HandlePropertyFavoriteState(id, IsMarktAsFavorite);
-                return default;
+                if (!result.ISuccess)
+                {
+                    return NoContent();
+                }
+                return NoContent();
             }
             catch
             {
-                throw;
+                return NoContent();
             }
             
         }

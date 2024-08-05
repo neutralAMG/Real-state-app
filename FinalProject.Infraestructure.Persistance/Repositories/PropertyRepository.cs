@@ -107,7 +107,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         public async Task<Property> GetByCodeAsync(string code)
         {
             return await _context.Properties.Include(p => p.PropertyImages)
-               .Include(p => p.PropertyPerks)
+               .Include(p => p.PropertyPerks).ThenInclude(p => p.Perk)
                .Include(p => p.PropertyType)
                .Include(p => p.SellType).Where(p => p.PropertyCode == code).FirstOrDefaultAsync();
         }
