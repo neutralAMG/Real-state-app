@@ -1,5 +1,4 @@
-﻿@{
-}
+﻿@model List<FinalProject.Core.Application.Models.User.UserModel>
 
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6">Developers List</h1>
@@ -19,41 +18,45 @@
                     <th class="px-6 py-3 text-center text-gray-700 font-semibold">Username</th>
                     <th class="px-6 py-3 text-center text-gray-700 font-semibold">ID</th>
                     <th class="px-6 py-3 text-center text-gray-700 font-semibold">Email</th>
-                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Actions</th>
+                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Edit</th>
+                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">State</th>
                 </tr>
             </thead>
             <tbody>
-                <tr class="border-b border-gray-300">
-                    <td class="px-6 py-4 text-center text-gray-700">Alice</td>
-                    <td class="px-6 py-4 text-center text-gray-700">Johnson</td>
-                    <td class="px-6 py-4 text-center text-gray-700">alicej</td>
-                    <td class="px-6 py-4 text-center text-gray-700">123456789</td>
-                    <td class="px-6 py-4 text-center text-gray-700">alice.johnson@example.com</td>
-                    <td class="px-6 py-4 text-center">
-                        <button type="button" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200" onclick="return confirm('Are you sure?');">
-                            Activate/Deactivate
-                        </button>
-                        <a href="@Url.Action("EditDeveloper", "Developer")" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors duration-200 ml-2">
-                            Edit
-                        </a>
-                    </td>
-                </tr>
-                <tr class="border-b border-gray-300">
-                    <td class="px-6 py-4 text-center text-gray-700">Bob</td>
-                    <td class="px-6 py-4 text-center text-gray-700">Smith</td>
-                    <td class="px-6 py-4 text-center text-gray-700">bobsmith</td>
-                    <td class="px-6 py-4 text-center text-gray-700">987654321</td>
-                    <td class="px-6 py-4 text-center text-gray-700">bob.smith@example.com</td>
-                    <td class="px-6 py-4 text-center">
-                        <button type="button" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200" onclick="return confirm('Are you sure?');">
-                            Activate/Deactivate
-                        </button>
-                        <a href="@Url.Action("EditDeveloper", "Developer")" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors duration-200 ml-2">
-                            Edit
-                        </a>
-                    </td>
-                </tr>
-                <!-- Add more rows as needed -->
+                @foreach (var user in Model)
+                {
+                    <tr class="border-b border-gray-300">
+                        <td class="px-6 py-4 text-center text-gray-700">@user.FirstName</td>
+                        <td class="px-6 py-4 text-center text-gray-700">@user.LastName</td>
+                        <td class="px-6 py-4 text-center text-gray-700">@user.UserName</td>
+                        <td class="px-6 py-4 text-center text-gray-700">@user.Cedula</td>
+                        <td class="px-6 py-4 text-center text-gray-700">@user.Email</td>
+                        <td class="px-6 py-4 text-center">
+                            <a href="@Url.Action("EditDeveloper", "Developer", new {id = user.Id})" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors duration-200">
+                                Edit
+                            </a>
+                        </td>
+                        <td class="px-6 py-4 text-center">
+                            <form method="post" asp-action="HabdelUserActiveState" asp-controller="User">
+                                <input type="hidden" class="visually-hidden" name="id" value="@user.Id" />
+                                <input type="hidden" class="visually-hidden" name="IsActive" value="@user.IsActive" />
+                                @if (!user.IsActive)
+                                {
+                                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 ml-2" onclick="return confirm('Are you sure you want to delete this perk?');">
+                                        Activate
+                                    </button>
+                                }
+                                @if (user.IsActive)
+                                {
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 ml-2" onclick="return confirm('Are you sure you want to delete this perk?');">
+                                        Deactivate
+                                    </button>
+                                }
+
+                            </form>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

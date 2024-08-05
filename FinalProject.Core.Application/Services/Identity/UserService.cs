@@ -129,11 +129,11 @@ namespace FinalProject.Core.Application.Services.Identity
                 return result;
             }
         }
-        public async Task<Result> HandleUserActivationStateAsync(string id, bool UserStatus)
+        public async Task<Result> HandleUserActivationStateAsync(string id)
         {
             Result result = new();
 
-            string operation = UserStatus == true ? "activativated" : "deactivated";
+        
 
             try
             {
@@ -144,7 +144,7 @@ namespace FinalProject.Core.Application.Services.Identity
                     return result;
                 }
 
-                UserOperationResponce responce = await _userRepository.HandleUserActivationStateAsync(id, UserStatus);
+                UserOperationResponce responce = await _userRepository.HandleUserActivationStateAsync(id);
 
                 if (responce.HasError)
                 {
@@ -153,14 +153,14 @@ namespace FinalProject.Core.Application.Services.Identity
                     return result;
                 }
 
-                result.Message = $"The user was {operation} successfully";
+                result.Message = $"The user state was modified successfully";
 
                 return result;
             }
             catch
             {
                 result.ISuccess = false;
-                result.Message = $"Critical error while attempting to {operation} the user ";
+                result.Message = $"Critical error while attempting to modified the user state";
                 return result;
             }
         }

@@ -1,53 +1,60 @@
-﻿@{
-}
+﻿@model List<FinalProject.Core.Application.Models.User.UserModel>
 
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Agents List</h1>
+	<h1 class="text-3xl font-bold mb-6">Agents List</h1>
 
-    <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-            <thead>
-                <tr class="bg-gray-100 border-b border-gray-300">
-                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">First Name</th>
-                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Last Name</th>
-                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Properties Count</th>
-                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Email</th>
-                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="border-b border-gray-300">
-                    <td class="px-6 py-4 text-center text-gray-700">John</td>
-                    <td class="px-6 py-4 text-center text-gray-700">Doe</td>
-                    <td class="px-6 py-4 text-center text-gray-700">10</td>
-                    <td class="px-6 py-4 text-center text-gray-700">john.doe@example.com</td>
-                    <td class="px-6 py-4 text-center text-center">
-                        <button type="button" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                            Activate/Deactivate
-                        </button>
-                        <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 ml-2" onclick="return confirm('Are you sure you want to delete this agent and all their properties?');">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                <tr class="border-b border-gray-300">
-                    <td class="px-6 py-4 text-center text-gray-700">Jane</td>
-                    <td class="px-6 py-4 text-center text-gray-700">Smith</td>
-                    <td class="px-6 py-4 text-center text-gray-700">5</td>
-                    <td class="px-6 py-4 text-center text-gray-700">jane.smith@example.com</td>
-                    <td class="px-6 py-4 text-center text-center">
-                        <button type="button" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200">
-                            Activate/Deactivate
-                        </button>
-                        <button type="button" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 ml-2" onclick="return confirm('Are you sure you want to delete this agent and all their properties?');">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
-    </div>
+	<div class="overflow-x-auto">
+		<table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+			<thead>
+				<tr class="bg-gray-100 border-b border-gray-300">
+					<th class="px-6 py-3 text-center text-gray-700 font-semibold">First Name</th>
+					<th class="px-6 py-3 text-center text-gray-700 font-semibold">Last Name</th>
+					<th class="px-6 py-3 text-center text-gray-700 font-semibold">Properties Count</th>
+					<th class="px-6 py-3 text-center text-gray-700 font-semibold">Email</th>
+					<th class="px-6 py-3 text-center text-gray-700 font-semibold">State</th>
+					<th class="px-6 py-3 text-center text-gray-700 font-semibold">Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var user in Model)
+				{
+					<tr class="border-b border-gray-300">
+						<td class="px-6 py-4 text-center text-gray-700">@user.FirstName</td>
+						<td class="px-6 py-4 text-center text-gray-700">@user.LastName</td>
+						<td class="px-6 py-4 text-center text-gray-700">@user.UserName</td>
+						<td class="px-6 py-4 text-center text-gray-700">@user.Email</td>
+						<td class="px-6 py-4 text-center">
+							<form method="post" asp-action="HabdelUserActiveState" asp-controller="User">
+								<input type="hidden" class="visually-hidden" name="id" value="@user.Id" />
+								@if (!user.IsActive)
+								{
+									<button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-200 ml-2" onclick="return confirm('Are you sure you want to delete this perk?');">
+										Activate
+									</button>
+								}
+								@if (user.IsActive)
+								{
+									<button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 ml-2" onclick="return confirm('Are you sure you want to delete this perk?');">
+										Deactivate
+									</button>
+								}
+
+							</form>
+						</td>
+						<td class="px-6 py-4 text-center">
+							<form method="post" asp-action="DeleteUser" asp-Controller="User">
+								<input type="hidden" class="visually-hidden" name="id" value="@user.Id"/>
+								<button type="submit" href="@Url.Action("DeleteUser", "User", new {id = user.Id})" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200" onclick=" return confirm('You sure you whant to delete this agent')">
+									Delete
+								</button>
+							</form>
+						</td>
+					</tr>
+				}
+
+			</tbody>
+		</table>
+	</div>
 </div>
 
 

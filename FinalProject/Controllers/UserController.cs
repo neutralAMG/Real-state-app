@@ -149,22 +149,46 @@ namespace Chequeando.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> HabdelUserActiveState(string id, bool IsActive)
+		public async Task<IActionResult> HabdelUserActiveState(string id)
 		{
 			Result result = new();
 			try
 			{
-				result = await _userService.HandleUserActivationStateAsync(id, IsActive);
+				result = await _userService.HandleUserActivationStateAsync(id);
 
 				if (!result.ISuccess)
 				{
 
 				}
-				return NoContent();
+				return Redirect(Request.Headers["Referer"].ToString());	
 			}
 			catch
 			{
 				return RedirectToAction("IndexAgent", "Home");
+			}
+
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteUser(string id)
+		{
+			Result result = new();
+			try
+			{
+				result = await _userService.DeleteUserAsync(id);
+
+				if (!result.ISuccess)
+				{
+					RedirectToAction("EditUser", id);
+				}
+
+				return Redirect(Request.Headers["Referer"].ToString());
+
+			}
+			catch
+			{
+				return RedirectToAction("MantAdmin", "Home");
 			}
 
 		}

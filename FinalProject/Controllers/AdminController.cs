@@ -106,7 +106,7 @@ namespace FinalProject.Presentation.WebApp.Controllers
                 else if (saveModel.Password != saveModel.ConfirmPassword)
                 {
                     // ViewBag.MessageError = "the passwords must match";
-                  //  return RedirectToAction("EditUser", new { id = resultInner.Data.Id, IsAdmin = resultInner.Data.Roles.Contains("Admim") });
+                    return View("EditAdmin", id);
                 }
 
 
@@ -114,15 +114,15 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 				if (!result.ISuccess)
 				{
-					return RedirectToAction("EditUser", id);
+					return RedirectToAction("EditAdmin", id);
 				}
 
-				return RedirectToAction("MantAdmin", "Admin");
+				return RedirectToAction("MantAdmin");
 
 			}
 			catch
 			{
-				return RedirectToAction("MantAdmin", "Home");
+				return RedirectToAction("MantAdmin");
 			}
 
 		}

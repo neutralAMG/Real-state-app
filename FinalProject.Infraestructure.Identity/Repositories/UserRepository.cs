@@ -67,11 +67,11 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             };
         }
 
-        public async Task<UserOperationResponce> HandleUserActivationStateAsync(string id, bool Deactivate = false)
+        public async Task<UserOperationResponce> HandleUserActivationStateAsync(string id)
         {
             UserOperationResponce responce = new()
             {
-                Operation = !Deactivate ? "Activation" : "Deactivation"
+                Operation = "State modification"
             };
 
             ApplicationUser userToHandelState = await _userManager.FindByIdAsync(id);
@@ -84,7 +84,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
             }
             IdentityResult result = new();
 
-            if (!Deactivate)
+            if (userToHandelState.EmailConfirmed == true)
             {
                 userToHandelState.EmailConfirmed = false;
                 result = await _userManager.UpdateAsync(userToHandelState);
@@ -163,7 +163,9 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
 
-            if (request.Password != null && request.Password != userToBeUpdate.PasswordHash)
+            if(request.Password == null) return responce;
+
+            if (request.Password != userToBeUpdate.PasswordHash)
             {
                 string resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(userToBeUpdate);
                 result = await _userManager.ResetPasswordAsync(userToBeUpdate, resetPasswordToken, request.Password);

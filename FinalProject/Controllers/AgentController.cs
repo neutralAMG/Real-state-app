@@ -37,9 +37,22 @@ namespace Chequeando.Controllers
             return View();
         }
 
-        public IActionResult AgentList()
+        public async Task<IActionResult> AgentList()
         {
-            return View();
+            Result<List<UserModel>> result = new();
+            try
+            {
+                result = await _userService.GetAllBySpecificRoleAsync(nameof(Roles.Agent));
+                if (!result.ISuccess)
+                {
+                    return RedirectToAction("IndexAdmin", "Admin");
+                }
+                return View(result.Data);
+            }
+            catch
+            {
+                return RedirectToAction("IndexAdmin", "Admin");
+            }
         }
 
         public async Task<IActionResult> Property(string id)
@@ -84,7 +97,7 @@ namespace Chequeando.Controllers
             {
                 return RedirectToAction("IndexAgent", "Home");
             }
-            
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -127,7 +140,7 @@ namespace Chequeando.Controllers
             {
                 return RedirectToAction("IndexAgent", "Home");
             }
-          
+
         }
     }
 }
