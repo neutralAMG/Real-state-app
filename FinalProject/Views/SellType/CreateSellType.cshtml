@@ -4,19 +4,19 @@
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6 text-blue-700">Create Sales Type</h1>
 
-    <form method="post" action="@Url.Action("CreateSalesType", "SalesTypeController")" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
+    <form method="post" asp-action="CreateSellType" asp-controller="SellType" class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md border-t-4 border-blue-500">
         <div class="mb-4">
-            <label for="typeName" class="block text-gray-700 font-semibold mb-2">Type Name</label>
-            <input type="text" id="typeName" name="typeName" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required>
+            <label for="Name" class="block text-gray-700 font-semibold mb-2">Type Name</label>
+            <input type="text" id="Name" name="Name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" required>
         </div>
 
         <div class="mb-4">
-            <label for="description" class="block text-gray-700 font-semibold mb-2">Description</label>
-            <textarea id="description" name="description" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" rows="4" required></textarea>
+            <label for="Description" class="block text-gray-700 font-semibold mb-2">Description</label>
+            <textarea id="Description" name="Description" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" rows="4" required></textarea>
         </div>
 
         <div class="flex justify-between">
-            <a href="@Url.Action("MantSellType", "SellType")" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
+            <a href="@Url.Action("Index", "SellType")" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
                 Back to List
             </a>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">

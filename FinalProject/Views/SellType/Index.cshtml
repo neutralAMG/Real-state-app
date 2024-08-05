@@ -1,0 +1,49 @@
+﻿@model List<FinalProject.Core.Application.Models.SellType.SellTypeModel>
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Sales Types List</h1>
+
+    <div class="flex justify-end mb-4">
+        <a href="@Url.Action("CreateSellType", "SellType")" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-200">
+            Create Sales Type
+        </a>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead>
+                <tr class="bg-gray-100 border-b border-gray-300">
+                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Type Name</th>
+                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Description</th>
+                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Properties Count</th>
+                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Edit</th>
+                    <th class="px-6 py-3 text-center text-gray-700 font-semibold">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var sellType in Model)
+                {
+                        <tr class="border-b border-gray-300">
+                    <td class="px-6 py-4 text-center text-gray-700">@sellType.Name</td>
+                    <td class="px-6 py-4 text-center text-gray-700">@sellType.Description</td>
+                    <td class="px-6 py-4 text-center text-gray-700">@sellType.AmountOfProperties</td>
+                    <td class="px-6 py-4 text-center">
+                        <a href="@Url.Action("EditSellType", "SellType", new {id = sellType.Id})" class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-700 transition-colors duration-200">
+                            Edit
+                        </a>
+
+                    </td>
+                    <td class="px-6 py-4 text-center"> 
+                        <form method="post" asp-action="DeleteSellType" asp-controller="SellType">
+                            <input type="hidden" class="visually-hidden" name="id" value="@sellType.Id"/>
+								<button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 ml-2" onclick="return confirm('Are you sure you want to delete this item?');">
+									Delete
+								</button>
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

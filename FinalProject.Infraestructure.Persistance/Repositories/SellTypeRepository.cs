@@ -3,6 +3,7 @@ using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using FinalProject.Infraestructure.Persistance.Context;
 using FinalProject.Infraestructure.Persistance.Core;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace FinalProject.Infraestructure.Persistance.Repositories
@@ -18,12 +19,12 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
 
         public override async Task<List<SellType>> GetAllAsync()
         {
-            return await base.GetAllAsync();
+            return await _context.SellTypes.Include(s => s.Properties).ToListAsync();
         }
 
         public override async Task<SellType> GetByIdAsync(int id)
         {
-            return await base.GetByIdAsync(id);
+            return await _context.SellTypes.Include(s => s.Properties).Where(s => s.Id == id).FirstOrDefaultAsync(); 
         }
 
         public override async Task<SellType> SaveAsync(SellType entity)

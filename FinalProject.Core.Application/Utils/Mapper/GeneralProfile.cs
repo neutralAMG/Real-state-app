@@ -115,6 +115,7 @@ namespace FinalProject.Core.Application.Utils.Mapper
 
             #region PropertyType mapping setup configuration 
             CreateMap<PropertyType, PropertyTypeModel>()
+                .ForMember(dest => dest.AmountOfProperties, opt => opt.MapFrom(p => p.Properties.Count))
               .ReverseMap()
               .ForMember(dest => dest.Properties, opt => opt.Ignore());
 
@@ -146,6 +147,7 @@ namespace FinalProject.Core.Application.Utils.Mapper
 
             #region SellType mapping setup configuration
             CreateMap<SellType, SellTypeModel>()
+                .ForMember(dest => dest.AmountOfProperties , opt => opt.MapFrom(s => s.Properties.Count))
             .ReverseMap()
             .ForMember(dest => dest.Properties, opt => opt.Ignore());
 
