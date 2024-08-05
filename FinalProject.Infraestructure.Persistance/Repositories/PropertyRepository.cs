@@ -18,7 +18,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         public override async Task<List<Property>> GetAllAsync()
         {
             return await _context.Properties.Include(p => p.PropertyImages)
-                .Include(p => p.PropertyPerks)
+                .Include(p => p.PropertyPerks).ThenInclude(p => p.Perk)
                 .Include(p => p.PropertyType)
                 .Include(p => p.SellType).ToListAsync();
         }
@@ -26,7 +26,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
         public override async Task<Property> GetByIdAsync(Guid id)
         {
             return await _context.Properties.Include(p => p.PropertyImages)
-                .Include(p => p.PropertyPerks)
+                .Include(p => p.PropertyPerks).ThenInclude(p => p.Perk)
                 .Include(p => p.PropertyType)
                 .Include(p => p.SellType).Where(p => p.Id == id).FirstOrDefaultAsync();
         }
@@ -79,7 +79,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
            // if (!await ExistsAsync(P => P.AgentId == id)) return null;
 
             return await _context.Properties.Include(p => p.PropertyImages)
-            .Include(p => p.PropertyPerks)
+            .Include(p => p.PropertyPerks).ThenInclude(p => p.Perk)
             .Include(p => p.PropertyType)
             .Include(p => p.SellType).Where(p => p.AgentId == id).ToListAsync();
         }
@@ -89,7 +89,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             if (!await ExistsAsync(P => P.FavoriteUsersProperties.Any(p => p.UserId == id))) return null;
 
             return await _context.Properties.Include(p => p.PropertyImages)
-            .Include(p => p.PropertyPerks)
+            .Include(p => p.PropertyPerks).ThenInclude(p => p.Perk)
             .Include(p => p.PropertyType)
             .Include(p => p.SellType).Where(p => p.FavoriteUsersProperties.Any(p => p.UserId == id)).ToListAsync();
         }
@@ -98,7 +98,7 @@ namespace FinalProject.Infraestructure.Persistance.Repositories
             if (!await ExistsAsync(P => P.FavoriteUsersProperties.Any(p => p.UserId == id))) return null;
 
             return await _context.Properties.Include(p => p.PropertyImages)
-            .Include(p => p.PropertyPerks)
+            .Include(p => p.PropertyPerks).ThenInclude(p => p.Perk)
             .Include(p => p.PropertyType)
             .Include(p => p.SellType)
             .Include(p => p.FavoriteUsersProperties).Where(p => p.FavoriteUsersProperties.Any(p => p.UserId == id)).ToListAsync();

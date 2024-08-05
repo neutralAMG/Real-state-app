@@ -17,7 +17,7 @@ namespace FinalProject.Presentation.WebApp.Utils.WebappSelectListGenerator
             _propertyTypeService = propertyTypeService;
             _sellTypeService = sellTypeService;
         }
-        public async Task<List<SelectListItem>> GeneratePropertyTypesSelectListAsync(int savedIDFromPropertyToUpdate = 0)
+        public async Task<List<SelectListItem>> GeneratePropertyTypesSelectListAsync(string savedIDFromPropertyToUpdate = null)
         {
             Result<List<PropertyTypeModel>> propertyTypeResult = await _propertyTypeService.GetAllAsync();
 
@@ -25,11 +25,11 @@ namespace FinalProject.Presentation.WebApp.Utils.WebappSelectListGenerator
             {
                Value = p.Id.ToString(),
                Text = p.Name,
-               Selected = savedIDFromPropertyToUpdate > 0 && p.Id == savedIDFromPropertyToUpdate,
+               Selected = savedIDFromPropertyToUpdate !=null && p.Name == savedIDFromPropertyToUpdate,
             }).ToList();
         }
 
-        public async Task<List<SelectListItem>> GenerateSellTypesSelectListAsync(int savedIDFromPropertyToUpdate = 0)
+        public async Task<List<SelectListItem>> GenerateSellTypesSelectListAsync(string savedIDFromPropertyToUpdate = null)
         {
             Result<List<SellTypeModel>> sellTypeResult = await _sellTypeService.GetAllAsync();
 
@@ -37,7 +37,7 @@ namespace FinalProject.Presentation.WebApp.Utils.WebappSelectListGenerator
             {
                 Value = p.Id.ToString(),
                 Text = p.Name,
-                Selected = savedIDFromPropertyToUpdate > 0 && p.Id == savedIDFromPropertyToUpdate,
+                Selected = savedIDFromPropertyToUpdate !=null && p.Name == savedIDFromPropertyToUpdate,
             }).ToList();
         }
     }

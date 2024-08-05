@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Images\ProfilePicture\" />
+    <Folder Include="wwwroot\Images\Properties\" />
   </ItemGroup>
 
 </Project>

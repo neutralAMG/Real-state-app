@@ -6,5 +6,7 @@ namespace FinalProject.Core.Application.Models.PropertyImgae
     {
         public Guid Id { get; set; }
         public string ImgUrl { get; set; }
+ 
     }
 }
+

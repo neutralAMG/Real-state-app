@@ -1,81 +1,82 @@
-﻿@{
-    ViewData["Title"] = "Create New Property";
+﻿@model FinalProject.Presentation.WebApp.Models.SavePropertyViewModel
+@{
+	ViewData["Title"] = "Create New Property";
 }
+
 
 <div class="container mx-auto px-4 py-6 bg-gray-100 min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-lg">
         <h1 class="text-4xl font-bold text-indigo-600 mb-8">Create New Property</h1>
-        <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <form method="post" enctype="multipart/form-data" asp-action="Create" asp-controller="Property">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Property Type -->
                 <div>
                     <label class="block text-gray-700">Property Type</label>
-                    <select class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyType" required>
-                        <!-- Options should be populated dynamically -->
+                    <select class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyTypeId" asp-items="@Model.PropertyTypes" required>
                         <option value="">Select Property Type</option>
-                        <option>House</option>
-                        <option>Apartment</option>
-                        <option>Condo</option>
                     </select>
                 </div>
 
                 <!-- Sale Type -->
                 <div>
                     <label class="block text-gray-700">Sale Type</label>
-                    <select class="w-full p-3 border border-gray-300 rounded-lg" name="SaleType" required>
-                        <!-- Options should be populated dynamically -->
+                    <select class="w-full p-3 border border-gray-300 rounded-lg" name="SellTypeId" asp-items="@Model.SellTypes" required>
                         <option value="">Select Sale Type</option>
-                        <option>Rent</option>
-                        <option>Sale</option>
+                     
                     </select>
                 </div>
 
                 <!-- Price -->
                 <div>
                     <label class="block text-gray-700">Price (in Dominican Peso)</label>
-                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Price" required>
+                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyPrice" value="@Model.SavePropertyModel.PropertyPrice" required>
                 </div>
 
                 <!-- Description -->
                 <div class="md:col-span-2">
                     <label class="block text-gray-700">Description</label>
-                    <textarea class="w-full p-3 border border-gray-300 rounded-lg" name="Description" rows="4" required></textarea>
+                    <textarea class="w-full p-3 border border-gray-300 rounded-lg" name="Description" rows="4" required>@Model.SavePropertyModel.Description</textarea>
                 </div>
 
                 <!-- Size -->
                 <div>
                     <label class="block text-gray-700">Size (in sqm)</label>
-                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Size" required>
+                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="SizeInMeters" value="@Model.SavePropertyModel.SizeInMeters" required>
                 </div>
 
                 <!-- Bedrooms -->
                 <div>
                     <label class="block text-gray-700">Bedrooms</label>
-                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Bedrooms" required>
+                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="AmountOfBedrooms" value="@Model.SavePropertyModel.AmountOfBedrooms" required>
                 </div>
 
                 <!-- Bathrooms -->
                 <div>
                     <label class="block text-gray-700">Bathrooms</label>
-                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="Bathrooms" required>
+                    <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="AmountOfBathrooms" value="@Model.SavePropertyModel.AmountOfBathrooms" required>
                 </div>
 
                 <!-- Amenities -->
                 <div class="md:col-span-2">
                     <label class="block text-gray-700">Amenities</label>
-                    <select multiple class="w-full p-3 border border-gray-300 rounded-lg" name="Amenities" required>
-                        <!-- Options should be populated dynamically -->
-                        <option>Swimming Pool</option>
-                        <option>Gym</option>
-                        <option>Garden</option>
-                    </select>
+                    @for (int i = 0; i < Model.perks.Count; i++)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="PropertyPerks" value="@Model.perks[i].Value" @(Model.perks[i].IsSelected ? "checked" : "") />
+                            <label class="form-check-label">@Model.perks[i].Name</label>
+                        </div>
+                    }
                 </div>
 
                 <!-- Images -->
                 <div class="md:col-span-2">
-                    <label class="block text-gray-700">Property Images (1-4)</label>
-                    <input type="file" class="w-full p-3 border border-gray-300 rounded-lg" name="Images" accept="image/*" multiple required id="imagesInput">
-                    <small class="text-gray-600">Please select at least one image.</small>
+                    <label class="block text-gray-700">Property Images</label>
+                    @for (int i = 0; i < 4; i++)
+                    {
+                        <input type="hidden" name="ImagesToUpdateAndItsFiles[@i].Key" value="@i"/>
+                        <input type="file" class="w-full p-3 border border-gray-300 rounded-lg" name="ImagesToUpdateAndItsFiles[@i].Value" accept="image/*" />
+                        <small class="text-gray-600">Please select an image.</small>
+                    }
                 </div>
             </div>
 
@@ -90,14 +91,14 @@
         </form>
     </div>
 </div>
-
-<script>
-    function validateForm() {
-        const imagesInput = document.getElementById('imagesInput');
-        if (imagesInput.files.length < 1) {
-            alert('Please select at least one image.');
-            return false;
-        }
-        return true;
-    }
+@* <script>
+	function validateForm() {
+		const imagesInput = document.getElementById('imagesInput');
+		if (imagesInput.files.length < 1) {
+			alert('Please select at least one image.');
+			return false;
+		}
+		return true;
+	}
 </script>
+ *@

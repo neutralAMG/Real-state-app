@@ -61,7 +61,7 @@ namespace FinalProject.Core.Application.Utils.Mapper
 
             #region Property mapping setup configuration
             CreateMap<Property, PropertyModel>()
-               .ForMember(dest => dest.PropertyPerks, opt => opt.MapFrom(p => p.PropertyPerks))
+               .ForMember(dest => dest.PropertyPerks, opt => opt.MapFrom(p => p.PropertyPerks.Select(p => p.Perk)))
                .ForMember(dest => dest.PropertyImagesUrls, opt => opt.MapFrom(p => p.PropertyImages))
                .ForMember(dest => dest.PropertyTypeName, opt => opt.MapFrom(p => p.PropertyType.Name))
                .ForMember(dest => dest.SellTypeName, opt => opt.MapFrom(p => p.SellType.Name))
@@ -70,6 +70,7 @@ namespace FinalProject.Core.Application.Utils.Mapper
                .ForMember(dest => dest.PropertyImages, opt => opt.Ignore())
                .ForMember(dest => dest.PropertyType, opt => opt.Ignore())
                .ForMember(dest => dest.SellType, opt => opt.Ignore());
+
 
             CreateMap<Property, SavePropertyModel>()
 
@@ -191,6 +192,8 @@ namespace FinalProject.Core.Application.Utils.Mapper
             #endregion
 
             #region PropertyPerk mapping setup configuration
+
+
             CreateMap<PropertyPerk, SavePropertyPerkModel>()
              .ReverseMap()
              .ForMember(dest => dest.Property, opt => opt.Ignore());

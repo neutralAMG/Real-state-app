@@ -20,7 +20,7 @@ using Microsoft.Extensions.Options;
 
 
 namespace FinalProject.Core.Application.Services.Persistance
-{ 
+{
     public class PropertyService : BaseCompleteService<PropertyModel, SavePropertyModel, Property, Guid>, IPropertyService
     {
         private readonly IPropertyRepository _propertyRepository;
@@ -57,7 +57,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         public override async Task<Result<SavePropertyModel>> SaveAsync(SavePropertyModel saveModel)
         {
             saveModel.PropertyCode = PropertyCodeGenerator.GeneratePropertyCode();
-
+            saveModel.AgentId = _currentUserInfo.Id;
             Result<SavePropertyModel> result = await base.SaveAsync(saveModel);
 
             if (result.ISuccess)
@@ -67,7 +67,7 @@ namespace FinalProject.Core.Application.Services.Persistance
                     if (file.Value is null) continue;
                     await _propertyImageService.SaveAsync(new SavePropertyImageModel
                     {
-                        Propertyid = result.Data.Id,
+                        PropertyId = result.Data.Id,
                         file = file.Value,
                     });
                 }
@@ -86,8 +86,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         public override async Task<Result> DeleteAsync(Guid id)
         {
             Result<List<Guid>> propertyImagesIdsToBeDeleted = await _propertyImageService.GetAllIdsByPropertyIdAsync(id);
-            Result result = await base.DeleteAsync(id);
-            if (result.ISuccess)
+            if (propertyImagesIdsToBeDeleted.ISuccess)
             {
                 foreach (Guid imageId in propertyImagesIdsToBeDeleted.Data)
                 {
@@ -95,6 +94,9 @@ namespace FinalProject.Core.Application.Services.Persistance
                 }
 
             }
+
+            Result result = await base.DeleteAsync(id);
+
             return result;
         }
         public virtual async Task<Result<SavePropertyModel>> UpdateAsync(Guid id, SavePropertyModel updateModel)
@@ -113,7 +115,7 @@ namespace FinalProject.Core.Application.Services.Persistance
                         //Get's the entity (Property Image) primary key. for more info go to File handler in the Utils folder and the save method in PropertyImage service
                         Id = Guid.Parse(ImageToBeUpdated.Key.Split("/")[3].ToUpper()),
                         ImgUrl = ImageToBeUpdated.Key,
-                        Propertyid = id,
+                        PropertyId = id,
                         file = ImageToBeUpdated.Value,
                     });
                 }
@@ -305,7 +307,7 @@ namespace FinalProject.Core.Application.Services.Persistance
         {
             Result<List<PropertyModel>> result = new();
 
-           
+
             try
             {
                 List<Property> propertiesGetted = await _propertyRepository.GetAllCurrentAgentUserPropertiesAsync(id);

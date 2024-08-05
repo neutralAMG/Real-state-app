@@ -1,6 +1,7 @@
 ﻿using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Models.Property;
+using FinalProject.Presentation.WebApp.Models;
 using FinalProject.Presentation.WebApp.Utils.Interfaces;
 using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
@@ -62,7 +63,17 @@ namespace Chequeando.Controllers
 
         public async Task<IActionResult> Create()
         {
-            return View();
+            ViewBag.PropertyTypes = await _selectListGenerator.GeneratePropertyTypesSelectListAsync();
+            ViewBag.SellTypes = await _selectListGenerator.GenerateSellTypesSelectListAsync();
+            ViewBag.Perks = await _checkBoxGenerator.GeneratePerksCheckBoxOptionsAsync();
+            var model = new SavePropertyViewModel
+            {
+                SavePropertyModel = new SavePropertyModel(),
+                perks = await _checkBoxGenerator.GeneratePerksCheckBoxOptionsAsync(),
+                PropertyTypes = await _selectListGenerator.GeneratePropertyTypesSelectListAsync(),
+                SellTypes = await _selectListGenerator.GenerateSellTypesSelectListAsync(),
+            };
+            return View(model);
         }
 
         [HttpPost]
@@ -99,7 +110,14 @@ namespace Chequeando.Controllers
 
                 }
 
-                return View(result.Data);
+                var model = new SavePropertyViewModelWithData
+                {
+                    SavePropertyModel = result.Data,
+                    perks = await _checkBoxGenerator.GeneratePerksCheckBoxOptionsAsync(result.Data.PropertyPerks.Select(p => p.Id).ToList()),
+                    PropertyTypes = await _selectListGenerator.GeneratePropertyTypesSelectListAsync(result.Data.PropertyTypeName),
+                    SellTypes = await _selectListGenerator.GenerateSellTypesSelectListAsync(result.Data.SellTypeName)
+                };
+                return View(model);
             }
             catch
             {
@@ -200,7 +218,7 @@ namespace Chequeando.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteProperty(Guid id, IFromFormMetadata fromFormMetadata)
+        public async Task<IActionResult> DeleteProperty(Guid id, bool fromFormMetadata)
         {
             Result result = new();
             try

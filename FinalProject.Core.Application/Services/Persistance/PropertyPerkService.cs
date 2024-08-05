@@ -17,14 +17,14 @@ namespace FinalProject.Core.Application.Services.Persistance
             _propertyPerkRepository = propertyPerkRepository;
 
         }
-        public override Task<Result<SavePropertyPerkModel>> SaveAsync(SavePropertyPerkModel saveModel)
+        public override async Task<Result<SavePropertyPerkModel>> SaveAsync(SavePropertyPerkModel saveModel)
         {
-            return base.SaveAsync(saveModel);
+            return await base.SaveAsync(saveModel);
         }
 
-        public override Task<Result> DeleteAsync(int id)
+        public override async Task<Result> DeleteAsync(int id)
         {
-            return base.DeleteAsync(id);
+            return await base.DeleteAsync(id);
         }
 
         public async Task<Result> UpdateAsync(List<int> perkIds, Guid propertyId)
@@ -36,15 +36,15 @@ namespace FinalProject.Core.Application.Services.Persistance
 
                 List<int> CurrentpropertysPerkids = propertyPerks.Select(p => p.PerkId).ToList();
 
-                List<int> oldPropertyPerksToDelete = CurrentpropertysPerkids.Except(perkIds).ToList();
+                HashSet<int> oldPropertyPerksToDelete = CurrentpropertysPerkids.Except(perkIds).ToHashSet();
 
                 List<int> NewPropertyPerksToSave = perkIds.Except(CurrentpropertysPerkids).ToList();
 
                 if (oldPropertyPerksToDelete.Any())
                 {
-                    foreach (int propertyPerk in oldPropertyPerksToDelete)
+                    foreach (PropertyPerk propertyPerk in propertyPerks)
                     {
-                        await DeleteAsync(propertyPerk);
+                        if (oldPropertyPerksToDelete.Contains(propertyPerk.PerkId))   await DeleteAsync(propertyPerk.Id);  
                     }
 
                 }

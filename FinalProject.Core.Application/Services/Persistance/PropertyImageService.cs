@@ -28,6 +28,7 @@ namespace FinalProject.Core.Application.Services.Persistance
 
         public override async Task<Result<SavePropertyImageModel>> SaveAsync(SavePropertyImageModel saveModel)
         {
+            saveModel.ImgUrl = "Img";
              Result < SavePropertyImageModel > result = await base.SaveAsync(saveModel);
 
             if (!result.ISuccess) return result;
@@ -63,6 +64,7 @@ namespace FinalProject.Core.Application.Services.Persistance
             {
                 List<Guid> imageGetted = await _propertyImageRepository.GetAllIdsByPropertyIdAsync(id);
 
+                result.Data = imageGetted;
 
                 if (imageGetted == null)
                 {
@@ -88,7 +90,7 @@ namespace FinalProject.Core.Application.Services.Persistance
             try
             {
                 updateModel.ImgUrl = await _fileHandler.UpdateFile(updateModel.file, _basePathsForFileStorage.PropertyImagesBasePath, updateModel.ImgUrl, updateModel.Id);
-                bool operation = await _propertyImageRepository.UpdateAsync(new PropertyImage {Id = updateModel.Id, PropertyId = updateModel.Propertyid, ImgUrl = updateModel.ImgUrl });
+                bool operation = await _propertyImageRepository.UpdateAsync(new PropertyImage {Id = updateModel.Id, PropertyId = updateModel.PropertyId, ImgUrl = updateModel.ImgUrl });
                 if (!operation) {
                     result.ISuccess = false;
                     result.Message = "Error updating the image";
