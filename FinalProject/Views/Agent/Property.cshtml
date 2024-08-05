@@ -39,7 +39,7 @@
 				<!-- Property Card -->
 				@foreach (var property in Model)
 				{
-					<a href="@Url.Action("Detail", "Property")" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
+					<a href="@Url.Action("Detail", "Property", new {id = property.Id})" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
 						<img src="@Url.Content(property.PropertyImagesUrls.First().ImgUrl)" alt="Property Image" class="w-full">
 						<div class="p-4">
 							<p class="text-gray-700 flex items-center">

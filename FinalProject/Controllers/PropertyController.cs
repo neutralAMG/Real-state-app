@@ -1,4 +1,5 @@
 ﻿using FinalProject.Core.Application.Core;
+using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Presentation.WebApp.Models;
@@ -13,13 +14,15 @@ namespace Chequeando.Controllers
         private readonly IPropertyService _propertyService;
         private readonly ISelectListGenerator _selectListGenerator;
         private readonly ICheckBoxGenerator _checkBoxGenerator;
+		private readonly IUserService _userService;
 
-        public PropertyController(IPropertyService propertyService, ISelectListGenerator selectListGenerator, ICheckBoxGenerator checkBoxGenerator)
+		public PropertyController(IPropertyService propertyService, ISelectListGenerator selectListGenerator, ICheckBoxGenerator checkBoxGenerator, IUserService userService)
         {
             _propertyService = propertyService;
             _selectListGenerator = selectListGenerator;
             _checkBoxGenerator = checkBoxGenerator;
-        }
+			_userService = userService;
+		}
         public async Task<IActionResult> Index()
         {
             Result<List<PropertyModel>> result = new();
@@ -52,6 +55,8 @@ namespace Chequeando.Controllers
                 {
                     
                 }
+                var user = await _userService.GetByIdAsync(result.Data.AgentId);
+                ViewBag.UserInfo = user.Data;
                 return View(result.Data);
             }
             catch
