@@ -1,5 +1,6 @@
 ﻿using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
+using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Core.Application.Services.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,13 @@ namespace Chequeando.Controllers
 	public class UserController : Controller
 	{
 		private readonly IAccountService _accountService;
+        private readonly IUserService _userService;
 
-		public UserController(IAccountService accountService)
+        public UserController(IAccountService accountService, IUserService userService)
 		{
 			_accountService = accountService;
-		}
+            _userService = userService;
+        }
 
 		public IActionResult Index()
 		{
@@ -71,5 +74,50 @@ namespace Chequeando.Controllers
 			}
 
 		}
-	}
+
+        public async Task<IActionResult> EditUser(string id)
+        {
+            Result<UserModel> result = new();
+            try
+            {
+                result = await _userService.GetByIdAsync(id);
+
+                if (!result.ISuccess)
+                {
+
+                }
+
+                return View(result.Data);
+            }
+            catch
+            {
+                return RedirectToAction("IndexAgent", "Home");
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(string id, SaveUserModel saveModel)
+        {
+            Result result = new();
+            try
+            {
+                result = await _userService.UpdateUserAsync(saveModel);
+
+                if (!result.ISuccess)
+                {
+                    RedirectToAction("EditProperty", id);
+                }
+
+                return RedirectToAction("IndexAgent", "Home");
+
+            }
+            catch
+            {
+                return RedirectToAction("IndexAgent", "Home");
+            }
+
+        }
+    }
 }

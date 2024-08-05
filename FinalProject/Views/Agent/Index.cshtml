@@ -1,7 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Agents";
-}
-
+﻿@model List<FinalProject.Core.Application.Models.User.UserModel>
 <div class="container mx-auto px-4 py-6">
     <h1 class="text-4xl font-bold mb-6">Our Agents</h1>
 
@@ -12,36 +9,16 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="agentsList">
         <!-- Agent 1 -->
-        <a href="@Url.Action("Property", "Agent")">
+        @foreach (var agent in Model)
+        {
+              <a href="@Url.Action("Property", "Agent", new {id = agent.Id} )">
             <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
-                <img src="https://via.placeholder.com/150" alt="John Doe" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
-                <h2 class="text-xl font-semibold">John Doe</h2>
+                <img src="@Url.Content(agent.ImgProfileUrl)" alt="@agent.FirstName" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
+                <h2 class="text-xl font-semibold">@agent.FirstName  @agent.LastName</h2>
             </div>
         </a>
-
-        <!-- Agent 2 -->
-        <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
-            <img src="https://via.placeholder.com/150" alt="Jane Smith" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
-            <h2 class="text-xl font-semibold">Jane Smith</h2>
-        </div>
-
-        <!-- Agent 3 -->
-        <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
-            <img src="https://via.placeholder.com/150" alt="Emily Johnson" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
-            <h2 class="text-xl font-semibold">Emily Johnson</h2>
-        </div>
-
-        <!-- Agent 4 -->
-        <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
-            <img src="https://via.placeholder.com/150" alt="Michael Brown" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
-            <h2 class="text-xl font-semibold">Michael Brown</h2>
-        </div>
-
-        <!-- Agent 5 -->
-        <div class="property-card bg-white p-4 rounded-lg shadow-lg text-center agent hover:shadow-lg">
-            <img src="https://via.placeholder.com/150" alt="Sarah Davis" class="w-32 h-32 mx-auto rounded-full object-cover mb-4">
-            <h2 class="text-xl font-semibold">Sarah Davis</h2>
-        </div>
+        }
+      
     </div>
 </div>
 

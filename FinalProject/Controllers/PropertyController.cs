@@ -132,7 +132,36 @@ namespace Chequeando.Controllers
          
         }
 
-        [HttpPost]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> SearchByCode(string code)
+		{
+            if(code == default)
+            {
+                return NoContent();
+            }
+			Result<PropertyModel> result = new();
+			try
+			{
+				result = await _propertyService.GetByCodeAsync(code);
+
+				if (!result.ISuccess)
+				{
+                    return NoContent();
+				}
+
+				return View("Detail", result.Data);
+
+			}
+			catch
+			{
+				return RedirectToAction("IndexAgent", "Home");
+			}
+
+		}
+
+
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FavoriteProperty(Guid id, bool IsMarktAsFavorite)
         {

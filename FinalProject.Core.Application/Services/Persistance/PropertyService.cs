@@ -20,7 +20,7 @@ using Microsoft.Extensions.Options;
 
 
 namespace FinalProject.Core.Application.Services.Persistance
-{
+{ 
     public class PropertyService : BaseCompleteService<PropertyModel, SavePropertyModel, Property, Guid>, IPropertyService
     {
         private readonly IPropertyRepository _propertyRepository;
@@ -297,6 +297,27 @@ namespace FinalProject.Core.Application.Services.Persistance
             {
                 result.ISuccess = false;
                 result.Message = $"Critica error while getting the property by it's id ";
+                return result;
+            }
+        }
+
+        public async Task<Result<List<PropertyModel>>> GetSpecificAgentProperties(string id)
+        {
+            Result<List<PropertyModel>> result = new();
+
+           
+            try
+            {
+                List<Property> propertiesGetted = await _propertyRepository.GetAllCurrentAgentUserPropertiesAsync(id);
+
+                result.Data = _mapper.Map<List<PropertyModel>>(propertiesGetted);
+                result.Message = "Propertis where getted succesfully";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = "Critical error while getting the properties";
                 return result;
             }
         }

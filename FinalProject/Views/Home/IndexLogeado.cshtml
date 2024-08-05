@@ -8,13 +8,14 @@
         <p class="mt-2">Find your dream property with <strong>Chequeando</strong></p>
     </div>
 
-    <!-- Search Bar -->
     <div class="mb-8">
         <div class="relative">
-            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Search for properties by code...">
-            <button class="absolute top-0 right-0 mt-2 mr-2 text-white bg-indigo-600 hover:bg-indigo-700 p-3 rounded-lg">
-                <i class="fas fa-search"></i>
-            </button>
+            <form method="post" asp-action="SearchByCode" asp-controller="Property">
+                <input type="text" name="code" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Search for properties by code...">
+                <button type="submit" class="absolute top-0 right-0 mt-2 mr-2 text-white bg-indigo-600 hover:bg-indigo-700 p-3 rounded-lg">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
         </div>
     </div>
 

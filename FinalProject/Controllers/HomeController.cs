@@ -1,5 +1,7 @@
 ﻿using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
+using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
+using FinalProject.Core.Application.Models.Property;
 using FinalProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -10,30 +12,59 @@ namespace Chequeando.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly IAccountService _accountService;
+        private readonly IPropertyService _propertyService;
 
-		public HomeController(ILogger<HomeController> logger, IAccountService accountService)
+        public HomeController(ILogger<HomeController> logger, IAccountService accountService, IPropertyService propertyService)
 		{
 			_logger = logger;
 			_accountService = accountService;
-		}
+            _propertyService = propertyService;
+        }
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
+			Result<List<PropertyModel>> result = new();
+			try
+			{
+				result = await _propertyService.GetAllAsync();
+
+				return View(result.Data);
+			}
+			catch
+			{
+
+			}
 			return View();
 
 		}
 
-		public IActionResult IndexLogeado()
+		public async Task<IActionResult> IndexLogeado()
 		{
 			return View();
 		}
 
-		public IActionResult IndexAgent()
+		public async Task<IActionResult> IndexAgent()
 		{
-			return View();
+			Result<List<PropertyModel>> result = new();
+			try
+			{
+				result = await _propertyService.GetAllCurrentAgentUserPropertiesAsync();
+
+				if (!result.ISuccess)
+				{
+					return RedirectToAction("Index");
+				}
+
+				return View(result.Data);
+			}
+			catch
+			{
+				return RedirectToAction("Index");
+			}
+		
 		}
 
-		public IActionResult IndexAdmin()
+		public async Task<IActionResult> IndexAdmin()
 		{
 			return View();
 		}

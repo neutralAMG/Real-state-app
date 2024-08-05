@@ -32,7 +32,7 @@ namespace FinalProject.Core.Application.Services.Persistance
 
             if (!result.ISuccess) return result;
          
-            saveModel.ImgUrl = _fileHandler.UploadFile(saveModel.file, _basePathsForFileStorage.PropertyImagesBasePath, result.Data.Id);
+            saveModel.ImgUrl = await _fileHandler.UploadFile(saveModel.file, _basePathsForFileStorage.PropertyImagesBasePath, result.Data.Id);
 
             saveModel.Id = result.Data.Id;
             saveModel.file = null;
@@ -87,7 +87,7 @@ namespace FinalProject.Core.Application.Services.Persistance
             Result result = new();
             try
             {
-                updateModel.ImgUrl = _fileHandler.UpdateFile(updateModel.file, _basePathsForFileStorage.PropertyImagesBasePath, updateModel.ImgUrl, updateModel.Id);
+                updateModel.ImgUrl = await _fileHandler.UpdateFile(updateModel.file, _basePathsForFileStorage.PropertyImagesBasePath, updateModel.ImgUrl, updateModel.Id);
                 bool operation = await _propertyImageRepository.UpdateAsync(new PropertyImage {Id = updateModel.Id, PropertyId = updateModel.Propertyid, ImgUrl = updateModel.ImgUrl });
                 if (!operation) {
                     result.ISuccess = false;

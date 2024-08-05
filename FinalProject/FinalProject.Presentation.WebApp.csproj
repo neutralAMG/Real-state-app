@@ -21,4 +21,8 @@
     <ProjectReference Include="..\FinalProject.Infraestructure.Share\FinalProject.Infraestructure.Share.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\ProfilePicture\" />
+  </ItemGroup>
+
 </Project>

@@ -97,7 +97,38 @@ namespace FinalProject.Core.Application.Services.Identity
                 return result;
             }
         }
+        public async Task<Result<UserModel>> GetCurrentUser()
+        {
+            Result<UserModel> result = new();
+            try
+            {
+                if (_currentUserInfo == null)
+                {
+                    result.ISuccess = false;
+                    result.Message = "there is no user log in";
+                    return result;
+                }
 
+                GetUserDto userGetted = await _userRepository.GetByIdAsync(_currentUserInfo.Id);
+
+                if (userGetted == null)
+                {
+                    result.ISuccess = false;
+                    result.Message = "Error getting the user";
+                    return result;
+                }
+
+                result.Data = _mapper.Map<UserModel>(userGetted);
+                result.Message = "The user was getted susccessfully";
+                return result;
+            }
+            catch
+            {
+                result.ISuccess = false;
+                result.Message = "Critical error while getting the user";
+                return result;
+            }
+        }
         public async Task<Result> HandleUserActivationStateAsync(string id, bool UserStatus)
         {
             Result result = new();
@@ -147,8 +178,8 @@ namespace FinalProject.Core.Application.Services.Identity
                         result.Message = "The current user can't modify itself";
                     }
                 }
-                request.file = null;
-                request.ImgProfileUrl = _fileHandler.UpdateFile(request.file, _basePathForFileStorage.UserProfilePictureBasePath, request.ImgProfileUrl, request.Id);
+          
+                request.ImgProfileUrl = await _fileHandler.UpdateFile(request.file, _basePathForFileStorage.UserProfilePictureBasePath, request.ImgProfileUrl, request.Id);
 
                 UpdateUserRequest userRequest = _mapper.Map<UpdateUserRequest>(request);
 

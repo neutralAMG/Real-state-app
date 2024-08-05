@@ -8,7 +8,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
     {
 
 
-        public string UpdateFile(IFormFile file, string basePath, string imageUrl, TId id)
+        public async Task<string> UpdateFile(IFormFile file, string basePath, string imageUrl, TId id)
         {
             if (file is null)
             {
@@ -30,13 +30,13 @@ namespace FinalProject.Core.Application.Utils.FileHandler
                 Directory.CreateDirectory(path);
             }
             Guid guid = Guid.NewGuid();
-            FileInfo fileInfo = new(file.Name);
+            FileInfo fileInfo = new(file.FileName);
             string fileName = guid + fileInfo.Extension;
             string fileNameWithPath = Path.Combine(path, fileName);
 
             using (FileStream stream = new(fileNameWithPath, FileMode.Create))
             {
-                stream.CopyTo(stream);
+              await file.CopyToAsync(stream);
             }
             string[] oldImageUrl = imageUrl.Split('/');
             string oldImageUrlName = oldImageUrl[^1];
@@ -50,7 +50,7 @@ namespace FinalProject.Core.Application.Utils.FileHandler
             return $"{basePath}/{fileName}";
         }
 
-        public string UploadFile(IFormFile file, string basePath, TId id)
+        public async Task<string> UploadFile(IFormFile file, string basePath, TId id)
         {
             basePath = $"{basePath}/{id}";
 
@@ -61,12 +61,12 @@ namespace FinalProject.Core.Application.Utils.FileHandler
                 Directory.CreateDirectory(path);
             }
             Guid guid = Guid.NewGuid();
-            FileInfo fileInfo = new(file.Name);
+            FileInfo fileInfo = new(file.FileName);
             string fileName = guid + fileInfo.Extension;
             string fileNameWithPath = Path.Combine(path, fileName);
             using (FileStream stream = new(fileNameWithPath, FileMode.Create))
             {
-                stream.CopyTo(stream);
+              await file.CopyToAsync(stream);
             }
             return $"{basePath}/{fileName}";
 

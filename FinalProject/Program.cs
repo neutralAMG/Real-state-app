@@ -1,7 +1,4 @@
 using FinalProject.Core.Application.Extensions;
-using FinalProject.Core.Application.Interfaces.Contracts.Identity;
-using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
-using FinalProject.Core.Application.Services.Identity;
 using FinalProject.Infraestructure.Identity.Entities;
 using FinalProject.Infraestructure.Identity.Extensions;
 using FinalProject.Infraestructure.Identity.Seeds;

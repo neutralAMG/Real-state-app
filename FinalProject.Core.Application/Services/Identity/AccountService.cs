@@ -89,9 +89,9 @@ namespace FinalProject.Core.Application.Services.Identity
                     return result;
                 }
 
-                saveModel.ImgProfileUrl = _fileHandler.UploadFile(saveModel.file, _basePathsForFileStorage.UserProfilePictureBasePath, responce.Id);
+                saveModel.ImgProfileUrl = await _fileHandler.UploadFile(saveModel.file, _basePathsForFileStorage.UserProfilePictureBasePath, responce.Id);
                 saveModel.Id = responce.Id;
-
+                saveModel.file = null;
                 await _userService.UpdateUserAsync(saveModel);
 
                 result.Message = "Your account has been created succesfully now login!!!!";

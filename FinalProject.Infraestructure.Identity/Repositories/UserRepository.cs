@@ -32,6 +32,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                     Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
+                    PhoneNumber = u.PhoneNumber,
                     Email = u.Email,
                     ImgProfileUrl = u.ImgProfileUrl,
                     UserName = u.UserName,
@@ -55,6 +56,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 Id = userGetted.Id,
                 FirstName = userGetted.FirstName,
                 LastName = userGetted.LastName,
+                PhoneNumber = userGetted.PhoneNumber,
                 Email = userGetted.Email,
                 ImgProfileUrl = userGetted.ImgProfileUrl,
                 Password = userGetted.PasswordHash,
@@ -144,13 +146,13 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             IdentityResult result = new();
 
-            userToBeUpdate.FirstName = request.FirstName;
-            userToBeUpdate.LastName = request.LastName;
-            userToBeUpdate.UserName = request.UserName;
-            userToBeUpdate.PhoneNumber = request.PhoneNumber;
-            userToBeUpdate.Cedula = request.Cedula;
-            userToBeUpdate.ImgProfileUrl = request.ImgProfileUrl;
-            userToBeUpdate.Email = request.Email;
+            userToBeUpdate.FirstName = request.FirstName ?? userToBeUpdate.FirstName;
+            userToBeUpdate.LastName = request.LastName ?? userToBeUpdate.LastName;
+            userToBeUpdate.UserName = request.UserName ?? userToBeUpdate.UserName;
+            userToBeUpdate.PhoneNumber = request.PhoneNumber ?? userToBeUpdate.PhoneNumber;
+            userToBeUpdate.Cedula = request.Cedula ?? userToBeUpdate.Cedula;
+            userToBeUpdate.ImgProfileUrl = request.ImgProfileUrl ?? userToBeUpdate.ImgProfileUrl;
+            userToBeUpdate.Email = request.Email ?? userToBeUpdate.Email;
 
             result = await _userManager.UpdateAsync(userToBeUpdate);
 
@@ -161,18 +163,20 @@ namespace FinalProject.Infraestructure.Identity.Repositories
                 return responce;
             }
 
-            if (request.Password != userToBeUpdate.PasswordHash)
+            if (request.Password != null && request.Password != userToBeUpdate.PasswordHash)
             {
                 string resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(userToBeUpdate);
                 result = await _userManager.ResetPasswordAsync(userToBeUpdate, resetPasswordToken, request.Password);
+
+                if (!result.Succeeded)
+                {
+                    responce.HasError = true;
+                    responce.ErrorMessage = result.Errors.First().Description;
+                    return responce;
+                }
             }
 
-            if (!result.Succeeded)
-            {
-                responce.HasError = true;
-                responce.ErrorMessage = result.Errors.First().Description;
-                return responce;
-            }
+
 
             return responce;
         }
