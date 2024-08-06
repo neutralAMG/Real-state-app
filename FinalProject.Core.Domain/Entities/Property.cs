@@ -10,10 +10,12 @@ namespace FinalProject.Core.Domain.Entities
         public Property()
         {
             Id = Guid.NewGuid();
+            DateCreated = DateTime.UtcNow;
         }
         public Guid Id { get; set; }
         public string PropertyCode { get; set; }
         public string Description { get; set; }
+        public DateTime DateCreated { get; set; }
 
         [Column(TypeName = "Decimal(18,2)")]
         public decimal PropertyPrice { get; set; }

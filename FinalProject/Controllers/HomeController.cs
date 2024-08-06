@@ -44,7 +44,18 @@ namespace Chequeando.Controllers
 
 		public async Task<IActionResult> IndexLogeado()
 		{
-			return View();
+			Result<List<PropertyModel>> result = new();
+			try
+			{
+				result = await _propertyService.GetAllAsync();
+
+				return View(result.Data);
+			}
+			catch
+			{
+				throw;
+			}
+		
 		}
 
 		public async Task<IActionResult> IndexAgent()
@@ -96,6 +107,23 @@ namespace Chequeando.Controllers
 					return RedirectToAction("Index");
 				}
 				return RedirectToAction("Index");
+			}
+			catch
+			{
+				throw;
+			}
+
+		}
+
+
+		public async Task<IActionResult> MyProperties()
+		{
+			Result<List<PropertyModel>> result = new();
+			try
+			{
+				result = await _propertyService.GetAllCurrentClientUserFavPropertiesAsync();
+
+				return View(result.Data);
 			}
 			catch
 			{

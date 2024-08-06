@@ -46,6 +46,10 @@ namespace Chequeando.Controllers
 
         public async Task<IActionResult> Detail(Guid id)
         {
+            if (id == default)
+            {
+                return NoContent();
+            }
             Result<PropertyModel> result = new();
             try
             {
@@ -184,19 +188,23 @@ namespace Chequeando.Controllers
 		}
 
 
+
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> FavoriteProperty(Guid id, bool IsMarktAsFavorite)
+        public async Task<IActionResult> FavoriteProperty(Guid id, int IsMarktAsFavorite)
         {
             Result result = new();
             try
             {
-                result = await _propertyService.HandlePropertyFavoriteState(id, IsMarktAsFavorite);
+                if(IsMarktAsFavorite == 1)  result = await _propertyService.HandlePropertyFavoriteState(id, true);
+                if(IsMarktAsFavorite == 2)  result = await _propertyService.HandlePropertyFavoriteState(id, false);
+
+         
                 if (!result.ISuccess)
                 {
                     return NoContent();
                 }
-                return NoContent();
+                return Redirect(Request.Headers["Referer"].ToString());
             }
             catch
             {

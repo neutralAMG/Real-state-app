@@ -1,6 +1,6 @@
 ﻿@model List<FinalProject.Core.Application.Models.Property.PropertyModel>
 @{
-	ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Favorite Properties";
 }
 
 <div class="container mx-auto px-4 py-6">
@@ -88,10 +88,11 @@
 							<img src="@Url.Content(property.PropertyImagesUrls.First().ImgUrl)" alt="Property Image" class="w-full">
 							<div class="absolute top-2 right-2">
 								<form method="post" asp-action="FavoriteProperty" asp-controller="Property">
-									
+
 									<input type="hidden" name="id" value="@property.Id" />
 									@if (property.IsMarkAsFavoriteByCurrentUser == true)
-									{<input type="hidden" name="IsMarktAsFavorite" value="1" />
+									{
+										<input type="hidden" name="IsMarktAsFavorite" value="1" />
 										<button class="text-red-500 hover:text-gray-700 focus:outline-none text-3xl">
 											<i class="fas fa-heart"></i>
 										</button>
@@ -110,30 +111,30 @@
 							<i class="fas fa-heart @((property.IsFavorite) ? "text-red-500" : "text-gray-500")"></i>
 							</button> *@
 							</div>
-							<a href="@Url.Action("Detail", "Property" , new {id = property.Id})" class="property-card"> 					
-							<div class="p-4">
-								<p class="text-gray-700 flex items-center">
-									<i class="fas fa-code mr-2"></i> Property Code: @property.PropertyCode
-								</p>
-								<p class="text-gray-700 flex items-center">
-									<i class="fas fa-tag mr-2"></i> Sale Type: @property.PropertyTypeName
-								</p>
-								<p class="text-gray-700 flex items-center">
-									<i class="fas fa-dollar-sign mr-2"></i> Price: @property.PropertyPrice
-								</p>
-								<p class="text-gray-700 flex items-center">
-									<i class="fas fa-bed mr-2"></i> Bedrooms: @property.AmountOfBedrooms
-								</p>
-								<p class="text-gray-700 flex items-center">
-									<i class="fas fa-bath mr-2"></i> Bathrooms: @property.AmountOfBathrooms
-								</p>
-								<p class="text-gray-700 flex items-center">
-									<i class="fas fa-ruler-combined mr-2"></i> Size: @property.SizeInMeters sqm
-								</p>
+							<a hrrf="@Url.Action("Deatil", "Property" , new {id = property.Id})">
+								<div class="p-4">
+									<p class="text-gray-700 flex items-center">
+										<i class="fas fa-code mr-2"></i> Property Code: @property.PropertyCode
+									</p>
+									<p class="text-gray-700 flex items-center">
+										<i class="fas fa-tag mr-2"></i> Sale Type: @property.PropertyTypeName
+									</p>
+									<p class="text-gray-700 flex items-center">
+										<i class="fas fa-dollar-sign mr-2"></i> Price: @property.PropertyPrice
+									</p>
+									<p class="text-gray-700 flex items-center">
+										<i class="fas fa-bed mr-2"></i> Bedrooms: @property.AmountOfBedrooms
+									</p>
+									<p class="text-gray-700 flex items-center">
+										<i class="fas fa-bath mr-2"></i> Bathrooms: @property.AmountOfBathrooms
+									</p>
+									<p class="text-gray-700 flex items-center">
+										<i class="fas fa-ruler-combined mr-2"></i> Size: @property.SizeInMeters sqm
+									</p>
 								</div>
 							</a>
-						</div>	
-						
+						</div>
+
 					}
 
 					<!-- Repeat Property Card as needed -->

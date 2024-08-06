@@ -28,6 +28,7 @@ namespace Chequeando.Controllers
                 {
                     return RedirectToAction("Index", "Home");
                 }
+                result.Data = result.Data.Where(u => u.IsActive == true).OrderBy(u => u.FirstName).ToList();
                 return View(result.Data);
             }
             catch
