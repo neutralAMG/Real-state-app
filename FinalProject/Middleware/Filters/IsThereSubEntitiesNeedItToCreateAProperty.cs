@@ -19,17 +19,17 @@ namespace FinalProject.Presentation.WebApp.Middleware.Filters
             if (!await _propertyValidations.IsTherePropertyTypesAvailableAsync())
             {
                 controller = (ControllerBase)context.Controller;
-                context.Result = controller.RedirectToAction();
+                context.Result = controller.RedirectToAction("MantProperty", "Agent");
             }
             else if (!await _propertyValidations.IsTherePerksAvailableAsync())
             {
                 controller = (ControllerBase)context.Controller;
-                context.Result = controller.RedirectToAction();
+                context.Result = controller.RedirectToAction("MantProperty", "Agent");
             }
             else if (!await _propertyValidations.IsThereSellTypesAvailableAsync())
             {
                 controller = (ControllerBase)context.Controller;
-                context.Result = controller.RedirectToAction();
+                context.Result = controller.RedirectToAction("MantProperty", "Agent");
             }
             else
             {

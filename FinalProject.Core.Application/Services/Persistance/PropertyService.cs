@@ -150,6 +150,7 @@ namespace FinalProject.Core.Application.Services.Persistance
 
 						result.Data.ForEach(p =>
 						{
+					
 							if (userFavPropertiesIds.Any(up => up == p.Id)) p.IsMarkAsFavoriteByCurrentUser = true;
 						}
 						);

@@ -24,6 +24,7 @@ namespace FinalProject.Core.Application.Models.Property
         // Ditionary to update each coresponding file, file may be null;
         public Dictionary<string, IFormFile> ImagesToUpdateAndItsFiles {  get; set; }
         //public List<IFormFile> PropertyImagesFiles { get; set; }
+
         public List<int> PropertyPerks { get; set; }
     }
 }

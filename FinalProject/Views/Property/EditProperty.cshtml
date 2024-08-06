@@ -1,121 +1,92 @@
 ﻿@model FinalProject.Presentation.WebApp.Models.SavePropertyViewModelWithData;
 
 
-@if (TempData["ErrorMessage"] is not null)
-{
-    <div class=" alert alert-danger d-block text-center">
-        <p>@TempData["ErrorMessage"]</p>
-    </div>
+<div class="container mx-auto px-4 py-6 bg-gray-100 min-h-screen">
+	<div class="bg-white p-8 rounded-lg shadow-lg">
+		<h1 class="text-4xl font-bold text-indigo-600 mb-8">Edit Property</h1>
+		<form method="post" enctype="multipart/form-data" asp-action="EditProperty" asp-controller="Property">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<input type="hidden" name="id" value="@Model.SavePropertyModel.Id" />
+				<input type="hidden" name="AgentId" value="@Model.SavePropertyModel.AgentId" />
+				<!-- Property Type -->
+				<div>
+					<label class="block text-gray-700">Property Type</label>
+					<select class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyTypeId" asp-items="@Model.PropertyTypes" required>
+					</select>
+				</div>
 
-}
+				<!-- Sale Type -->
+				<div>
+					<label class="block text-gray-700">Sale Type</label>
+					<select class="w-full p-3 border border-gray-300 rounded-lg" name="SellTypeId" asp-items="@Model.SellTypes" required>
+					</select>
+				</div>
 
-    <div class="container mx-auto px-4 py-6 bg-gray-100 min-h-screen">
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h1 class="text-4xl font-bold text-indigo-600 mb-8">Edit Property</h1>
-            <form method="post" enctype="multipart/form-data" asp-action="EditProperty" asp-controller="Property">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="hidden" name="id" value="@Model.SavePropertyModel.Id"/>
-                    <input type="hidden" name="AgentId" value="@Model.SavePropertyModel.AgentId" />
-                    <!-- Property Type -->
-                    <div>
-                        <label class="block text-gray-700">Property Type</label>
-                        <select class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyTypeId" asp-items="@Model.PropertyTypes" required>
-                           
-                        </select>
-                    </div>
+				<!-- Price -->
+				<div>
+					<label class="block text-gray-700">Price (in Dominican Peso)</label>
+					<input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyPrice" value="@Model.SavePropertyModel.PropertyPrice" required>
+				</div>
 
-                    <!-- Sale Type -->
-                    <div>
-                        <label class="block text-gray-700">Sale Type</label>
-                        <select class="w-full p-3 border border-gray-300 rounded-lg" name="SellTypeId" asp-items="@Model.SellTypes" required>
-                          
-                        </select>
-                    </div>
+				<!-- Description -->
+				<div class="md:col-span-2">
+					<label class="block text-gray-700">Description</label>
+					<textarea class="w-full p-3 border border-gray-300 rounded-lg" name="Description" rows="4" required>@Model.SavePropertyModel.Description</textarea>
+				</div>
 
-                    <!-- Price -->
-                    <div>
-                        <label class="block text-gray-700">Price (in Dominican Peso)</label>
-                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="PropertyPrice" value="@Model.SavePropertyModel.PropertyPrice" required>
-                    </div>
+				<!-- Size -->
+				<div>
+					<label class="block text-gray-700">Size (in sqm)</label>
+					<input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="SizeInMeters" value="@Model.SavePropertyModel.SizeInMeters" required>
+				</div>
 
-                    <!-- Description -->
-                    <div class="md:col-span-2">
-                        <label class="block text-gray-700">Description</label>
-                        <textarea class="w-full p-3 border border-gray-300 rounded-lg" name="Description" rows="4" required>@Model.SavePropertyModel.Description</textarea>
-                    </div>
+				<!-- Bedrooms -->
+				<div>
+					<label class="block text-gray-700">Bedrooms</label>
+					<input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="AmountOfBedrooms" value="@Model.SavePropertyModel.AmountOfBedrooms" required>
+				</div>
 
-                    <!-- Size -->
-                    <div>
-                        <label class="block text-gray-700">Size (in sqm)</label>
-                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="SizeInMeters" value="@Model.SavePropertyModel.SizeInMeters" required>
-                    </div>
+				<!-- Bathrooms -->
+				<div>
+					<label class="block text-gray-700">Bathrooms</label>
+					<input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="AmountOfBathrooms" value="@Model.SavePropertyModel.AmountOfBathrooms" required>
+				</div>
 
-                    <!-- Bedrooms -->
-                    <div>
-                        <label class="block text-gray-700">Bedrooms</label>
-                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="AmountOfBedrooms" value="@Model.SavePropertyModel.AmountOfBedrooms" required>
-                    </div>
 
-                    <!-- Bathrooms -->
-                    <div>
-                        <label class="block text-gray-700">Bathrooms</label>
-                        <input type="number" class="w-full p-3 border border-gray-300 rounded-lg" name="AmountOfBathrooms" value="@Model.SavePropertyModel.AmountOfBathrooms" required>
-                    </div>
+				<div class="md:col-span-2">
+					<label class="block text-gray-700">Amenities</label>
+					@for (int i = 0; i < Model.perks.Count; i++)
+					{
+						<div class="form-check">
+							<input type="checkbox" class="form-check-input" name="PropertyPerks" value="@Model.perks[i].Value" @(Model.perks[i].IsSelected ? "checked" : "") />
+							<label class="form-check-label">@Model.perks[i].Name</label>
+						</div>
+					}
+				</div>
 
-                  
-                    <div class="md:col-span-2">
-                        <label class="block text-gray-700">Amenities</label>
-                        @for (int i = 0; i < Model.perks.Count; i++)
-                        {
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="PropertyPerks" value="@Model.perks[i].Value" @(Model.perks[i].IsSelected ? "checked" : "") />
-                                <label class="form-check-label">@Model.perks[i].Name</label>
-                            </div>
-                        }
-                    </div>
+				<!-- Images -->
+				<div class="md:col-span-2">
+					<label class="block text-gray-700">Property Images (1-4)</label>
+					@for (int i = 0; i < Model.SavePropertyModel.PropertyImagesUrls.Count; i++)
+					{
+						<div class="mt-4">
+							<label class="block text-gray-700">Image @(i + 1)</label>
+							<img src="@Model.SavePropertyModel.PropertyImagesUrls[i].ImgUrl" alt="Property Image @(i + 1)" name="ImagesToUpdateAndItsFiles[@i].Key" class="w-full h-32 object-cover rounded-lg mb-2">
+							<input type="hidden" class="w-full p-3 border border-gray-300 rounded-lg" name="ImagesToUpdateAndItsFiles[@i].Key" value="@Model.SavePropertyModel.PropertyImagesUrls[i].ImgUrl">
+							<input type="file" class="w-full p-3 border border-gray-300 rounded-lg" name="ImagesToUpdateAndItsFiles[@i].Value" accept="image/*">
+						</div>
+					}
+				</div>
+			</div>
 
-                    <!-- Images -->
-                    <div class="md:col-span-2">
-                        <label class="block text-gray-700">Property Images (1-4)</label>
-                        @for (int i = 0; i < Model.SavePropertyModel.PropertyImagesUrls.Count; i++)
-                        {
-                            <div class="mt-4">
-                                <label class="block text-gray-700">Image @(i + 1)</label>
-								<img src="@Model.SavePropertyModel.PropertyImagesUrls[i].ImgUrl" alt="Property Image @(i + 1)" name="ImagesToUpdateAndItsFiles[@i].Key" class="w-full h-32 object-cover rounded-lg mb-2">
-                                <input type="hidden" class="w-full p-3 border border-gray-300 rounded-lg" name="ImagesToUpdateAndItsFiles[@i].Key" value="@Model.SavePropertyModel.PropertyImagesUrls[@i].ImgUrl">
-                                <input type="file" class="w-full p-3 border border-gray-300 rounded-lg" name="ImagesToUpdateAndItsFiles[@i].Value" accept="image/*">
-                            </div>
-                        }
-                    </div>
-                </div>
-
-                <div class="mt-8 flex justify-end space-x-4">
-                    <a href="@Url.Action("MantProperty", "Agent")" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
-                        Back
-                    </a>
-                    <button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
-                        Save
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-  @*   <script>
-        function validateForm() {
-            const imagesInputs = document.querySelectorAll('input[type="file"]');
-            let hasImage = false;
-            imagesInputs.forEach(input => {
-                if (input.files.length > 0) {
-                    hasImage = true;
-                }
-            });
-
-            if (!hasImage && document.querySelectorAll('.property-images img').length < 1) {
-                alert('Please select at least one image.');
-                return false;
-            }
-            return true;
-        }
-    </script> *@
-}
+			<div class="mt-8 flex justify-end space-x-4">
+				<a href="@Url.Action("MantProperty", "Agent")" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors duration-200">
+					Back
+				</a>
+				<button type="submit" class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-200">
+					Save
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

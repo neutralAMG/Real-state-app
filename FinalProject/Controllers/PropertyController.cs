@@ -85,7 +85,12 @@ namespace Chequeando.Controllers
                 PropertyTypes = await _selectListGenerator.GeneratePropertyTypesSelectListAsync(),
                 SellTypes = await _selectListGenerator.GenerateSellTypesSelectListAsync(),
             };
-            return View(model);
+
+			if (model.PropertyTypes.Count == 0)
+			{
+				return RedirectToAction("IndexAgent", "Home");
+			}
+			return View(model);
         }
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
@@ -106,11 +111,11 @@ namespace Chequeando.Controllers
                 }
                 TempData["SuccessMessage"] = result.Message;
 
-                return RedirectToAction("MantProperty", "Home");
+                return RedirectToAction("MantProperty", "Agent");
             }
             catch
             {
-                return RedirectToAction("IndexAgent", "Home");
+                return RedirectToAction("MantProperty", "Home");
             }
     
         }
@@ -140,6 +145,10 @@ namespace Chequeando.Controllers
                     PropertyTypes = await _selectListGenerator.GeneratePropertyTypesSelectListAsync(result.Data.PropertyTypeName),
                     SellTypes = await _selectListGenerator.GenerateSellTypesSelectListAsync(result.Data.SellTypeName)
                 };
+                if(model.PropertyTypes.Count == 0)
+                {
+                    return RedirectToAction("IndexAgent", "Home");
+                }
                 return View(model);
             }
             catch
@@ -148,10 +157,10 @@ namespace Chequeando.Controllers
             }
            
         }
-
+       
+        [ServiceFilter(typeof(IsThereSubEntitiesNeedItToCreateAProperty))]
 		[ServiceFilter(typeof(IsUserNotLogIn))]
 		[Authorize(Roles = "Agent")]
-        [ServiceFilter(typeof(IsThereSubEntitiesNeedItToCreateAProperty))]
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProperty(Guid id, SavePropertyModel saveModel)
@@ -168,16 +177,16 @@ namespace Chequeando.Controllers
                 if (!result.ISuccess)
                 {
                     TempData["ErrorMessage"] = result.Message;
-                    RedirectToAction("EditProperty", id);
+                  return  RedirectToAction("EditProperty", id);
                 }
 
                 TempData["SuccessMessage"] = result.Message;
-                return RedirectToAction("IndexAgent", "Home");
+                return RedirectToAction("MantProperty", "Agent");
 
             }
             catch
             {
-                return RedirectToAction("IndexAgent", "Home");
+                return RedirectToAction("MantProperty", "Agent");
             }
          
         }
@@ -317,7 +326,7 @@ namespace Chequeando.Controllers
                     return RedirectToAction("MantProperty", id);
                 }
                 TempData["SuccessMessage"] = result.Message;
-                return RedirectToAction("IndexAgent", "Home");
+                return RedirectToAction("MantProperty", "Agent");
             }
             catch
             {
