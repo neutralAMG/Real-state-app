@@ -72,7 +72,6 @@ namespace Chequeando.Controllers
           
         }
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Agent")]
 		public async Task<IActionResult> Create()
         {
@@ -90,7 +89,6 @@ namespace Chequeando.Controllers
         }
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Agent")]
 		[HttpPost]
         [ValidateAntiForgeryToken]
@@ -118,7 +116,6 @@ namespace Chequeando.Controllers
         }
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Agent")]
 		public async Task<IActionResult> EditProperty(Guid id)
         {
@@ -153,7 +150,6 @@ namespace Chequeando.Controllers
         }
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Agent")]
         [ServiceFilter(typeof(IsThereSubEntitiesNeedItToCreateAProperty))]
 		[HttpPost]
@@ -244,7 +240,6 @@ namespace Chequeando.Controllers
 		}
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Client")]
 		[HttpPost]
         [ValidateAntiForgeryToken]
@@ -276,7 +271,6 @@ namespace Chequeando.Controllers
             
         }
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Agent")]
 		public async Task<IActionResult> DeleteProperty(Guid id)
         {
@@ -303,7 +297,6 @@ namespace Chequeando.Controllers
             
         }
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Agent")]
 		[HttpPost]
         [ValidateAntiForgeryToken]

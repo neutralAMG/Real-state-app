@@ -41,7 +41,6 @@ namespace Chequeando.Controllers
         }
 
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AgentList()
         {
@@ -87,7 +86,6 @@ namespace Chequeando.Controllers
         }
 
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Agent")]
         public async Task<IActionResult> Profile()
         {
@@ -112,7 +110,6 @@ namespace Chequeando.Controllers
         }
 
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Agent")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -146,7 +143,6 @@ namespace Chequeando.Controllers
         }
 
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Agent")]
         public async Task<IActionResult> MantProperty()
         {

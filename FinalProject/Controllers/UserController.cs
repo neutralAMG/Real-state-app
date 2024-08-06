@@ -108,7 +108,6 @@ namespace Chequeando.Controllers
 
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -139,7 +138,6 @@ namespace Chequeando.Controllers
 
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]

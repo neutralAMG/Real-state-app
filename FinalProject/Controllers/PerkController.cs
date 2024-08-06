@@ -17,7 +17,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}
 		// GET: PerkController
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Index()
 		{
@@ -50,7 +49,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// GET: PerkController/Create
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> CreatePerk()
 		{
@@ -60,7 +58,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// POST: PerkController/Create
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -87,7 +84,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// GET: PerkController/Edit/5
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> EditPerk(int id)
 		{
@@ -118,7 +114,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// POST: PerkController/Edit/5
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -149,7 +144,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}
 		// GET: PerkController/Delete/5
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeletePerk(int id)
 		{
@@ -179,7 +173,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}
 		// POST: PerkController/Delete/5
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]

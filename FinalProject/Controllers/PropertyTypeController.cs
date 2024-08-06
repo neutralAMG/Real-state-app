@@ -18,7 +18,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}	
 		// GET: PropertyTypeController
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Index()
 		{
@@ -49,7 +48,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// GET: PropertyTypeController/Create
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> CreatePropertyType()
 		{
@@ -58,7 +56,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// POST: PropertyTypeController/Create
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -86,7 +83,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// GET: PropertyTypeController/Edit/5
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> EditPropertyType(int id)
 		{
@@ -115,7 +111,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// POST: PropertyTypeController/Edit/5
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -147,7 +142,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		// GET: PropertyTypeController/Delete/5
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeletePropertyType(int id)
 		{
@@ -174,7 +168,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}
 		// POST: PropertyTypeController/Delete/5
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]

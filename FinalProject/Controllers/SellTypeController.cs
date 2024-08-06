@@ -17,7 +17,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
         // GET: SellTypeController
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
@@ -51,7 +50,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
         // GET: SellTypeController/Create
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateSellType()
         {
@@ -60,7 +58,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
         // POST: SellTypeController/Create
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -88,7 +85,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
         // GET: SellTypeController/Edit/5
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditSellType(int id)
         {
@@ -116,7 +112,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
         // POST: SellTypeController/Edit/5
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -148,7 +143,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
         // GET: SellTypeController/Delete/5
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSellType(int id)
         {
@@ -175,7 +169,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
         // POST: SellTypeController/Delete/5
         [ServiceFilter(typeof(IsUserNotLogIn))]
-        [ServiceFilter(typeof(IsTheUserActive))]
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]

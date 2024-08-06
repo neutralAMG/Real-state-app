@@ -24,7 +24,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> MantDeveloper()
         {
@@ -45,7 +44,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> CreateDeveloper()
         {
@@ -53,7 +51,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,7 +84,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
             }
         }
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> EditDeveloper(string id)
         {
@@ -117,7 +113,6 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		[HttpPost]
         [ValidateAntiForgeryToken]

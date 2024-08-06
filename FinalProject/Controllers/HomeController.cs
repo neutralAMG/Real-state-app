@@ -46,7 +46,6 @@ namespace Chequeando.Controllers
 
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Client")]
 		public async Task<IActionResult> IndexLogeado()
 		{
@@ -70,7 +69,6 @@ namespace Chequeando.Controllers
 		}
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Agent")]
 		public async Task<IActionResult> IndexAgent()
 		{
@@ -93,7 +91,6 @@ namespace Chequeando.Controllers
 
 		}
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> IndexAdmin()
 		{
@@ -132,7 +129,6 @@ namespace Chequeando.Controllers
 		}
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Client")]
 		public async Task<IActionResult> MyProperties()
 		{
