@@ -1,6 +1,8 @@
 ﻿using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Models.SellType;
+using FinalProject.Presentation.WebApp.Middleware.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Presentation.WebApp.Controllers
@@ -13,8 +15,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         {
             _sellTypeService = sellTypeService;
         }
-        // GET: SellTypeController
-        public async Task<IActionResult> Index()
+		// GET: SellTypeController
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Index()
         {
             Result<List<SellTypeModel>> result = new();
             try
@@ -43,14 +48,21 @@ namespace FinalProject.Presentation.WebApp.Controllers
             return View();
         }
 
-        // GET: SellTypeController/Create
-        public async Task<IActionResult> CreateSellType()
+		
+		// GET: SellTypeController/Create
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> CreateSellType()
         {
             return View(new SaveSellTypeModel());
         }
 
-        // POST: SellTypeController/Create
-        [HttpPost]
+	// POST: SellTypeController/Create
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSellType(SaveSellTypeModel saveModel)
         {
@@ -71,8 +83,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
             }
         }
 
-        // GET: SellTypeController/Edit/5
-        public async Task<IActionResult> EditSellType(int id)
+		// GET: SellTypeController/Edit/5
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> EditSellType(int id)
         {
 			if (id == default)
 			{
@@ -96,8 +111,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
          
         }
 
-        // POST: SellTypeController/Edit/5
-        [HttpPost]
+		// POST: SellTypeController/Edit/5
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSellType(int id, SaveSellTypeModel saveModel)
         {
@@ -122,8 +140,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
             }
         }
 
-        // GET: SellTypeController/Delete/5
-        public async Task<IActionResult> DeleteSellType(int id)
+		// GET: SellTypeController/Delete/5
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> DeleteSellType(int id)
         {
 			if (id == default)
 			{
@@ -146,8 +167,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
            
         }
 
-        // POST: SellTypeController/Delete/5
-        [HttpPost]
+		// POST: SellTypeController/Delete/5
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteSellType(int id, IFormCollection collection)
         {

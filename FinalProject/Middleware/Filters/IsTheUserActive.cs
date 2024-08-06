@@ -17,7 +17,7 @@ namespace FinalProject.Presentation.WebApp.Middleware.Filters
             if (!_userSessionInfoValidations.IsUserActive())
             {
                 var controller = (ControllerBase)context.Controller;
-                context.Result = controller.RedirectToAction("");
+                context.Result = controller.RedirectToAction("NotActive", "Home");
             }
             else
             {

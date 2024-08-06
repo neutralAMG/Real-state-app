@@ -14,10 +14,10 @@ namespace FinalProject.Presentation.WebApp.Middleware.Filters
 		}
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
 		{
-			if (_userSessionInfoValidations.IsUserLogIn())
+			if (!_userSessionInfoValidations.IsUserLogIn())
 			{
 				var controller = (ControllerBase)context.Controller;
-				context.Result = controller.RedirectToAction();
+				context.Result = controller.RedirectToAction("LogIn", "User");
 			}
 			else
 			{

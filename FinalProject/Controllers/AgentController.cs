@@ -4,6 +4,8 @@ using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Infraestructure.Identity.Enums;
+using FinalProject.Presentation.WebApp.Middleware.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chequeando.Controllers
@@ -38,7 +40,10 @@ namespace Chequeando.Controllers
             return View();
         }
 
-        public async Task<IActionResult> AgentList()
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> AgentList()
         {
             Result<List<UserModel>> result = new();
             try
@@ -56,7 +61,8 @@ namespace Chequeando.Controllers
             }
         }
 
-        public async Task<IActionResult> Property(string id)
+	
+		public async Task<IActionResult> Property(string id)
         {
             if (id == default)
             {
@@ -80,7 +86,10 @@ namespace Chequeando.Controllers
 
         }
 
-        public async Task<IActionResult> Profile()
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		public async Task<IActionResult> Profile()
         {
             Result<UserModel> result = new();
             try
@@ -100,7 +109,11 @@ namespace Chequeando.Controllers
             }
 
         }
-        [HttpPost]
+
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Profile(string id, SaveUserModel saveModel)
         {
@@ -130,7 +143,10 @@ namespace Chequeando.Controllers
 
         }
 
-        public async Task<IActionResult> MantProperty()
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		public async Task<IActionResult> MantProperty()
         {
             Result<List<PropertyModel>> result = new();
             try

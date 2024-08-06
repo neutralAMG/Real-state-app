@@ -2,6 +2,8 @@
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Infraestructure.Identity.Enums;
+using FinalProject.Presentation.WebApp.Middleware.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Presentation.WebApp.Controllers
@@ -16,6 +18,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
 			_userService = userService;
 			_accountService = accountService;
 		}
+
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> MantAdmin()
 		{
 			Result<List<UserModel>> result = new();
@@ -35,11 +41,17 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		}
 
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> CreateAdmin()
 		{
 			return View(new SaveUserModel());
 		}
 
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> CreateAdmin(SaveUserModel saveModel)
@@ -68,6 +80,9 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		}
 
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> EditAdmin(string id)
 		{
 			if (id == default )
@@ -93,6 +108,9 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		}
 
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> EditAdmin(string id, string OldPassword, string OldConfirmPassword, SaveUserModel saveModel)

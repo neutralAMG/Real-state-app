@@ -5,6 +5,8 @@ using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Models;
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Models;
+using FinalProject.Presentation.WebApp.Middleware.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -41,9 +43,9 @@ namespace Chequeando.Controllers
 			return View();
 
 		}
-
-	
-
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles ="Client")]
 		public async Task<IActionResult> IndexLogeado()
 		{
 			Result<List<PropertyModel>> result = new();
@@ -60,6 +62,25 @@ namespace Chequeando.Controllers
 		
 		}
 
+		public async Task<IActionResult> NoAuthorize()
+		{
+			Result<List<PropertyModel>> result = new();
+			try
+			{
+				result = await _propertyService.GetAllAsync();
+
+				return View(result.Data);
+			}
+			catch
+			{
+				throw;
+			}
+
+		}
+
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
 		public async Task<IActionResult> IndexAgent()
 		{
 			Result<List<PropertyModel>> result = new();
@@ -80,7 +101,9 @@ namespace Chequeando.Controllers
 			}
 		
 		}
-
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> IndexAdmin()
 		{
 			Result<HomeViewStatisticsModel> result = new();
@@ -96,7 +119,7 @@ namespace Chequeando.Controllers
 			}
 			
 		}
-
+		[ServiceFilter(typeof(IsUserNotLogIn))]
 		public async Task<IActionResult> LogOut()
 		{
 			Result result = new();
@@ -117,7 +140,9 @@ namespace Chequeando.Controllers
 
 		}
 
-
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Client")]
 		public async Task<IActionResult> MyProperties()
 		{
 			Result<List<PropertyModel>> result = new();

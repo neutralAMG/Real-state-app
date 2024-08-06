@@ -129,12 +129,31 @@ namespace FinalProject.Core.Application.Services.Persistance
 			Result<List<PropertyModel>> result = new();
 			try
 			{
-				List<Property> propertyGetted = await _propertyRepository.GetAllAsync();
 
+				List<Property> propertyGetted = new();
+			 	if(_currentUserInfo is null) propertyGetted =  await _propertyRepository.GetAllAsync();
+
+				if(_currentUserInfo != null)
+				{
+					if(_currentUserInfo.Roles.Any(u => u == "Agent")) propertyGetted = await _propertyRepository.GetAllCurrentAgentUserPropertiesAsync(_currentUserInfo.Id);
+				}
 				propertyGetted = PropertyFilters.FilterProperties(propertyGetted, filterModel).ToList();
 
 				result.Data = _mapper.Map<List<PropertyModel>>(propertyGetted);
 
+				if (_currentUserInfo != null)
+				{
+					if (_currentUserInfo.Roles.Any(u => u == "Client"))
+					{
+						IEnumerable<Guid> userFavPropertiesIds = propertyGetted.SelectMany(p => p.FavoriteUsersProperties.Select(p => p.PropertyId));
+
+						result.Data.ForEach(p =>
+						{
+							if (userFavPropertiesIds.Any(up => up == p.Id)) p.IsMarkAsFavoriteByCurrentUser = true;
+						}
+						);
+					}
+				}
 				result.Message = "Properties where filtered successfully";
 				return result;
 			}

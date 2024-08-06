@@ -1,6 +1,8 @@
 ﻿using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Models.Perk;
+using FinalProject.Presentation.WebApp.Middleware.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Presentation.WebApp.Controllers
@@ -14,6 +16,9 @@ namespace FinalProject.Presentation.WebApp.Controllers
 			_perkService = perkService;
 		}
 		// GET: PerkController
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Index()
 		{
 			Result<List<PerkModel>> result = new();
@@ -44,6 +49,9 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}
 
 		// GET: PerkController/Create
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> CreatePerk()
 		{
 
@@ -51,6 +59,9 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}
 
 		// POST: PerkController/Create
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> CreatePerk(SavePerkModel saveModel)
@@ -74,6 +85,9 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}
 
 		// GET: PerkController/Edit/5
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> EditPerk(int id)
 		{
 			if (id == default)
@@ -101,6 +115,9 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		}
 
 		// POST: PerkController/Edit/5
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> EditPerk(int id, SavePerkModel saveModel)
@@ -126,8 +143,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
 				return RedirectToAction("IndexAdmin", "Home");
 			}
 		}
-
 		// GET: PerkController/Delete/5
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeletePerk(int id)
 		{
 			if (id == default)
@@ -153,8 +172,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
 			}
 			return View();
 		}
-
 		// POST: PerkController/Delete/5
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeletePerk(int id, IFormCollection collection)

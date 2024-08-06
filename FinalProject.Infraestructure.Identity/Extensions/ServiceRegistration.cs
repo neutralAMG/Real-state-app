@@ -49,8 +49,8 @@ namespace FinalProject.Infraestructure.Identity.Extensions
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.AccessDeniedPath = "";
-                options.LoginPath = "";
+                options.AccessDeniedPath = "/Home/NoAuthorize";
+                options.LoginPath = "/User/LogIn";
             });
 
         }

@@ -2,8 +2,10 @@
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Interfaces.Contracts.Persistance;
 using FinalProject.Core.Application.Models.Property;
+using FinalProject.Presentation.WebApp.Middleware.Filters;
 using FinalProject.Presentation.WebApp.Models;
 using FinalProject.Presentation.WebApp.Utils.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Metadata;
 using Microsoft.AspNetCore.Mvc;
 
@@ -69,8 +71,10 @@ namespace Chequeando.Controllers
             }
           
         }
-
-        public async Task<IActionResult> Create()
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		public async Task<IActionResult> Create()
         {
             ViewBag.PropertyTypes = await _selectListGenerator.GeneratePropertyTypesSelectListAsync();
             ViewBag.SellTypes = await _selectListGenerator.GenerateSellTypesSelectListAsync();
@@ -85,7 +89,10 @@ namespace Chequeando.Controllers
             return View(model);
         }
 
-        [HttpPost]
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SavePropertyModel saveModel)
         {
@@ -107,7 +114,10 @@ namespace Chequeando.Controllers
     
         }
 
-        public async Task<IActionResult> EditProperty(Guid id)
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		public async Task<IActionResult> EditProperty(Guid id)
         {
 			if (id == default)
 			{
@@ -139,7 +149,10 @@ namespace Chequeando.Controllers
            
         }
 
-        [HttpPost]
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProperty(Guid id, SavePropertyModel saveModel)
         {
@@ -223,6 +236,9 @@ namespace Chequeando.Controllers
 
 		}
 
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Client")]
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FavoriteProperty(Guid id, int IsMarktAsFavorite)
@@ -250,8 +266,10 @@ namespace Chequeando.Controllers
             }
             
         }
-
-        public async Task<IActionResult> DeleteProperty(Guid id)
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		public async Task<IActionResult> DeleteProperty(Guid id)
         {
             if (id == default)
             {
@@ -275,7 +293,10 @@ namespace Chequeando.Controllers
             }
             
         }
-        [HttpPost]
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Agent")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProperty(Guid id, bool fromFormMetadata)
         {

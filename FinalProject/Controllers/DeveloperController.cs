@@ -2,6 +2,8 @@
 using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Infraestructure.Identity.Enums;
+using FinalProject.Presentation.WebApp.Middleware.Filters;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Presentation.WebApp.Controllers
@@ -21,7 +23,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> MantDeveloper()
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> MantDeveloper()
         {
             Result<List<UserModel>> result = new();
             try
@@ -38,11 +43,19 @@ namespace FinalProject.Presentation.WebApp.Controllers
                 throw;
             }
         }
-        public async Task<IActionResult> CreateDeveloper()
+
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> CreateDeveloper()
         {
             return View(new SaveUserModel());
         }
-        [HttpPost]
+
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateDeveloper(SaveUserModel saveModel)
         {
@@ -68,7 +81,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
                 return View(saveModel);
             }
         }
-        public async Task<IActionResult> EditDeveloper(string id)
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> EditDeveloper(string id)
         {
 
 			if (id == default)
@@ -95,7 +111,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
           
         }
 
-        [HttpPost]
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
+		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditDeveloper(string id , string OldPassword, string OldConfirmPassword, SaveUserModel saveModel)
         {

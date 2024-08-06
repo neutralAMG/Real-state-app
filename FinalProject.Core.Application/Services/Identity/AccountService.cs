@@ -63,7 +63,7 @@ namespace FinalProject.Core.Application.Services.Identity
 
 				_httpContext.HttpContext.Session.Set<AuthenticationResponce>(responce, _sessionsKeys.UserKey);
 
-				result.Message = "Authentication success";
+				result.Message = responce.Roles.FirstOrDefault();
 				return result;
 			}
 			catch

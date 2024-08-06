@@ -3,6 +3,10 @@ using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Core.Application.Services.Identity;
+using FinalProject.Infraestructure.Identity.Enums;
+using FinalProject.Presentation.WebApp.Middleware.Filters;
+using FinalProject.Presentation.WebApp.Middleware.Validations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -12,23 +16,25 @@ namespace Chequeando.Controllers
 	{
 		private readonly IAccountService _accountService;
 		private readonly IUserService _userService;
+		private readonly UserSessionInfoValidations _userSessionInfoValidations;
 
-		public UserController(IAccountService accountService, IUserService userService)
+		public UserController(IAccountService accountService, IUserService userService, UserSessionInfoValidations userSessionInfoValidations)
 		{
 			_accountService = accountService;
 			_userService = userService;
+			_userSessionInfoValidations = userSessionInfoValidations;
 		}
 
 		public IActionResult Index()
 		{
 			return View();
 		}
-
+		[ServiceFilter(typeof(IsUserLogIn))]
 		public IActionResult Login()
 		{
 			return View();
 		}
-
+		[ServiceFilter(typeof(IsUserLogIn))]
 		public async Task<IActionResult> ConfirmEmail(string userId, string token)
 		{
 			Result result = new();
@@ -43,7 +49,7 @@ namespace Chequeando.Controllers
 			return View();
 
 		}
-
+		[ServiceFilter(typeof(IsUserLogIn))]
 		[HttpPost]
 		public async Task<IActionResult> Login(string usernameMail, string password)
 		{
@@ -53,14 +59,20 @@ namespace Chequeando.Controllers
 				ModelState.AddModelError("", result.Message);
 				return View();
 			}
-			return RedirectToAction("About", "Home");
+
+			if (result.Message == nameof(Roles.Client)) return RedirectToAction("IndexLogeado", "Home");
+			if (result.Message == nameof(Roles.Agent)) return RedirectToAction("IndexAgent", "Home");
+			return RedirectToAction("IndexAdmin", "Home");
+
 		}
 
+		[ServiceFilter(typeof(IsUserLogIn))]
 		public IActionResult Register()
 		{
 			return View(new SaveUserModel());
 		}
 
+		[ServiceFilter(typeof(IsUserLogIn))]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Register(SaveUserModel saveModel)
@@ -79,7 +91,7 @@ namespace Chequeando.Controllers
 				if (!result.ISuccess)
 				{
 					//ModelState.AddModelError("", "No se a logrado registrar");
-					return View( saveModel);
+					return View(saveModel);
 				}
 				return RedirectToAction("Login", "User");
 			}
@@ -189,7 +201,7 @@ namespace Chequeando.Controllers
 				{
 
 				}
-				return Redirect(Request.Headers["Referer"].ToString());	
+				return Redirect(Request.Headers["Referer"].ToString());
 			}
 			catch
 			{
