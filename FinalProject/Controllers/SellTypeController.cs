@@ -74,7 +74,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         // GET: SellTypeController/Edit/5
         public async Task<IActionResult> EditSellType(int id)
         {
-            Result<SellTypeModel> result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result<SellTypeModel> result = new();
             try
             {
                 result = await _sellTypeService.GetByIdAsync(id);
@@ -97,7 +101,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSellType(int id, SaveSellTypeModel saveModel)
         {
-            Result result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result result = new();
             try
             {
                 result = await _sellTypeService.UpdateAsync(id, saveModel);
@@ -117,7 +125,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         // GET: SellTypeController/Delete/5
         public async Task<IActionResult> DeleteSellType(int id)
         {
-            Result<SellTypeModel> result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result<SellTypeModel> result = new();
             try
             {
                 result = await _sellTypeService.GetByIdAsync(id);
@@ -139,7 +151,12 @@ namespace FinalProject.Presentation.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteSellType(int id, IFormCollection collection)
         {
-            Result result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+
+			Result result = new();
             try
             {
                 result = await _sellTypeService.DeleteAsync(id);

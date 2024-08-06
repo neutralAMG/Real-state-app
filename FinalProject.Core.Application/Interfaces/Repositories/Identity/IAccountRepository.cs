@@ -11,6 +11,8 @@ namespace FinalProject.Core.Application.Interfaces.Repositories.Identity
         Task<UserOperationResponce> UnLockUserAsync(string id);
         Task SignOutAsync();
         Task ForgotPasswordAsync(string email, string origin);
-        Task ChangePasswordAsync(string password);
+        Task<string> ConfirmClientUserEmailAsync(string userId, string token);
+
+		Task ChangePasswordAsync(string password);
     }
 }

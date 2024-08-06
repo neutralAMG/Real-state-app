@@ -13,5 +13,6 @@ namespace FinalProject.Core.Application.Interfaces.Contracts.Identity
         Task<Result> UpdateUserAsync(SaveUserModel request);
         Task<Result> DeleteUserAsync(string id);
         Task<Result> HandleUserActivationStateAsync(string id);
+
     }
 }

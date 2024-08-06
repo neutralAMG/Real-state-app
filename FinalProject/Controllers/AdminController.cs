@@ -70,6 +70,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 		public async Task<IActionResult> EditAdmin(string id)
 		{
+			if (id == default )
+			{
+				return NoContent();
+			}
 			Result<UserModel> result = new();
 			try
 			{
@@ -93,6 +97,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> EditAdmin(string id, string OldPassword, string OldConfirmPassword, SaveUserModel saveModel)
 		{
+			if (id == default || OldPassword == default || OldConfirmPassword == default)
+			{
+				return NoContent();
+			}
 			//fix this
 			Result result = new();
 			try

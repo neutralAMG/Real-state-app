@@ -60,7 +60,7 @@ namespace Chequeando.Controllers
         {
             if (id == default)
             {
-                return RedirectToAction("Index", "Home");
+                return NoContent();
             }
             Result<List<PropertyModel>> result = new();
             try
@@ -104,7 +104,13 @@ namespace Chequeando.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Profile(string id, SaveUserModel saveModel)
         {
-            Result result = new();
+
+			if (id == default)
+			{
+				return NoContent();
+			}
+
+			Result result = new();
             try
             {
                 result = await _userService.UpdateUserAsync(saveModel);

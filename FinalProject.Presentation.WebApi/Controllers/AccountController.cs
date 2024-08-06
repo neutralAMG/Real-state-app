@@ -48,7 +48,7 @@ namespace FinalProject.Presentation.WebApi.Controllers
 
         [Authorize(Roles = "Admin")]
         // PUT api/<AccountController>/5
-        [HttpPut("RegisterAdmin")]
+        [HttpPost("RegisterAdmin")]
         public async Task<IActionResult> RegisterAdmin( [FromBody] RegisterAdminTypeUserCommand registerAdminTypeUserCommand)
         {
             try

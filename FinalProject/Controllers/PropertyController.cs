@@ -109,7 +109,11 @@ namespace Chequeando.Controllers
 
         public async Task<IActionResult> EditProperty(Guid id)
         {
-            Result<PropertyModel> result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result<PropertyModel> result = new();
             try
             {
                 result = await _propertyService.GetByIdAsync(id);
@@ -139,7 +143,11 @@ namespace Chequeando.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProperty(Guid id, SavePropertyModel saveModel)
         {
-            Result<SavePropertyModel> result = new();
+			if (id == default || saveModel == null)
+			{
+				return NoContent();
+			}
+			Result<SavePropertyModel> result = new();
             try
             {
                 result = await _propertyService.UpdateAsync(id, saveModel);
@@ -187,12 +195,42 @@ namespace Chequeando.Controllers
 
 		}
 
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Filter(string view, PropertyFilterModel propertyFilterModel)
+		{
+			if (view == default || propertyFilterModel == null)
+			{
+				return NoContent();
+			}
+			Result<List<PropertyModel>> result = new();
+			try
+			{
+				result = await _propertyService.FilterProperties(propertyFilterModel);
 
+				if (!result.ISuccess)
+				{
+					return NoContent();
+				}
+
+				return View(view, result.Data);
+
+			}
+			catch
+			{
+				return RedirectToAction("IndexAgent", "Home");
+			}
+
+		}
 
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FavoriteProperty(Guid id, int IsMarktAsFavorite)
         {
+            if (id == default || IsMarktAsFavorite == default)
+            {
+                return NoContent();
+            }
             Result result = new();
             try
             {
@@ -215,6 +253,10 @@ namespace Chequeando.Controllers
 
         public async Task<IActionResult> DeleteProperty(Guid id)
         {
+            if (id == default)
+            {
+                return NoContent();
+            }
             Result<PropertyModel> result = new();
             try
             {
@@ -237,7 +279,11 @@ namespace Chequeando.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteProperty(Guid id, bool fromFormMetadata)
         {
-            Result result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result result = new();
             try
             {
                 result = await _propertyService.DeleteAsync(id);

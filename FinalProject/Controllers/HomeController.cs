@@ -42,6 +42,8 @@ namespace Chequeando.Controllers
 
 		}
 
+	
+
 		public async Task<IActionResult> IndexLogeado()
 		{
 			Result<List<PropertyModel>> result = new();

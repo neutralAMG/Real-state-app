@@ -29,6 +29,21 @@ namespace Chequeando.Controllers
 			return View();
 		}
 
+		public async Task<IActionResult> ConfirmEmail(string userId, string token)
+		{
+			Result result = new();
+			try
+			{
+				result = await _accountService.ConfirmEmail(userId, token);
+			}
+			catch
+			{
+
+			}
+			return View();
+
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> Login(string usernameMail, string password)
 		{
@@ -58,12 +73,13 @@ namespace Chequeando.Controllers
 					ModelState.AddModelError("", "Passwords do not match.");
 					return View(saveModel);
 				}
-				result = await _accountService.RegisterAsync(saveModel);
+				var origin = Request.Headers["Origin"];
+				result = await _accountService.RegisterAsync(saveModel, origin);
 
 				if (!result.ISuccess)
 				{
-					ModelState.AddModelError("", "No se a logrado registrar");
-					return View("Redirect", saveModel);
+					//ModelState.AddModelError("", "No se a logrado registrar");
+					return View( saveModel);
 				}
 				return RedirectToAction("Login", "User");
 			}
@@ -104,6 +120,10 @@ namespace Chequeando.Controllers
 
 		public async Task<IActionResult> EditUser(string id)
 		{
+			if (id == default)
+			{
+				return NoContent();
+			}
 			Result<UserModel> result = new();
 			try
 			{
@@ -127,6 +147,11 @@ namespace Chequeando.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> EditUser(string id, SaveUserModel saveModel)
 		{
+			if (id == default)
+			{
+				return NoContent();
+			}
+
 			Result result = new();
 			try
 			{
@@ -151,6 +176,10 @@ namespace Chequeando.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> HabdelUserActiveState(string id)
 		{
+			if (id == default)
+			{
+				return NoContent();
+			}
 			Result result = new();
 			try
 			{
@@ -173,6 +202,11 @@ namespace Chequeando.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteUser(string id)
 		{
+			if (id == default)
+			{
+				return NoContent();
+			}
+
 			Result result = new();
 			try
 			{

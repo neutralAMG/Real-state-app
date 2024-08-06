@@ -35,6 +35,7 @@ namespace FinalProject.Infraestructure.Share.Services
 
                 using (SmtpClient smtpClient = new())
                 {
+                   
                     smtpClient.Connect(_emailSettings.SmtpHost, _emailSettings.SmtpPort, MailKit.Security.SecureSocketOptions.StartTls);
                     smtpClient.Authenticate(_emailSettings.SmtpUser, _emailSettings.SmtpPass);
                     await smtpClient.SendAsync(email);

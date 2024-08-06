@@ -70,7 +70,12 @@ namespace FinalProject.Presentation.WebApp.Controllers
         }
         public async Task<IActionResult> EditDeveloper(string id)
         {
-            Result<UserModel> result = new();
+
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result<UserModel> result = new();
 
             try
             {
@@ -94,8 +99,12 @@ namespace FinalProject.Presentation.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditDeveloper(string id , string OldPassword, string OldConfirmPassword, SaveUserModel saveModel)
         {
-            //fix this
-            Result result = new();
+			if (id == default || OldPassword == default || OldConfirmPassword == default)
+			{
+				return NoContent();
+			}
+			//fix this
+			Result result = new();
             try
             {
 

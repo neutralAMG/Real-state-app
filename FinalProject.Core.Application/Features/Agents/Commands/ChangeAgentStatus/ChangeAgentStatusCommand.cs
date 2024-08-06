@@ -37,7 +37,7 @@ namespace FinalProject.Core.Application.Features.Agents.Commands.ChangeAgentStat
             try
             {
 
-                UserOperationResponce responce = await _userRepository.HandleUserActivationStateAsync(request.Id);
+                UserOperationResponce responce = await _userRepository.HandleUserActivationStateAsync(request.Id, request.status);
 
                 if (responce.HasError)
                 {

@@ -74,7 +74,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         // GET: PropertyTypeController/Edit/5
         public async Task<IActionResult> EditPropertyType(int id)
         {
-            Result<PropertyTypeModel> result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result<PropertyTypeModel> result = new();
             try
             {
                 result = await _propertyTypeService.GetByIdAsync(id);
@@ -98,7 +102,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditPropertyType(int id, SavePropertyTypeModel saveModel)
         {
-            Result<SavePropertyTypeModel> result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result<SavePropertyTypeModel> result = new();
             try
             {
                 result = await _propertyTypeService.UpdateAsync(id, saveModel);
@@ -119,7 +127,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         // GET: PropertyTypeController/Delete/5
         public async Task<IActionResult> DeletePropertyType(int id)
         {
-            Result<PropertyTypeModel> result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result<PropertyTypeModel> result = new();
             try
             {
                 result = await _propertyTypeService.GetByIdAsync(id);
@@ -142,7 +154,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeletePropertyType(int id, IFormCollection collection)
         {
-            Result result = new();
+			if (id == default)
+			{
+				return NoContent();
+			}
+			Result result = new();
             try
             {
                 result = await _propertyTypeService.DeleteAsync(id);

@@ -131,5 +131,21 @@ namespace FinalProject.Core.Application.Services.Identity
 				return result;
 			}
 		}
+
+		public async Task<Result> ConfirmEmail(string email, string token)
+		{
+			Result result = new();
+			try
+			{
+				await _accountRepository.ConfirmClientUserEmailAsync(email, token);
+				return result;
+			}
+			catch
+			{
+				result.ISuccess= false;
+				result.Message = "Critical error confirmin the user email";
+				return result;
+			}
+		}
 	}
 }

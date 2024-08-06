@@ -43,8 +43,6 @@
 
 		<div class="mb-6">
 
-			<p><strong>Property Code:</strong> AP1234</p>
-
 			<p><strong>Property Code:</strong> @Model.PropertyCode</p>
 
 			<p><strong>Property Type:</strong> @Model.PropertyTypeName</p>
@@ -56,10 +54,11 @@
 			<p><strong>Description:</strong> @Model.Description </p>
 			<p>
 				<strong>Improvements:</strong>
-				@foreach (var Perk in Model.PropertyPerks)
+				@if (Model.PropertyPerks.Count != 0)
 				{
-				<p>	@Perk.Name </p>
+					@string.Join(", " ,Model.PropertyPerks.Select(p => p.Name))
 				}
+
 			</p>
 		</div>
 
