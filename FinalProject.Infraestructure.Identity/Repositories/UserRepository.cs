@@ -129,7 +129,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 			}
 			IdentityResult result = new();
 
-			if (Deactivate == true)
+			if (Deactivate == false)
 			{
 				userToHandelState.EmailConfirmed = false;
 				result = await _userManager.UpdateAsync(userToHandelState);
@@ -141,6 +141,22 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 					return responce;
 				}
 			}
+			if (Deactivate == true)
+			{
+
+				string userTokent = await _userManager.GenerateEmailConfirmationTokenAsync(userToHandelState);
+				result = await _userManager.ConfirmEmailAsync(userToHandelState, userTokent);
+
+
+				if (!result.Succeeded)
+				{
+					responce.HasError = true;
+					responce.ErrorMessage = result.Errors.First().Description;
+					return responce;
+				}
+			}
+
+
 			return responce;
 
 		}
