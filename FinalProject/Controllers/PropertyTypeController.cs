@@ -71,10 +71,12 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 				if (!result.ISuccess)
 				{
-					return RedirectToAction("CreatePropertyType", saveModel);
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("CreatePropertyType", saveModel);
 				}
 
-				return RedirectToAction("Index");
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Index");
 			}
 			catch
 			{
@@ -130,10 +132,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 				if (!result.ISuccess)
 				{
-					return RedirectToAction("Edit", id);
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("Edit", id);
 				}
-
-				return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction(nameof(Index));
 			}
 			catch
 			{
@@ -187,9 +190,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
 				result = await _propertyTypeService.DeleteAsync(id);
 				if (!result.ISuccess)
 				{
-					return RedirectToAction("Delete", id);
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("Delete", id);
 				}
-				return RedirectToAction("Index");
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Index");
 			}
 			catch
 			{

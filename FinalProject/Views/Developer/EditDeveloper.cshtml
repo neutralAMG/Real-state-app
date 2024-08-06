@@ -1,5 +1,13 @@
 ﻿@model FinalProject.Core.Application.Models.User.UserModel
 
+@if (TempData["ErrorMessage"] is not null)
+{
+    <div class=" alert alert-danger d-block text-center">
+        <p>@TempData["ErrorMessage"]</p>
+    </div>
+
+}
+
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6 text-yellow-700">Edit Developer</h1>
 

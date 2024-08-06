@@ -1,6 +1,17 @@
-﻿
+﻿@if (TempData["ErrorMessage"] is not null)
+{
+    <div class=" alert alert-danger d-block text-center">
+        <p>@TempData["ErrorMessage"]</p>
+    </div>
 
+}
+@if (TempData["SuccessMessage"] is not null)
+{
+    <div class=" alert alert-success d-block text-center">
+        <p>@TempData["SuccessMessage"]</p>
+    </div>
 
+}
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="max-w-4xl w-full bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-3xl font-bold text-center text-indigo-600 mb-8">Create an Account</h2>

@@ -1,33 +1,14 @@
 ﻿@model FinalProject.Presentation.WebApp.Models.SavePropertyViewModelWithData;
-@{
-    ViewData["Title"] = "Edit Property";
-    var propertyTypes = new List<string> { "House", "Apartment", "Condo" }; // Example data, replace with actual data from the database
-    var saleTypes = new List<string> { "Rent", "Sale" }; // Example data, replace with actual data from the database
-    var amenities = new List<string> { "Swimming Pool", "Gym", "Garden" }; // Example data, replace with actual data from the database
-    var property = new { 
-        PropertyType = "House", 
-        SaleType = "Rent", 
-        Price = 850000, 
-        Description = "A beautiful house.", 
-        Size = 120, 
-        Bedrooms = 2, 
-        Bathrooms = 2, 
-        SelectedAmenities = new List<string> { "Swimming Pool", "Gym" }, 
-        Images = new List<string> { "https://foxchronicle.com/wp-content/uploads/2020/01/zoolander-movie.jpg", "image2.jpg" }
-    }; // Example data, replace with actual property data
+
+
+@if (TempData["ErrorMessage"] is not null)
+{
+    <div class=" alert alert-danger d-block text-center">
+        <p>@TempData["ErrorMessage"]</p>
+    </div>
+
 }
 
-@if (!propertyTypes.Any() || !saleTypes.Any() || !amenities.Any())
-{
-    <div class="container mx-auto px-4 py-6 bg-red-100 min-h-screen">
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h1 class="text-4xl font-bold text-red-600 mb-8">Error</h1>
-            <p class="text-xl text-red-700">There are no property types, sale types, or amenities created. Please create them before editing properties.</p>
-        </div>
-    </div>
-}
-else
-{
     <div class="container mx-auto px-4 py-6 bg-gray-100 min-h-screen">
         <div class="bg-white p-8 rounded-lg shadow-lg">
             <h1 class="text-4xl font-bold text-indigo-600 mb-8">Edit Property</h1>

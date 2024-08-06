@@ -142,6 +142,35 @@ namespace FinalProject.Infraestructure.Identity.Extensions
             services.AddTransient<SignInManager<ApplicationUser>, CustomAuthSignInManager<ApplicationUser>>();
             services.AddTransient<IUserRepository, UserRepository>();
 
-        }
-    }
+        }   
+        
+        private static void AddServices(IServiceCollection services)
+        {
+			services.AddTransient<IAccountRepository, AccountRepository>();
+			services.AddTransient<HandleRegistration>();
+			services.AddTransient<IUserRepository, UserRepository>();
+		}
+
+		private static void AddContext(IServiceCollection services, IConfiguration config)
+		{
+			      services.AddDbContext<AppIdentityContext>(options =>
+            {
+                options.UseSqlServer(config.GetConnectionString("DefaultIdentityConnection"), m =>
+                m.MigrationsAssembly(typeof(AppIdentityContext).Assembly.FullName));
+            });
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                //options.User.RequireUniqueEmail = true; 
+                //options.Password.RequireNonAlphanumeric = true;
+                //options.Password.RequireDigit = true;
+                //options.Password.RequiredLength = 8;
+                //options.Password.RequireUppercase = true;
+            
+            }).AddEntityFrameworkStores<AppIdentityContext>()
+                .AddDefaultTokenProviders();
+		}
+	}
+
+ 
 }

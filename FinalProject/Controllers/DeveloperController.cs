@@ -65,6 +65,7 @@ namespace FinalProject.Presentation.WebApp.Controllers
                 saveModel.PhoneNumber = "1111111111";
                 if (saveModel.Password != saveModel.ConfirmPassword)
                 {
+                    TempData["ErrorMessage"] = "The passwords must match";
                     return View(saveModel);
                 }
 
@@ -72,8 +73,12 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
                 if (!result.ISuccess)
                 {
+                    TempData["ErrorMessage"] = result.Message;
                     return View(saveModel);
                 }
+
+                TempData["SuccessMessage"] = result.Message;
+
                 return RedirectToAction("MantDeveloper");
             }
             catch
@@ -134,7 +139,7 @@ namespace FinalProject.Presentation.WebApp.Controllers
                 }
                 else if (saveModel.Password != saveModel.ConfirmPassword)
                 {
-                    // ViewBag.MessageError = "the passwords must match";
+                    TempData["ErrorMessage"] = "The passwords must match";
                     return View("EditUser", id);
                 }
 
@@ -143,9 +148,10 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
                 if (!result.ISuccess)
                 {
+                    TempData["ErrorMessage"] = result.Message;
                     return RedirectToAction("EditDeveloper", id);
                 }
-
+                TempData["SuccessMessage"] = result.Message;
                 return RedirectToAction("MantDeveloper");
 
             }

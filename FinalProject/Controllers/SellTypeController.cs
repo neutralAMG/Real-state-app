@@ -15,11 +15,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
         {
             _sellTypeService = sellTypeService;
         }
-		// GET: SellTypeController
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> Index()
+        // GET: SellTypeController
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Index()
         {
             Result<List<SellTypeModel>> result = new();
             try
@@ -36,33 +36,33 @@ namespace FinalProject.Presentation.WebApp.Controllers
             {
                 return RedirectToAction("IndexAdmin", "Home");
             }
-          
+
         }
 
 
 
 
-		// GET: SellTypeController/Details/5
-		public async Task<IActionResult> Details(int id)
+        // GET: SellTypeController/Details/5
+        public async Task<IActionResult> Details(int id)
         {
             return View();
         }
 
-		
-		// GET: SellTypeController/Create
+
+        // GET: SellTypeController/Create
         [ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> CreateSellType()
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CreateSellType()
         {
             return View(new SaveSellTypeModel());
         }
 
-	// POST: SellTypeController/Create
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Admin")]
-		[HttpPost]
+        // POST: SellTypeController/Create
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateSellType(SaveSellTypeModel saveModel)
         {
@@ -73,8 +73,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
                 if (!result.ISuccess)
                 {
+                    TempData["ErrorMessage"] = result.Message;
                     return View(saveModel);
                 }
+                TempData["SuccessMessage"] = result.Message;
+
                 return RedirectToAction("Index");
             }
             catch
@@ -83,55 +86,58 @@ namespace FinalProject.Presentation.WebApp.Controllers
             }
         }
 
-		// GET: SellTypeController/Edit/5
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> EditSellType(int id)
+        // GET: SellTypeController/Edit/5
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> EditSellType(int id)
         {
-			if (id == default)
-			{
-				return NoContent();
-			}
-			Result<SellTypeModel> result = new();
+            if (id == default)
+            {
+                return NoContent();
+            }
+            Result<SellTypeModel> result = new();
             try
             {
                 result = await _sellTypeService.GetByIdAsync(id);
 
                 if (!result.ISuccess)
                 {
-                   return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
                 return View(result.Data);
             }
             catch
             {
-               return RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
-         
+
         }
 
-		// POST: SellTypeController/Edit/5
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Admin")]
-		[HttpPost]
+        // POST: SellTypeController/Edit/5
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditSellType(int id, SaveSellTypeModel saveModel)
         {
-			if (id == default)
-			{
-				return NoContent();
-			}
-			Result result = new();
+            if (id == default)
+            {
+                return NoContent();
+            }
+            Result result = new();
             try
             {
                 result = await _sellTypeService.UpdateAsync(id, saveModel);
 
                 if (!result.ISuccess)
                 {
+                    TempData["ErrorMessage"] = result.Message;
                     return RedirectToAction("EditSellType", saveModel);
                 }
+                TempData["SuccessMessage"] = result.Message;
+
                 return RedirectToAction("Index");
             }
             catch
@@ -140,17 +146,17 @@ namespace FinalProject.Presentation.WebApp.Controllers
             }
         }
 
-		// GET: SellTypeController/Delete/5
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> DeleteSellType(int id)
+        // GET: SellTypeController/Delete/5
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> DeleteSellType(int id)
         {
-			if (id == default)
-			{
-				return NoContent();
-			}
-			Result<SellTypeModel> result = new();
+            if (id == default)
+            {
+                return NoContent();
+            }
+            Result<SellTypeModel> result = new();
             try
             {
                 result = await _sellTypeService.GetByIdAsync(id);
@@ -164,31 +170,34 @@ namespace FinalProject.Presentation.WebApp.Controllers
             {
                 return RedirectToAction("Index");
             }
-           
+
         }
 
-		// POST: SellTypeController/Delete/5
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Admin")]
-		[HttpPost]
+        // POST: SellTypeController/Delete/5
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteSellType(int id, IFormCollection collection)
         {
-			if (id == default)
-			{
-				return NoContent();
-			}
+            if (id == default)
+            {
+                TempData["ErrorMessage"] = "if you seeing you ether a naughy boy or the teacher tying to breack the app, in any case the dev team 1 you 0 ";
+                return NoContent();
+            }
 
-			Result result = new();
+            Result result = new();
             try
             {
                 result = await _sellTypeService.DeleteAsync(id);
 
                 if (!result.ISuccess)
                 {
-                    return RedirectToAction("DeleteSellType", id);
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("Index", id);
                 }
+                TempData["SuccessMessage"] = result.Message;
                 return RedirectToAction(nameof(Index));
             }
             catch

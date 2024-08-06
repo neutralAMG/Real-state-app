@@ -56,12 +56,14 @@ namespace Chequeando.Controllers
 			var result = await _accountService.AuthenticateWebAppAsync(usernameMail, password);
 			if (!result.ISuccess)
 			{
-				ModelState.AddModelError("", result.Message);
+				TempData["ErrorMessage"] = result.Message;
 				return View();
 			}
 
 			if (result.Message == nameof(Roles.Client)) return RedirectToAction("IndexLogeado", "Home");
 			if (result.Message == nameof(Roles.Agent)) return RedirectToAction("IndexAgent", "Home");
+
+			TempData["SuccessMessage"] = result.Message;
 			return RedirectToAction("IndexAdmin", "Home");
 
 		}
@@ -90,14 +92,15 @@ namespace Chequeando.Controllers
 
 				if (!result.ISuccess)
 				{
-					//ModelState.AddModelError("", "No se a logrado registrar");
-					return View(saveModel);
+                    TempData["ErrorMessage"] = result.Message;
+                    return View(saveModel);
 				}
-				return RedirectToAction("Login", "User");
+
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Login", "User");
 			}
 			catch
 			{
-				ModelState.AddModelError("", "An unexpected error occurred. Please try again.");
 				return RedirectToAction("Index", "Home");
 			}
 
@@ -124,7 +127,8 @@ namespace Chequeando.Controllers
 				{
 
 				}
-				return Redirect(Request.Headers["Referer"].ToString());
+                TempData["SuccessMessage"] = result.Message;
+                return Redirect(Request.Headers["Referer"].ToString());
 			}
 			catch
 			{
@@ -153,10 +157,11 @@ namespace Chequeando.Controllers
 
 				if (!result.ISuccess)
 				{
-					RedirectToAction("EditUser", id);
+                    TempData["ErrorMessage"] = result.Message;
+                    RedirectToAction("MantAdmin", "Admin");
 				}
-
-				return Redirect(Request.Headers["Referer"].ToString());
+                TempData["SuccessMessage"] = result.Message;
+                return Redirect(Request.Headers["Referer"].ToString());
 
 			}
 			catch

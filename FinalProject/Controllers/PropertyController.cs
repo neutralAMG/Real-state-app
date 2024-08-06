@@ -103,9 +103,12 @@ namespace Chequeando.Controllers
 
                 if (!result.ISuccess)
                 {
-
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("Create");
                 }
-                return RedirectToAction("IndexAgent", "Home");
+                TempData["SuccessMessage"] = result.Message;
+
+                return RedirectToAction("MantProperty", "Home");
             }
             catch
             {
@@ -152,6 +155,7 @@ namespace Chequeando.Controllers
 		[ServiceFilter(typeof(IsUserNotLogIn))]
 		[ServiceFilter(typeof(IsTheUserActive))]
 		[Authorize(Roles = "Agent")]
+        [ServiceFilter(typeof(IsThereSubEntitiesNeedItToCreateAProperty))]
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProperty(Guid id, SavePropertyModel saveModel)
@@ -167,9 +171,11 @@ namespace Chequeando.Controllers
 
                 if (!result.ISuccess)
                 {
+                    TempData["ErrorMessage"] = result.Message;
                     RedirectToAction("EditProperty", id);
                 }
 
+                TempData["SuccessMessage"] = result.Message;
                 return RedirectToAction("IndexAgent", "Home");
 
             }
@@ -195,10 +201,11 @@ namespace Chequeando.Controllers
 
 				if (!result.ISuccess)
 				{
+                    TempData["ErrorMessage"] = result.Message;
                     return NoContent();
 				}
-
-				return RedirectToAction("Detail",new { id = result.Data.Id });
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Detail",new { id = result.Data.Id });
 
 			}
 			catch
@@ -256,8 +263,10 @@ namespace Chequeando.Controllers
          
                 if (!result.ISuccess)
                 {
+                    TempData["ErrorMessage"] = result.Message;
                     return NoContent();
                 }
+                TempData["SuccessMessage"] = result.Message;
                 return Redirect(Request.Headers["Referer"].ToString());
             }
             catch
@@ -311,9 +320,10 @@ namespace Chequeando.Controllers
 
                 if (!result.ISuccess)
                 {
-                    return RedirectToAction("DeleteProperty", id);
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("MantProperty", id);
                 }
-
+                TempData["SuccessMessage"] = result.Message;
                 return RedirectToAction("IndexAgent", "Home");
             }
             catch

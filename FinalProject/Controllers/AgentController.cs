@@ -40,10 +40,10 @@ namespace Chequeando.Controllers
             return View();
         }
 
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Admin")]
-		public async Task<IActionResult> AgentList()
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AgentList()
         {
             Result<List<UserModel>> result = new();
             try
@@ -61,8 +61,8 @@ namespace Chequeando.Controllers
             }
         }
 
-	
-		public async Task<IActionResult> Property(string id)
+
+        public async Task<IActionResult> Property(string id)
         {
             if (id == default)
             {
@@ -86,10 +86,10 @@ namespace Chequeando.Controllers
 
         }
 
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Agent")]
-		public async Task<IActionResult> Profile()
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Agent")]
+        public async Task<IActionResult> Profile()
         {
             Result<UserModel> result = new();
             try
@@ -98,6 +98,7 @@ namespace Chequeando.Controllers
 
                 if (!result.ISuccess)
                 {
+
                     return NoContent();
                 }
 
@@ -110,29 +111,30 @@ namespace Chequeando.Controllers
 
         }
 
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Agent")]
-		[HttpPost]
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Agent")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Profile(string id, SaveUserModel saveModel)
         {
 
-			if (id == default)
-			{
-				return NoContent();
-			}
+            if (id == default)
+            {
+                return NoContent();
+            }
 
-			Result result = new();
+            Result result = new();
             try
             {
                 result = await _userService.UpdateUserAsync(saveModel);
 
                 if (!result.ISuccess)
                 {
-                    RedirectToAction("IndexAgent");
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("Profile");
                 }
-
+                TempData["SuccessMessage"] = result.Message;
                 return RedirectToAction("IndexAgent", "Home");
 
             }
@@ -143,10 +145,10 @@ namespace Chequeando.Controllers
 
         }
 
-		[ServiceFilter(typeof(IsUserNotLogIn))]
-		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles = "Agent")]
-		public async Task<IActionResult> MantProperty()
+        [ServiceFilter(typeof(IsUserNotLogIn))]
+        [ServiceFilter(typeof(IsTheUserActive))]
+        [Authorize(Roles = "Agent")]
+        public async Task<IActionResult> MantProperty()
         {
             Result<List<PropertyModel>> result = new();
             try

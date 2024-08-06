@@ -73,10 +73,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 				if (!result.ISuccess)
 				{
-					return View(saveModel);
+                    TempData["ErrorMessage"] = result.Message;
+                    return View(saveModel);
 				}
-
-				return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction(nameof(Index));
 			}
 			catch
 			{
@@ -102,7 +103,8 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 				if (!result.ISuccess)
 				{
-					return RedirectToAction("Index");
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("Index");
 				}
 
 				return View(result.Data);
@@ -134,9 +136,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 				if (!result.ISuccess)
 				{
-					return RedirectToAction("EditPerk", id);
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("EditPerk", id);
 				}
-				return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction(nameof(Index));
 			}
 			catch
 			{
@@ -161,7 +165,8 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 				if (!result.ISuccess)
 				{
-					return RedirectToAction("Index");
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("Index");
 				}
 
 				return View(result.Data);
@@ -192,10 +197,11 @@ namespace FinalProject.Presentation.WebApp.Controllers
 
 				if (!result.ISuccess)
 				{
-
-					return RedirectToAction("DeletePerk", id);
+                    TempData["ErrorMessage"] = result.Message;
+                    return RedirectToAction("Index", id);
 				}
-				return RedirectToAction("Index");
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Index");
 			}
 			catch
 			{

@@ -4,6 +4,20 @@
     ViewData["Title"] = "Login";
 }
 
+@if (TempData["ErrorMessage"] is not null)
+{
+    <div class=" alert alert-danger d-block text-center">
+        <p>@TempData["ErrorMessage"]</p>
+    </div>
+   
+}
+@if (TempData["SuccessMessage"] is not null)
+{
+    <div class=" alert alert-success d-block text-center">
+        <p>@TempData["SuccessMessage"]</p>
+    </div>
+
+}
 <div class="relative bg-gray-100 h-screen flex items-center justify-center">
     <!-- Background Image -->
     <img src="https://www.adanirealty.com/-/media/Project/Realty/Blogs/EOI-Expression-of-Interest-in-Real-Estate--A-Comprehensive-Guide.png" alt="Background Image" class="absolute inset-0 object-cover w-full h-full opacity-60" />

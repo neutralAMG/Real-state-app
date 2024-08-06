@@ -2,7 +2,13 @@
 @{
 	ViewData["Title"] = "Create New Property";
 }
+@if (TempData["ErrorMessage"] is not null)
+{
+    <div class=" alert alert-danger d-block text-center">
+        <p>@TempData["ErrorMessage"]</p>
+    </div>
 
+}
 
 <div class="container mx-auto px-4 py-6 bg-gray-100 min-h-screen">
     <div class="bg-white p-8 rounded-lg shadow-lg">
