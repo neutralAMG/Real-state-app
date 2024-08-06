@@ -3,7 +3,6 @@ namespace FinalProject.Core.Application.Dtos.Identity.User
 {
     public class GetUserStatisticDto
     {
-        public int AmountOfPropertiesRegistered { get; set; }
         public int AmountOfProperties { get; set; }
         public int AmountOfActiveAgentUsers { get; set; }
         public int AmountOfInActiveAgentUsers { get; set; }

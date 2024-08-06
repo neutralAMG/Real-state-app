@@ -211,7 +211,7 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             data.AmountOfInActiveAgentUsers = allOfTheUsers.Count - data.AmountOfActiveAgentUsers;
 
-            allOfTheUsers = await _userManager.GetUsersInRoleAsync(Roles.Developer.ToString());
+            allOfTheUsers = await _userManager.GetUsersInRoleAsync(Roles.Client.ToString());
 
             data.AmountOfActiveClienUsers = allOfTheUsers.Where(u => u.EmailConfirmed == true).Count();
 
@@ -219,9 +219,9 @@ namespace FinalProject.Infraestructure.Identity.Repositories
 
             allOfTheUsers = await _userManager.GetUsersInRoleAsync(Roles.Developer.ToString());
 
-            data.AmountOfActiveDeveloperUsers = allOfTheUsers.Where(u => u.EmailConfirmed = true).Count();
+            data.AmountOfActiveDeveloperUsers = allOfTheUsers.Where(u => u.EmailConfirmed == true).Count();
 
-            data.AmountOfInActiveDeveloperUsers = allOfTheUsers.Count - data.AmountOfInActiveDeveloperUsers;
+            data.AmountOfInActiveDeveloperUsers = allOfTheUsers.Count - data.AmountOfActiveDeveloperUsers;
 
             return data;
         }
