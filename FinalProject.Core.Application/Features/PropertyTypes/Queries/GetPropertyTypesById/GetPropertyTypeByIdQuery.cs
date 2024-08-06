@@ -4,15 +4,20 @@ using AutoMapper;
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
-using FinalProject.Core.Application.Models.PropertyType;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.PropertyTypes.Queries.GetPropertyTypesById
 {
-    public class GetPropertyTypeByIdQuery : IRequest<Result<PropertyTypeDto>>
+	/// <summary>
+	/// Parameters for getting a property by it's id
+	/// </summary>
+	public class GetPropertyTypeByIdQuery : IRequest<Result<PropertyTypeDto>>
     {
-        public int Id { get; set; }
+		
+		[SwaggerParameter(Description = "The id of the property type to get")]
+		public int Id { get; set; }
     }
     public class GetPropertyTypeByIdQueryHandler : IRequestHandler<GetPropertyTypeByIdQuery, Result<PropertyTypeDto>>
     {

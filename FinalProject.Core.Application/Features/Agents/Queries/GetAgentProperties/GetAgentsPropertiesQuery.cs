@@ -3,15 +3,19 @@ using AutoMapper;
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
-using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.Agents.Queries.GetAgentProperties
 {
-    public class GetAgentsPropertiesQuery : IRequest<Result<List<PropertyDto>>>
+	/// <summary>
+	/// Parameters for getting the properties of an specific agent
+	/// </summary>
+	public class GetAgentsPropertiesQuery : IRequest<Result<List<PropertyDto>>>
     {
-        public string Id { get; set; }
+		[SwaggerParameter(Description = "The user id used to get the agent properties")]
+		public string Id { get; set; }
     }
 
     public class GetAgentsPropertiesQueryHandler : IRequestHandler<GetAgentsPropertiesQuery, Result<List<PropertyDto>>>

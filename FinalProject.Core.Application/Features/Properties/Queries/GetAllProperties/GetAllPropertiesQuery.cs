@@ -10,7 +10,10 @@ using MediatR;
 
 namespace FinalProject.Core.Application.Features.Properties.Queries.GetAllProperties
 {
-    public class GetAllPropertiesQuery : IRequest<Result<List<PropertyDto>>>
+	/// <summary>
+	/// Parameters for getting all the properties in the system
+	/// </summary>
+	public class GetAllPropertiesQuery : IRequest<Result<List<PropertyDto>>>
     {
     }
 

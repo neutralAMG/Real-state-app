@@ -1,20 +1,26 @@
 ﻿
-
 using AutoMapper;
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
-using System.Security.Cryptography;
+using Swashbuckle.AspNetCore.Annotations;
+
 
 namespace FinalProject.Core.Application.Features.Perks.Commands.UpdatePerk
 {
-    public class UpdatePerkCommand : IRequest<Result<UpdatePerkDto>>
+	/// <summary>
+	/// Parameters for the update of a perk
+	/// </summary>
+	public class UpdatePerkCommand : IRequest<Result<UpdatePerkDto>>
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+		[SwaggerParameter(Description = "The id of the perk to be updated")]
+		public int Id { get; set; }
+		[SwaggerParameter(Description = "The new name of the perk to updated")]
+		public string Name { get; set; }
+		[SwaggerParameter(Description = "The new description of the perk to updated")]
+		public string Description { get; set; }
     }
     public class UpdatePerkCommandHandler : IRequestHandler<UpdatePerkCommand, Result<UpdatePerkDto>>
     {

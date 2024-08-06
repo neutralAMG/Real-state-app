@@ -2,13 +2,19 @@
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 
 namespace FinalProject.Core.Application.Features.Perks.Commands.DeletePerk
 {
-    public class DeletePerkCommand : IRequest<Result>
+	/// <summary>
+	/// Parameters for deleting a perk
+	/// </summary>
+	public class DeletePerkCommand : IRequest<Result>
     {
-        public int Id { get; set; }
+	
+		[SwaggerParameter(Description = "The id of the perk to be deleted")]
+		public int Id { get; set; }
     }
     public class DeletePerkCommandHandler : IRequestHandler<DeletePerkCommand, Result>
     {

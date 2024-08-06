@@ -5,20 +5,47 @@ using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.Account.Commands.RegisterAdminTypeUser
 {
+    /// <summary>
+    /// Parameters for the creation of Admin user's
+    /// </summary>
     public class RegisterAdminTypeUserCommand : IRequest<Result>
     {
+		/// <example>
+		/// Jhon
+		/// </example>
+		[SwaggerParameter(Description = "The user first name")]
         public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string ImgProfileUrl { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
-        public string Cedula { get; set; }
+		/// <example>
+		/// Doe
+		/// </example>
+		[SwaggerParameter(Description = "The user last name")]
+		public string LastName { get; set; }
+		/// <example>
+		/// UserName
+		/// </example>
+		[SwaggerParameter(Description = "The user desired user name")]
+		public string UserName { get; set; }
+		/// <example>
+		/// ExampleEmail
+		/// </example>
+		[SwaggerParameter(Description = "The user's email")]
+		public string Email { get; set; }
+		/// <example>
+		/// 8094458118
+		/// </example>
+		[SwaggerParameter(Description = "The user phone number")]
+		public string PhoneNumber { get; set; }
+		[SwaggerParameter(Description = "The user password")]
+		public string Password { get; set; }
+		/// <example>
+		/// 4020992255
+		/// </example>
+		[SwaggerParameter(Description = "The user cedula")]
+		public string Cedula { get; set; }
     }
 
     public class RegisterAdminTypeUserCommandHandlet : IRequestHandler<RegisterAdminTypeUserCommand, Result>

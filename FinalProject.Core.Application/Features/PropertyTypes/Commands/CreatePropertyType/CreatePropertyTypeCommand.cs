@@ -5,13 +5,25 @@ using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.PropertyTypes.Commands.CreatePropertyType
 {
-    public class CreatePropertyTypeCommand : IRequest<Result<SavePropertyTypeDto>>
+	/// <summary>
+	/// Parameters for saving a new property type 
+	/// </summary>
+	public class CreatePropertyTypeCommand : IRequest<Result<SavePropertyTypeDto>>
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+		/// <example>
+		/// appartment
+		/// </example>
+		[SwaggerParameter(Description = "The name of the property type to save")]
+		public string Name { get; set; }
+		/// <example>
+		/// This property is part of a building
+		/// </example>
+		[SwaggerParameter(Description = "The description of the property type to save")]
+		public string Description { get; set; }
     }
     public class CreatePropertyTypeCommandHandler : IRequestHandler<CreatePropertyTypeCommand, Result<SavePropertyTypeDto>>
     {

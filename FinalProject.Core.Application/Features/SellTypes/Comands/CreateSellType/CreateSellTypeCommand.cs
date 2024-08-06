@@ -5,13 +5,25 @@ using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.SellTypes.Comands.CreateSellType
 {
-    public class CreateSellTypeCommand : IRequest<Result<SaveSellTypeDto>>
+	/// <summary>
+	/// Parameters for saving a sale type
+	/// </summary>
+	public class CreateSellTypeCommand : IRequest<Result<SaveSellTypeDto>>
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+		/// <example>
+		/// rent
+		/// </example>
+		[SwaggerParameter(Description = "The name of the sale type to save")]
+		public string Name { get; set; }
+		/// <example>
+		/// you pay every month
+		/// </example>
+		[SwaggerParameter(Description = "The description of the sale type to save")]
+		public string Description { get; set; }
     }
 
     public class CreateSellTypeCommandHanler : IRequestHandler<CreateSellTypeCommand, Result<SaveSellTypeDto>>

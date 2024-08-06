@@ -7,12 +7,18 @@ using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.Properties.Queries.GetPropertyById
 {
-    public class GetPropertyByIdQuery : IRequest<Result<PropertyDto>>
+	/// <summary>
+	/// Parameters for getting a propertyBy it's id
+	/// </summary>
+	public class GetPropertyByIdQuery : IRequest<Result<PropertyDto>>
     {
-        public Guid Id { get; set; }
+	
+		[SwaggerParameter(Description = "The id of the property to get")]
+		public Guid Id { get; set; }
     }
 
     public class GetPropertyByIdQueryHandler : IRequestHandler<GetPropertyByIdQuery, Result<PropertyDto>>

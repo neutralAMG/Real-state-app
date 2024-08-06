@@ -8,7 +8,10 @@ using MediatR;
 
 namespace FinalProject.Core.Application.Features.Perks.Querries.GetAllPerks
 {
-    public class GetAllPerksQuery : IRequest<Result<List<PerkDto>>>
+	/// <summary>
+	/// Parameters for the get of all perk's in the system
+	/// </summary>
+	public class GetAllPerksQuery : IRequest<Result<List<PerkDto>>>
     {
     }
 

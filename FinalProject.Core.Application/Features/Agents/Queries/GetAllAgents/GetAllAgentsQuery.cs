@@ -9,7 +9,10 @@ using MediatR;
 
 namespace FinalProject.Core.Application.Features.Agents.Queries.GetAllAgents
 {
-    public class GetAllAgentsQuery : IRequest<Result<List<UserDto>>>
+	/// <summary>
+	/// Parameters for obtaining all the agent's in the system
+	/// </summary>
+	public class GetAllAgentsQuery : IRequest<Result<List<UserDto>>>
     {
     }
     public class GetAllAgentsQueryHandler : IRequestHandler<GetAllAgentsQuery, Result<List<UserDto>>>

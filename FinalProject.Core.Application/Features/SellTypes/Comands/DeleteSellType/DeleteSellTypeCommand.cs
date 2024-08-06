@@ -3,12 +3,18 @@ using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.SellTypes.Comands.DeleteSellType
 {
-    public class DeleteSellTypeCommand : IRequest<Result>
+	/// <summary>
+	/// Parameters for deleting a sale type By id
+	/// </summary>
+	public class DeleteSellTypeCommand : IRequest<Result>
     {
-        public int Id { get; set; }
+	
+		[SwaggerParameter(Description = "The id of the sale type to deleted")]
+		public int Id { get; set; }
     }
 
     public class DeleteSellTypeCommandHandler : IRequestHandler<DeleteSellTypeCommand, Result>

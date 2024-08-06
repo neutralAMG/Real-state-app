@@ -5,14 +5,25 @@ using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.SellTypes.Comands.UpdateSellType
 {
     public class UpdateSellTypeCommand : IRequest<Result<UpdateSellTypeDto>>
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+		
+		[SwaggerParameter(Description = "The id of the sale type to update")]
+		public int Id { get; set; }
+		/// <example>
+		/// sale
+		/// </example>
+		[SwaggerParameter(Description = "The name of the sale type to update")]
+		public string Name { get; set; }
+		/// <example>
+		/// you buy the property
+		/// </example>
+		[SwaggerParameter(Description = "The description of the sale type to update")]
+		public string Description { get; set; }
     }
     public class UpdateSellTypeCommandHandler : IRequestHandler<UpdateSellTypeCommand, Result<UpdateSellTypeDto>>
     {

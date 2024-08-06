@@ -4,13 +4,18 @@ using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Security.Cryptography;
 
 namespace FinalProject.Core.Application.Features.Perks.Querries.GetPerkById
 {
-    public class GetPerkByIdQuery : IRequest<Result<PerkDto>>
+	/// <summary>
+	/// Parameters for the get of an specific perk by it's id
+	/// </summary>
+	public class GetPerkByIdQuery : IRequest<Result<PerkDto>>
     {
-        public int Id { get; set; }
+		[SwaggerParameter(Description = "The id of the perk to be obtain")]
+		public int Id { get; set; }
     }
 
     public class GetPerkByIdQueryHandler : IRequestHandler<GetPerkByIdQuery, Result<PerkDto>>

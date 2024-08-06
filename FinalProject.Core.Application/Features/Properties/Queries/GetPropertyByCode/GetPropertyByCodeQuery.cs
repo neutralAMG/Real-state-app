@@ -1,17 +1,24 @@
 ﻿using AutoMapper;
 using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.EntityDtos;
-using FinalProject.Core.Application.Interfaces.Contracts.Identity;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.Properties.Queries.GetPropertyByCode
 {
-    public class GetPropertyByCodeQuery : IRequest<Result<PropertyDto>>
+	/// <summary>
+	/// Parameters for getting a property By it's code
+	/// </summary>
+	public class GetPropertyByCodeQuery : IRequest<Result<PropertyDto>>
     {
-        public string code { get; set; }
+		/// <example>
+		/// 3434242
+		/// </example>
+		[SwaggerParameter(Description = "The code of the property to get")]
+		public string code { get; set; }
     }
 
     public class GetPropertyByCodeQueryHandler : IRequestHandler<GetPropertyByCodeQuery, Result<PropertyDto>>

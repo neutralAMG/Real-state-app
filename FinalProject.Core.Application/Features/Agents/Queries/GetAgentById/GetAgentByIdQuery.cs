@@ -9,12 +9,17 @@ using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Application.Models.User;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.Agents.Queries.GetAgentById
 {
-    public class GetAgentByIdQuery : IRequest<Result<UserDto>>
+	/// <summary>
+	/// Parameters to get an agent by it's id
+	/// </summary>
+	public class GetAgentByIdQuery : IRequest<Result<UserDto>>
     {
-        public string Id { get; set; }
+		[SwaggerParameter(Description = "The user id used to obtain a agent")]
+		public string Id { get; set; }
     }
 
     public class GetAgentByIdQueryHandler : IRequestHandler<GetAgentByIdQuery, Result<UserDto>>

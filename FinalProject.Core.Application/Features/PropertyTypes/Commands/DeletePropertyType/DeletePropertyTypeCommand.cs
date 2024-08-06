@@ -5,12 +5,18 @@ using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.PropertyTypes.Commands.DeletePropertyType
 {
-    public class DeletePropertyTypeCommand : IRequest<Result>
+	/// <summary>
+	/// Parameters for deleting a property type by it's id
+	/// </summary>
+	public class DeletePropertyTypeCommand : IRequest<Result>
     {
-        public int Id { get; set; }
+		
+		[SwaggerParameter(Description = "The id of the property type to be deleted")]
+		public int Id { get; set; }
     }
     public class DeletePropertyTypeCommandHandler : IRequestHandler<DeletePropertyTypeCommand, Result>
     {

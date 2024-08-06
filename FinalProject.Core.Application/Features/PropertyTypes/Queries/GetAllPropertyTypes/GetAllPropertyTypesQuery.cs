@@ -8,7 +8,10 @@ using MediatR;
 
 namespace FinalProject.Core.Application.Features.PropertyTypes.Queries.GetAllPropertyTypes
 {
-    public class GetAllPropertyTypesQuery : IRequest<Result<List<PropertyTypeDto>>>
+	/// <summary>
+	/// Parameters for getting all the properties in the system
+	/// </summary>
+	public class GetAllPropertyTypesQuery : IRequest<Result<List<PropertyTypeDto>>>
     {
     }
 

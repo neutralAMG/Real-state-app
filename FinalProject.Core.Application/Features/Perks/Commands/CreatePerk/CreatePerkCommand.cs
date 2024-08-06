@@ -5,13 +5,25 @@ using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.Perks.Commands.CreatePerk
 {
-    public class CreatePerkCommand : IRequest<Result<SavePerkDto>>
+	/// <summary>
+	/// Parameters for creating a perk
+	/// </summary>
+	public class CreatePerkCommand : IRequest<Result<SavePerkDto>>
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+		/// <example>
+		/// jacuzzi
+		/// </example>
+		[SwaggerParameter(Description = "The name of the new perk")]
+		public string Name { get; set; }
+		/// <example>
+		/// the property posses a jacuzzi
+		/// </example>
+		[SwaggerParameter(Description = "The description of the new perk")]
+		public string Description { get; set; }
     }
 
     public class CreatePerkCommandHandler : IRequestHandler<CreatePerkCommand, Result<SavePerkDto>>

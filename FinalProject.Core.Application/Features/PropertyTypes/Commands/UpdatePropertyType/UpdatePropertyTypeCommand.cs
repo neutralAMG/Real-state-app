@@ -5,14 +5,28 @@ using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.PropertyTypes.Commands.UpdatePropertyType
 {
-    public class UpdatePropertyTypeCommand : IRequest<Result<UpdatePropertyTypeDto>>
+	/// <summary>
+	/// Parameters for updating a property type
+	/// </summary>
+	public class UpdatePropertyTypeCommand : IRequest<Result<UpdatePropertyTypeDto>>
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+
+		[SwaggerParameter(Description = "The id of the property type to update")]
+		public int Id { get; set; }
+		/// <example>
+		/// House
+		/// </example>
+		[SwaggerParameter(Description = "The name of the property type to update")]
+		public string Name { get; set; }
+		/// <example>
+		/// a sole property with loan
+		/// </example>
+		[SwaggerParameter(Description = "The description of the property type to update")]
+		public string Description { get; set; }
     }
 
     public class UpdatePropertyTypeCommandHandler : IRequestHandler<UpdatePropertyTypeCommand, Result<UpdatePropertyTypeDto>>

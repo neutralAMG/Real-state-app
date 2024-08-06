@@ -6,13 +6,20 @@ using FinalProject.Core.Application.Dtos.Identity.Account;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using FinalProject.Core.Domain.Settings;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.Account.Queries.LoginUser
 {
-    public class LoginQuery : IRequest<Result<AuthenticationResponce>>
+	/// <summary>
+	/// Parameters for the log in of a user's
+	/// </summary>
+	public class LoginQuery : IRequest<Result<AuthenticationResponce>>
     {
-        public string UsernameOrEmail { get; set; }
-        public string Password { get; set; }
+		[SwaggerParameter(Description = "The user email or user name")]
+		public string UsernameOrEmail { get; set; }
+
+		[SwaggerParameter(Description = "The user password")]
+		public string Password { get; set; }
     }
     public class LoginQueryHandler : IRequestHandler<LoginQuery, Result<AuthenticationResponce>>
     {

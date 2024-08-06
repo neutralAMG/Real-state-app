@@ -9,7 +9,10 @@ using MediatR;
 
 namespace FinalProject.Core.Application.Features.SellTypes.Queries.GetAllSellTypes
 {
-    public class GetAllSellTypesQuery : IRequest<Result<List<SellTypeDto>>>
+	/// <summary>
+	/// Parameters for getting all the sale types in the system 
+	/// </summary>
+	public class GetAllSellTypesQuery : IRequest<Result<List<SellTypeDto>>>
     {
     }
     public class GetAllSellTypesQueryHandler : IRequestHandler<GetAllSellTypesQuery, Result<List<SellTypeDto>>>

@@ -5,13 +5,19 @@ using FinalProject.Core.Application.Core;
 using FinalProject.Core.Application.Dtos.Identity.User;
 using FinalProject.Core.Application.Interfaces.Repositories.Identity;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.Agents.Commands.ChangeAgentStatus
 {
-    public class ChangeAgentStatusCommand : IRequest<Result> 
+	/// <summary>
+	/// Parameters for the state change of an agent
+	/// </summary>
+	public class ChangeAgentStatusCommand : IRequest<Result> 
     {
-        public string Id { get; set; }
-        public bool status { get; set; }
+		[SwaggerParameter(Description = "The user id ")]
+		public string Id { get; set; }
+		[SwaggerParameter(Description = "Status that user will be updated to")]
+		public bool status { get; set; }
     }
 
     public class ChangeAgentStatusCommandHandler : IRequestHandler<ChangeAgentStatusCommand, Result>

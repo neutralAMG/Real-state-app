@@ -5,12 +5,17 @@ using FinalProject.Core.Application.Dtos.EntityDtos;
 using FinalProject.Core.Application.Interfaces.Repositories.Persistance;
 using FinalProject.Core.Domain.Entities;
 using MediatR;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace FinalProject.Core.Application.Features.SellTypes.Queries.GetSellTypeById
 {
-    public class GetSellTypeByIdQuery : IRequest<Result<SellTypeDto>>
+	/// <summary>
+	/// Parameters for getting a sale type
+	/// </summary>
+	public class GetSellTypeByIdQuery : IRequest<Result<SellTypeDto>>
     {
-        public int Id { get; set; }
+		[SwaggerParameter(Description = "The id of the sale type to get")]
+		public int Id { get; set; }
     }
 
     public class GetSellTypeByIdQueryHandler : IRequestHandler<GetSellTypeByIdQuery, Result<SellTypeDto>>
