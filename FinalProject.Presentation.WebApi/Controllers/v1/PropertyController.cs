@@ -7,6 +7,7 @@ using FinalProject.Core.Application.Features.Properties.Queries.GetPropertyById;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Swashbuckle.AspNetCore.Annotations;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,15 +16,19 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
     [Authorize(Roles = "Admin,Developer")]
     [ApiVersion(1.0)]
     [ApiController]
-
-    public class PropertyController : BaseController
+	[SwaggerTag("Property only read operations")]
+	public class PropertyController : BaseController
     {
         // GET: api/<PropertyController>
         [HttpGet("GetAllProperties")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<List<PropertyDto>>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get()
+		[SwaggerOperation(
+			Summary = "List of properties",
+			Description = "Obtains a list of properties registered in the the application"
+		)]
+		public async Task<IActionResult> Get()
         {
             try
             {
@@ -48,7 +53,11 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<PropertyDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetById(Guid id)
+		[SwaggerOperation(
+			Summary = "Get's a property by id",
+			Description = "Get's an specific property by it's id"
+		)]
+		public async Task<IActionResult> GetById(Guid id)
         {
             try
             {
@@ -72,7 +81,11 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<PropertyDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetByPropertyCode(string code)
+		[SwaggerOperation(
+			Summary = "Get's a property by it's code",
+			Description = "Get's an specific property by it's id"
+		)]
+		public async Task<IActionResult> GetByPropertyCode(string code)
         {
             try
             {

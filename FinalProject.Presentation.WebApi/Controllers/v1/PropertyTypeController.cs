@@ -8,6 +8,8 @@ using FinalProject.Core.Application.Features.PropertyTypes.Queries.GetAllPropert
 using FinalProject.Core.Application.Features.PropertyTypes.Queries.GetPropertyTypesById;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,7 +18,8 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
 
     [ApiVersion(1.0)]
     [ApiController]
-    public class PropertyTypeController : BaseController
+	[SwaggerTag("Property types mangement")]
+	public class PropertyTypeController : BaseController
     {
         [Authorize(Roles = "Admin,Developer")]
         // GET: api/<PropertyTypeController>
@@ -24,7 +27,11 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<List<PropertyTypeDto>>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult>  GetAllPropertyType()
+		[SwaggerOperation(
+			Summary = "List of property types",
+			Description = "Obtains a list of property types registered in the application"
+		)]
+		public async Task<IActionResult>  GetAllPropertyType()
         {
             try
             {
@@ -45,7 +52,11 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<PropertyTypeDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetPropertyTypeById(int id)
+		[SwaggerOperation(
+			Summary = "Get's a Property type by id",
+			Description = "Get's an specific property type by it's id"
+		)]
+		public async Task<IActionResult> GetPropertyTypeById(int id)
         {
             try
             {
@@ -64,10 +75,15 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [Authorize(Roles = "Admin")]
         // POST api/<PropertyTypeController>
         [HttpPost("SavePropertyType")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SavePropertyTypeDto>))]
+		[Consumes(MediaTypeNames.Application.Json)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SavePropertyTypeDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PostPropertyType([FromBody] CreatePropertyTypeCommand command)
+		[SwaggerOperation(
+			Summary = "Save's a property type",
+			Description = "Saves a new property type to the database with the provided data"
+		)]
+		public async Task<IActionResult> PostPropertyType([FromBody] CreatePropertyTypeCommand command)
         {
             try
             {
@@ -85,10 +101,15 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [Authorize(Roles = "Admin")]
         // PUT api/<PropertyTypeController>/5
         [HttpPut("UpdatePropertyType{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<UpdatePropertyTypeDto>))]
+		[Consumes(MediaTypeNames.Application.Json)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<UpdatePropertyTypeDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutPropertyType(int id, [FromBody] UpdatePropertyTypeCommand command)
+		[SwaggerOperation(
+			Summary = "Update's a property type",
+			Description = "Updates a specific property type by it's id with the provided data"
+		)]
+		public async Task<IActionResult> PutPropertyType(int id, [FromBody] UpdatePropertyTypeCommand command)
         {
             try
             {
@@ -111,7 +132,11 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeletePropertyType(int id)
+		[SwaggerOperation(
+			Summary = "Delete's a property type",
+			Description = "Deletes a specific property type by it's id"
+		)]
+		public async Task<IActionResult> DeletePropertyType(int id)
         {
             try
             {

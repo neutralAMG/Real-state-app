@@ -4,6 +4,8 @@ using FinalProject.Core.Application.Features.Account.Queries.LoginUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,7 +13,8 @@ namespace FinalProject.Presentation.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+	[SwaggerTag("Authentication Operations ")]
+	public class AccountController : ControllerBase
     {
         private IMediator _mediator;
         protected IMediator mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
@@ -20,7 +23,11 @@ namespace FinalProject.Presentation.WebApi.Controllers
 
         // GET api/<AccountController>/5
         [HttpPost("Authenticate")]
-        public async Task<IActionResult> LogIn([FromBody] LoginQuery loginQuery )
+		[SwaggerOperation(
+			Summary = "Handle authentication",
+			Description = "Handles user authentication and generates JWT needed in the app"
+		)]
+		public async Task<IActionResult> LogIn([FromBody] LoginQuery loginQuery )
         {
             try
             {
@@ -34,7 +41,12 @@ namespace FinalProject.Presentation.WebApi.Controllers
 
         // POST api/<AccountController>
         [HttpPost("RegisterDeveloper")]
-        public async Task<IActionResult> RegisterDeveloper([FromBody] RegisterDeveloperTypeUserCommand registerDeveloperTypeUserCommand)
+		[Consumes(MediaTypeNames.Application.Json)]
+		[SwaggerOperation(
+			Summary = "Register's a new developer user",
+			Description = "Register's a new developer user with the data pass in it's body"
+		)]
+		public async Task<IActionResult> RegisterDeveloper([FromBody] RegisterDeveloperTypeUserCommand registerDeveloperTypeUserCommand)
         {
             try
             {
@@ -49,7 +61,12 @@ namespace FinalProject.Presentation.WebApi.Controllers
         [Authorize(Roles = "Admin")]
         // PUT api/<AccountController>/5
         [HttpPost("RegisterAdmin")]
-        public async Task<IActionResult> RegisterAdmin( [FromBody] RegisterAdminTypeUserCommand registerAdminTypeUserCommand)
+		[Consumes(MediaTypeNames.Application.Json)]
+		[SwaggerOperation(
+			Summary = "Register's a new admin user",
+			Description = "Register's a new admin user with the data pass in it's body"
+		)]
+		public async Task<IActionResult> RegisterAdmin( [FromBody] RegisterAdminTypeUserCommand registerAdminTypeUserCommand)
         {
             try
             {

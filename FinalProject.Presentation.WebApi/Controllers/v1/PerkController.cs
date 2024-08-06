@@ -8,6 +8,8 @@ using FinalProject.Core.Application.Features.Perks.Querries.GetAllPerks;
 using FinalProject.Core.Application.Features.Perks.Querries.GetPerkById;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,7 +18,8 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
   
     [ApiVersion(1.0)]
     [ApiController]
-    public class PerkController : BaseController
+	[SwaggerTag("Perks mangements")]
+	public class PerkController : BaseController
     {
         [Authorize(Roles = "Admin,Developer")]
         // GET: api/<PerkController>
@@ -24,7 +27,11 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<List<PerkDto>>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAllPerk()
+		[SwaggerOperation(
+			Summary = "Get's List of perk's types",
+			Description = "Obtains a list of perk's registered in  the application"
+		)]
+		public async Task<IActionResult> GetAllPerk()
         {
             try
             {
@@ -46,7 +53,11 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<PerkDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetPerkById(int id)
+		[SwaggerOperation(
+			Summary = "Get's Perk type by id",
+			Description = "Get's an specific perk by it's id"
+		)]
+		public async Task<IActionResult> GetPerkById(int id)
         {
             try
             {
@@ -66,10 +77,15 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [Authorize(Roles = "Admin")]
         // POST api/<PropertyTypeController>
         [HttpPost("SavePerk")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SavePerkDto>))]
+		[Consumes(MediaTypeNames.Application.Json)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SavePerkDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PostPerk([FromBody] CreatePerkCommand command)
+		[SwaggerOperation(
+			Summary = "Saves a perk",
+			Description = "Saves a new perk type to the database with the provided data"
+		)]
+		public async Task<IActionResult> PostPerk([FromBody] CreatePerkCommand command)
         {
             try
             {
@@ -88,10 +104,15 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [Authorize(Roles = "Admin")]
         // PUT api/<PropertyTypeController>/5
         [HttpPut("UpdatePerk{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<UpdatePerkDto>))]
+		[Consumes(MediaTypeNames.Application.Json)]
+		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<UpdatePerkDto>))]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutPerk(int id, [FromBody] UpdatePerkCommand command)
+		[SwaggerOperation(
+			Summary = "Updates a perk",
+			Description = "Updates a specific perk by it's id with the provided data"
+		)]
+		public async Task<IActionResult> PutPerk(int id, [FromBody] UpdatePerkCommand command)
         {
             try
             {
@@ -114,7 +135,11 @@ namespace FinalProject.Presentation.WebApi.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeletePerk(int id)
+		[SwaggerOperation(
+			Summary = "Deletes a perk",
+			Description = "Deletes a specific perk by it's id"
+		)]
+		public async Task<IActionResult> DeletePerk(int id)
         {
             try
             {

@@ -16,14 +16,14 @@ namespace Chequeando.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		private readonly IAccountService _accountService;
-        private readonly IPropertyService _propertyService;
+		private readonly IPropertyService _propertyService;
 		private readonly IHomeStatisticsService _homeStatisticsService;
 
 		public HomeController(ILogger<HomeController> logger, IAccountService accountService, IPropertyService propertyService, IHomeStatisticsService homeStatisticsService)
 		{
 			_logger = logger;
 			_accountService = accountService;
-            _propertyService = propertyService;
+			_propertyService = propertyService;
 			_homeStatisticsService = homeStatisticsService;
 		}
 
@@ -43,9 +43,11 @@ namespace Chequeando.Controllers
 			return View();
 
 		}
+
+
 		[ServiceFilter(typeof(IsUserNotLogIn))]
 		[ServiceFilter(typeof(IsTheUserActive))]
-		[Authorize(Roles ="Client")]
+		[Authorize(Roles = "Client")]
 		public async Task<IActionResult> IndexLogeado()
 		{
 			Result<List<PropertyModel>> result = new();
@@ -59,23 +61,12 @@ namespace Chequeando.Controllers
 			{
 				throw;
 			}
-		
-		}
 
+		}
+		[ServiceFilter(typeof(IsUserNotLogIn))]
 		public async Task<IActionResult> NoAuthorize()
 		{
-			Result<List<PropertyModel>> result = new();
-			try
-			{
-				result = await _propertyService.GetAllAsync();
-
-				return View(result.Data);
-			}
-			catch
-			{
-				throw;
-			}
-
+			return View();
 		}
 
 		[ServiceFilter(typeof(IsUserNotLogIn))]
@@ -99,7 +90,7 @@ namespace Chequeando.Controllers
 			{
 				return RedirectToAction("Index");
 			}
-		
+
 		}
 		[ServiceFilter(typeof(IsUserNotLogIn))]
 		[ServiceFilter(typeof(IsTheUserActive))]
@@ -117,7 +108,7 @@ namespace Chequeando.Controllers
 			{
 				throw;
 			}
-			
+
 		}
 		[ServiceFilter(typeof(IsUserNotLogIn))]
 		public async Task<IActionResult> LogOut()

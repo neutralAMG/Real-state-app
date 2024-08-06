@@ -21,6 +21,7 @@ namespace FinalProject.Presentation.WebApi.Extensions
                 });
 
                 options.DescribeAllParametersInCamelCase();
+                options.EnableAnnotations();
 
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

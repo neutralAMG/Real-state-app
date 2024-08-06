@@ -6,12 +6,20 @@ using FinalProject.Core.Application.Extensions;
 using FinalProject.Infraestructure.Share.Extensions;
 using Microsoft.AspNetCore.Identity;
 using FinalProject.Presentation.WebApi.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new ProducesAttribute("application/json"));
+}).ConfigureApiBehaviorOptions(options =>
+{
+    options.SuppressInferBindingSourcesForParameters = true;
+    options.SuppressMapClientErrors = true;
+});
 builder.Services.AddInfraestructureIdentityLayerForWebApi(builder.Configuration);
 builder.Services.AddInfraestructurePersistanceLayer(builder.Configuration);
 builder.Services.AddInfraestructureShareLayer(builder.Configuration);

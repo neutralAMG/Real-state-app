@@ -1,4 +1,6 @@
-﻿namespace FinalProject.Presentation.WebApi.Extensions
+﻿using Swashbuckle.AspNetCore.SwaggerUI;
+
+namespace FinalProject.Presentation.WebApi.Extensions
 {
     public static  class AppExtensions
     {
@@ -9,6 +11,7 @@
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "RealState app");
+                options.DefaultModelRendering(ModelRendering.Model);
             });
         }
     }
