@@ -103,87 +103,10 @@ namespace Chequeando.Controllers
 
 		}
 
-		public async Task<IActionResult> CreateUser()
-		{
-			return View(new SaveUserModel());
-		}
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> CreateUser(SaveUserModel saveModel)
-		{
-			Result result = new();
-			try
-			{
-				result = await _accountService.RegisterAsync(saveModel);
-
-				if (!result.ISuccess)
-				{
-					return View(saveModel);
-				}
-				return RedirectToAction("MantAdmin", "Admin");
-			}
-			catch
-			{
-				return View(saveModel);
-			}
-
-		}
-
-		public async Task<IActionResult> EditUser(string id)
-		{
-			if (id == default)
-			{
-				return NoContent();
-			}
-			Result<UserModel> result = new();
-			try
-			{
-				result = await _userService.GetByIdAsync(id);
-
-				if (!result.ISuccess)
-				{
-					return RedirectToAction("MantAdmin", "Admin");
-				}
-
-				return View(result.Data);
-			}
-			catch
-			{
-				return RedirectToAction("IndexAgent", "Home");
-			}
-
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> EditUser(string id, SaveUserModel saveModel)
-		{
-			if (id == default)
-			{
-				return NoContent();
-			}
-
-			Result result = new();
-			try
-			{
-				result = await _userService.UpdateUserAsync(saveModel);
-
-				if (!result.ISuccess)
-				{
-					RedirectToAction("EditUser", id);
-				}
-
-				return RedirectToAction("MantAdmin", "Admin");
-
-			}
-			catch
-			{
-				return RedirectToAction("MantAdmin", "Home");
-			}
-
-		}
-
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> HabdelUserActiveState(string id)
@@ -210,6 +133,10 @@ namespace Chequeando.Controllers
 
 		}
 
+
+		[ServiceFilter(typeof(IsUserNotLogIn))]
+		[ServiceFilter(typeof(IsTheUserActive))]
+		[Authorize(Roles = "Admin")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> DeleteUser(string id)

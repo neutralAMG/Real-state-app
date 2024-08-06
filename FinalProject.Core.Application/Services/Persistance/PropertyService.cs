@@ -145,7 +145,7 @@ namespace FinalProject.Core.Application.Services.Persistance
 				{
 					if (_currentUserInfo.Roles.Any(u => u == "Client"))
 					{
-						IEnumerable<Guid> userFavPropertiesIds = propertyGetted.SelectMany(p => p.FavoriteUsersProperties.Select(p => p.PropertyId));
+						IEnumerable<Guid> userFavPropertiesIds = propertyGetted.SelectMany(p => p.FavoriteUsersProperties.Where(p => p.UserId == _currentUserInfo.Id).Select(p => p.PropertyId));
 
 						result.Data.ForEach(p =>
 						{
@@ -277,7 +277,7 @@ namespace FinalProject.Core.Application.Services.Persistance
 
 				List<PropertyModel> propertiesMapped = _mapper.Map<List<PropertyModel>>(propertiesGetted);
 
-				IEnumerable<Guid> userFavPropertiesIds = propertiesGetted.SelectMany(p => p.FavoriteUsersProperties.Select(p => p.PropertyId));
+				IEnumerable<Guid> userFavPropertiesIds = propertiesGetted.SelectMany(p => p.FavoriteUsersProperties.Where(p => p.UserId == _currentUserInfo.Id).Select(p => p.PropertyId));
 
 				propertiesMapped.ForEach(p =>
 				{
