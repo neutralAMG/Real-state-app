@@ -136,6 +136,7 @@ namespace FinalProject.Core.Application.Services.Persistance
 				if(_currentUserInfo != null)
 				{
 					if(_currentUserInfo.Roles.Any(u => u == "Agent")) propertyGetted = await _propertyRepository.GetAllCurrentAgentUserPropertiesAsync(_currentUserInfo.Id);
+					if(_currentUserInfo.Roles.Any(u => u == "Client")) propertyGetted = await _propertyRepository.GetAllAsync();
 				}
 				propertyGetted = PropertyFilters.FilterProperties(propertyGetted, filterModel).ToList();
 

@@ -1,148 +1,152 @@
 ﻿@model List<FinalProject.Core.Application.Models.Property.PropertyModel>
 @{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 
 <div class="container mx-auto px-4 py-6">
-    <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold">Welcome</h1>
-        <p class="mt-2">Find your dream property with <strong>Chequeando</strong></p>
-    </div>
+	<div class="text-center mb-8">
+		<h1 class="text-4xl font-bold">Welcome</h1>
+		<p class="mt-2">Find your dream property with <strong>Chequeando</strong></p>
+	</div>
 
-    <div class="mb-8">
-        <div class="relative">
-            <form method="post" asp-action="SearchByCode" asp-controller="Property">
-                <input type="text" name="code" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Search for properties by code...">
-                <button type="submit" class="absolute top-0 right-0 mt-2 mr-2 text-white bg-indigo-600 hover:bg-indigo-700 p-3 rounded-lg">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-        </div>
-    </div>
+	<div class="mb-8">
+		<div class="relative">
+			<form method="post" asp-action="SearchByCode" asp-controller="Property">
+				<input type="text" name="code" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Search for properties by code...">
+				<button type="submit" class="absolute top-0 right-0 mt-2 mr-2 text-white bg-indigo-600 hover:bg-indigo-700 p-3 rounded-lg">
+					<i class="fas fa-search"></i>
+				</button>
+			</form>
+		</div>
+	</div>
 
 
-    <div class="flex flex-wrap -mx-4">
-        <!-- Filter Search -->
-        <div class="w-full md:w-1/3 lg:w-1/4 px-4 mb-8 flex flex-col">
-            <div class="bg-white p-6 rounded-lg shadow-lg flex-grow">
-                <h2 class="text-2xl font-bold mb-4">Filter Properties</h2>
-                <form>
-                    <div class="flex flex-col gap-4">
-                        <div>
-                            <label class="block text-gray-700">Property Type</label>
-                            <select class="w-full p-2 border border-gray-300 rounded-lg">
-                                <option>House</option>
-                                <option>Apartment</option>
-                                <option>Condo</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700">Price Range</label>
-                            <div class="flex space-x-2">
-                                <input type="number" class="w-1/2 p-2 border border-gray-300 rounded-lg" placeholder="Min">
-                                <input type="number" class="w-1/2 p-2 border border-gray-300 rounded-lg" placeholder="Max">
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700">Bedrooms</label>
-                            <select class="w-full p-2 border border-gray-300 rounded-lg">
-                                <option>Any</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4+</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700">Bathrooms</label>
-                            <select class="w-full p-2 border border-gray-300 rounded-lg">
-                                <option>Any</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4+</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-gray-700">Amenities</label>
-                            <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Enter amenities">
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <button type="submit" class="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700">
-                            Apply Filters
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+	<div class="flex flex-wrap -mx-4">
+		<!-- Filter Search -->
+		<div class="w-full md:w-1/3 lg:w-1/4 px-4 mb-8 flex flex-col">
+			<div class="bg-white p-6 rounded-lg shadow-lg flex-grow">
+				<h2 class="text-2xl font-bold mb-4">Filter Properties</h2>
+				<form method="post" asp-action="Filter" asp-controller="Home">
+					<div class="flex flex-col gap-4">
+						<input type="hidden" name="view" value="Index" />
+						@if (ViewBag.PropertyTypes is not null)
+						{
+							<div>
+								<label class="block text-gray-700">Property Type</label>
+								<select class="w-full p-2 border border-gray-300 rounded-lg" name="PropertyType" asp-items="@(List<SelectListItem>)ViewBag.PropertyTypes">
+									<option selected="selected" value="0">none</option>
+								</select>
+							</div>
+						}
 
-        <!-- Properties List -->
-        <div class="w-full md:w-2/3 lg:w-3/4 px-4 mb-8">
-            <div class="bg-white p-6 rounded-lg shadow-lg h-screen overflow-y-auto">
-                <h2 class="text-2xl font-bold mb-4">Available Properties</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                 
-                    @foreach (var property in Model)
-                    {
-                        <a href="@Url.Action("Detail", "Property" , new {id = property.Id})" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
-                            <img src="@Url.Content(property.PropertyImagesUrls.First().ImgUrl)" alt="Property Image" class="w-full">
-                            <div class="p-4">
-                                <p class="text-gray-700 flex items-center">
-                                    <i class="fas fa-code mr-2"></i> Property Code: @property.PropertyCode
-                                </p>
-                                <p class="text-gray-700 flex items-center">
-                                    <i class="fas fa-tag mr-2"></i> Sale Type: @property.SellTypeName
-                                </p>
-                                <p class="text-gray-700 flex items-center">
-                                    <i class="fas fa-dollar-sign mr-2"></i> Price: @property.PropertyPrice
-                                </p>
-                                <p class="text-gray-700 flex items-center">
-                                    <i class="fas fa-bed mr-2"></i> Bedrooms: @property.AmountOfBedrooms
-                                </p>
-                                <p class="text-gray-700 flex items-center">
-                                    <i class="fas fa-bath mr-2"></i> Bathrooms: @property.AmountOfBathrooms
-                                </p>
-                                <p class="text-gray-700 flex items-center">
-                                    <i class="fas fa-ruler-combined mr-2"></i> Size: @property.SizeInMeters sqm
-                                </p>
-                            </div>
-                        </a>
-                    }
 
-               @*      <!-- Repeat Property Card as needed -->
+						<div>
+							<label class="block text-gray-700">Price Range</label>
+							<div class="flex space-x-2">
+								<input type="number" class="w-1/2 p-2 border border-gray-300 rounded-lg" placeholder="Min" name="MinPrice">
+								<input type="number" class="w-1/2 p-2 border border-gray-300 rounded-lg" placeholder="Max" name="MaxPrice">
+							</div>
+						</div>
+						<div>
+							<label class="block text-gray-700">Bedrooms</label>
+							<select class="w-full p-2 border border-gray-300 rounded-lg" name="Bedrooms">
+								<option>Any</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4+</option>
+							</select>
+						</div>
+						<div>
+							<label class="block text-gray-700">Bathrooms</label>
+							<select class="w-full p-2 border border-gray-300 rounded-lg" name="Bathrooms">
+								<option>Any</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4+</option>
+							</select>
+						</div>
+						<div>
+							<label class="block text-gray-700">Amenities</label>
+							<input type="text" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Enter amenities">
+						</div>
+					</div>
+					<div class="mt-4">
+						<button type="submit" class="w-full bg-indigo-600 text-white p-3 rounded-lg hover:bg-indigo-700">
+							Apply Filters
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
 
-                    <a href="/property/details/HS5678" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
+		<!-- Properties List -->
+		<div class="w-full md:w-2/3 lg:w-3/4 px-4 mb-8">
+			<div class="bg-white p-6 rounded-lg shadow-lg h-screen overflow-y-auto">
+				<h2 class="text-2xl font-bold mb-4">Available Properties</h2>
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                    <!--<a href="/property/details/HS5678" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">-->
-                    <a href="" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
+					@foreach (var property in Model)
+					{
+						<a href="@Url.Action("Detail", "Property" , new {id = property.Id})" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
+							<img src="@Url.Content(property.PropertyImagesUrls.First().ImgUrl)" alt="Property Image" class="w-full">
+							<div class="p-4">
+								<p class="text-gray-700 flex items-center">
+									<i class="fas fa-code mr-2"></i> Property Code: @property.PropertyCode
+								</p>
+								<p class="text-gray-700 flex items-center">
+									<i class="fas fa-tag mr-2"></i> Sale Type: @property.SellTypeName
+								</p>
+								<p class="text-gray-700 flex items-center">
+									<i class="fas fa-dollar-sign mr-2"></i> Price: @property.PropertyPrice
+								</p>
+								<p class="text-gray-700 flex items-center">
+									<i class="fas fa-bed mr-2"></i> Bedrooms: @property.AmountOfBedrooms
+								</p>
+								<p class="text-gray-700 flex items-center">
+									<i class="fas fa-bath mr-2"></i> Bathrooms: @property.AmountOfBathrooms
+								</p>
+								<p class="text-gray-700 flex items-center">
+									<i class="fas fa-ruler-combined mr-2"></i> Size: @property.SizeInMeters sqm
+								</p>
+							</div>
+						</a>
+					}
 
-                        <img src="https://st.houzz.com/simgs/ef11653b0db38dd6_8-1917/traditional-exterior.jpg" alt="Property Image" class="w-full">
-                        <div class="p-4">
-                            <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-code mr-2"></i> Property Code: HS5678
-                            </p>
-                            <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-tag mr-2"></i> Sale Type: Sale
-                            </p>
-                            <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-dollar-sign mr-2"></i> Price: $1,200,000
-                            </p>
-                            <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-bed mr-2"></i> Bedrooms: 4
-                            </p>
-                            <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-bath mr-2"></i> Bathrooms: 3
-                            </p>
-                            <p class="text-gray-700 flex items-center">
-                                <i class="fas fa-ruler-combined mr-2"></i> Size: 200 sqm
-                            </p>
-                        </div>
-                    </a>
-                    <!-- Repeat Property Card as needed -->
-                    <!-- Add more Property Cards as needed with updated details --> *@
-                </div>
-            </div>
-        </div>
-    </div>
+					@*      <!-- Repeat Property Card as needed -->
+
+					<a href="/property/details/HS5678" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
+
+					<!--<a href="/property/details/HS5678" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">-->
+					<a href="" class="property-card border border-gray-300 rounded-lg overflow-hidden shadow-sm block hover:shadow-lg">
+
+					<img src="https://st.houzz.com/simgs/ef11653b0db38dd6_8-1917/traditional-exterior.jpg" alt="Property Image" class="w-full">
+					<div class="p-4">
+					<p class="text-gray-700 flex items-center">
+					<i class="fas fa-code mr-2"></i> Property Code: HS5678
+					</p>
+					<p class="text-gray-700 flex items-center">
+					<i class="fas fa-tag mr-2"></i> Sale Type: Sale
+					</p>
+					<p class="text-gray-700 flex items-center">
+					<i class="fas fa-dollar-sign mr-2"></i> Price: $1,200,000
+					</p>
+					<p class="text-gray-700 flex items-center">
+					<i class="fas fa-bed mr-2"></i> Bedrooms: 4
+					</p>
+					<p class="text-gray-700 flex items-center">
+					<i class="fas fa-bath mr-2"></i> Bathrooms: 3
+					</p>
+					<p class="text-gray-700 flex items-center">
+					<i class="fas fa-ruler-combined mr-2"></i> Size: 200 sqm
+					</p>
+					</div>
+					</a>
+					<!-- Repeat Property Card as needed -->
+					<!-- Add more Property Cards as needed with updated details --> *@
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

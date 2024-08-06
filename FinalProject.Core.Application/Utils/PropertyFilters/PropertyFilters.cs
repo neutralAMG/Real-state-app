@@ -2,6 +2,7 @@
 
 using FinalProject.Core.Application.Models.Property;
 using FinalProject.Core.Domain.Entities;
+using System.Collections.Generic;
 
 
 namespace FinalProject.Core.Application.Utils.PropertyFilters
@@ -12,26 +13,19 @@ namespace FinalProject.Core.Application.Utils.PropertyFilters
 
         public static IEnumerable<Property> FilterProperties(IEnumerable<Property> propertiesToBeFilter, PropertyFilterModel filterModel)
         {
+			IEnumerable < Property > propertiesToReturn = propertiesToBeFilter;
 
-            if (filterModel.MinBathrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBathrooms >= filterModel.MinBathrooms);
+			if (filterModel.Bathrooms > 0) propertiesToReturn = propertiesToReturn.Where(p => p.AmountOfBathrooms >= filterModel.Bathrooms);
 
-            if (filterModel.MaxBathrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBathrooms <= filterModel.MaxBathrooms);
+            if (filterModel.Bedrooms > 0) propertiesToReturn = propertiesToReturn.Where(p => p.AmountOfBedrooms >= filterModel.Bedrooms);
 
-            if (filterModel.MinBedrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBedrooms >= filterModel.MinBedrooms);
+            if (filterModel.MinPrice > 0) propertiesToReturn = propertiesToReturn.Where(p => p.PropertyPrice >= filterModel.MinPrice);
 
-            if (filterModel.MaxBedrooms > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.AmountOfBedrooms <= filterModel.MaxBedrooms);
+            if (filterModel.MaxPrice > 0) propertiesToReturn = propertiesToReturn.Where(p => p.PropertyPrice <= filterModel.MaxPrice);
 
-            if (filterModel.MinPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MinPrice);
+            if (filterModel.PropertyType > 0) propertiesToReturn = propertiesToReturn.Where(p => p.PropertyTypeId == filterModel.PropertyType);
 
-            if (filterModel.MaxPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice <= filterModel.MaxPrice);
-
-            if (filterModel.PropertyType > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyTypeId == filterModel.PropertyType);
-
-            if (filterModel.MinPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MinSize);
-
-            if (filterModel.MaxPrice > 0) propertiesToBeFilter = propertiesToBeFilter.Where(p => p.PropertyPrice >= filterModel.MaxSize);
-
-            return propertiesToBeFilter;
+            return propertiesToReturn;
         }
 
 
